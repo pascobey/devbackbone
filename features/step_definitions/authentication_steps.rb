@@ -1,11 +1,11 @@
 
 
-Given('I visit the homepage') do
-    visit root_path
+Given('I visit the sign up page') do
+    visit new_user_registration_path
 end
 
 When('I fill in the sign up form') do
-    click_link "Sign up"
+    # click_link "Sign up"
     fill_in "user_email", :with => "tester@testdomain.test"
     fill_in "user_password", :with => "pa$$word"
     fill_in "user_password_confirmation", :with => "pa$$word"
@@ -30,6 +30,10 @@ Given('I am a registered user') do
                                          :password => "pa$$word")
 end
 
+When('I visit the log in page') do 
+    visit new_user_session_path
+end
+
 When('I fill in the login form') do
     fill_in "user_email",:with => "tester@testdomain.test"
     fill_in "user_password", :with => "pa$$word"
@@ -37,20 +41,24 @@ When('I fill in the login form') do
 end
 
 Then('I should be logged in') do
-    expect(page).to have_content("Logged in")
+    expect(page).to have_content("Signed in")
 end
 
 Given("I am logged in") do
-    visit root_path
+    visit new_user_session_path
     fill_in "user_email", :with => "tester@testdomain.test"
     fill_in "user_password", :with => "pa$$word"
     click_button "Log in"
 end
 
-When('I click on the log out button') do
-    click_button "Log out"
+When('I visit the homepage') do 
+    visit root_path
+end
+
+When('I click on the log out link') do
+    click_link "Log out"
 end
 
 Then('I should be logged out') do
-    expect(page).to have_content("Log in")
+    expect(page).to have_content("Signed out")
 end

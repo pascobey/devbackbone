@@ -10,6 +10,15 @@
   </head>
 
   <body>
+    <%# notice bar - flex-row %>
+    <div id="flash">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, id: 'flash-content' %>
+      <% end %>
+    </div><%# notice bar - flex-row %>
+    <% if user_signed_in? %>
+      <%= link_to('Log out', destroy_user_session_path, method: :delete) %>
+    <% end %>
     <%= yield %>
   </body>
 </html>
