@@ -1,20 +1,21 @@
-# Feature: Project Management
-#     As a user
-#     I should be able to create, edit, and delete my projects
+Feature: Project Management
+    As a user
+    I should be able to create, edit, and delete my projects
 
-#     Background:
-#         Given I am a registered user
+    Background:
+        Given I am a registered user
 
-#     Scenario: Creating a new project
-#         Given I visit the create project page
-#         When I fill out the create project form
-#         Then I should see my project manager dashboard
+    Scenario: Creating a new project as project_owner, project manager, and scrum master with every development team subset as a programmer
+        Given I visit the create project page
+        When I name the project
+        * I check every box for development team subsets
+        * I make myself the product owner
+        * I make myself the project manager
+        * I make myself the scrum master
+        * I make myself a developer 
+        * I specify that I am a programmer
+        And I click create
+        Then I should see my project manager dashboard
 
-#     Scenario: Deleting a project
-#         Given I visit my project manager dashboard
-#         When I click the additional options button
-#         And I click then delete project button
-#         And I confirm that I am okay with losing all project data
-#         Then I should see that the project has been deleted
 
     

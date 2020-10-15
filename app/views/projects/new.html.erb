@@ -1,0 +1,44 @@
+<% reflex_variables = { project_name: @project_name, possible_roles: @possible_roles,  development_team_subsets: @development_team_subsets, reflex_steps: @reflex_steps } %>
+
+
+
+<%= form_with model: @project do |f| %>
+
+    <% if @reflex_steps['name the project'] %>
+        <%= label('project-name', 'Project name') %>
+        <%= text_field(:project, :project_name, value: @project_name, id: 'project-name', data: { reflex: 'keyup->NewProject#set_project_name', vars: reflex_variables }) %>
+        <%= button_tag('next', data: { reflex: 'click->NewProject#step_forward', vars: reflex_variables, this_step: 'name the project', next_step: 'add team subsets' }) %>
+    <% end %>
+
+    <% if @reflex_steps['add team subsets'] %>
+        <%= label('development-subset', 'Who will be included on the development team?') %>
+        <% @possible_development_team_subsets.each do |possible_subset| %>
+            <%= label(possible_subset, possible_subset) %>
+            <% if @development_team_subsets.key?(possible_subset) %>
+                <%= check_box_tag(possible_subset, possible_subset, true, data: { reflex: 'click->NewProject#toggle_team_subset', vars: reflex_variables }) %>
+            <% else %>
+                <%= check_box_tag(possible_subset, possible_subset, false, data: { reflex: 'click->NewProject#toggle_team_subset', vars: reflex_variables }) %>
+            <% end %>
+        <% end %>
+        <%= button_tag('back', data: { reflex: 'click->NewProject#step_backward', vars: reflex_variables, this_step: 'add team subsets', last_step: 'name the project'}) %>
+        <%= button_tag('next', data: { reflex: 'click->NewProject#step_forward', vars: reflex_variables, this_step: 'add team subsets', next_step: 'choose roles'}) %>
+    <% end %>
+
+    <% if @reflex_steps['choose roles'] %>
+        <%= content_tag(:p, 'What will be your role in this project?') %>
+        <% @possible_roles.each do |role, bool| %>
+            <%= label(role, role.gsub('_', ' ')) %>
+            <%= check_box_tag(role, role, bool, data: { reflex: 'click->NewProject#toggle_role_boolean', vars: reflex_variables }) %>
+        <% end %>
+        <%= button_tag('back', data: { reflex: 'click->NewProject#step_backward', vars: reflex_variables, this_step: 'choose roles', last_step: 'add team subsets'}) %>
+    <% end %>
+
+    <% if @reflex_steps['specify team subset'] %>
+        <%= content_tag(:p, 'Where do you fit on the development team?') %>
+        <% @development_team_subsets.each do |subset, members| %>
+            <%= label(subset, subset.gsub('_', ' ')) %>
+            <%= radio_button('development', 'team_subset', subset.gsub('_', ' '), data: { reflex: 'click->NewProject#toggle_developer', vars: reflex_variables }) %>
+        <% end %>
+    <% end %>
+
+<% end %>
