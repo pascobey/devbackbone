@@ -1,14 +1,33 @@
 class NewProjectReflex < ApplicationReflex
     def reinstantiate_vars(vars_hash)
-        puts
-        puts 
-        puts @project_name = vars_hash['project_name']
-        puts @possible_roles = vars_hash['possible_roles']
-        puts @development_team_subsets = vars_hash['development_team_subsets']
-        puts @reflex_steps = vars_hash['reflex_steps']
-        puts @form_valid = vars_hash['form_valid']
-        puts
-        puts
+        @user_id = vars_hash['user_id']
+        @project_name = vars_hash['project_name']
+        @possible_roles = vars_hash['possible_roles']
+        @development_team_subsets = vars_hash['development_team_subsets']
+        @reflex_steps = vars_hash['reflex_steps']
+        @backbone_document = vars_hash['backbone_document']
+    end
+
+    def update_backbone_document
+        leaders = {
+            'product_owner' => [],
+            'project_manager' => [],
+            'scrum_master' => []
+        }
+        @possible_roles.each do |role, bool|
+            if @possible_roles[role] && leaders.has_key?(role)
+                leaders[role] << @user_id
+            end
+        end
+        @backbone_document = {
+            'project_name' => @project_name,
+            'leaders' => {
+                'product_owner' => leaders['product_owner'],
+                'project_manager' => leaders['project_manager'],
+                'scrum_master' => leaders['scrum_master']
+            },
+            'development_team' => @development_team_subsets
+        }
     end
 
 
@@ -21,6 +40,7 @@ class NewProjectReflex < ApplicationReflex
         if element.value.strip != ''
             @project_name = element.value
         end
+        update_backbone_document
     end
 
     def toggle_team_subset
@@ -30,26 +50,47 @@ class NewProjectReflex < ApplicationReflex
         else
             @development_team_subsets[element.value] = []
         end
+        update_backbone_document
     end
 
     def toggle_role_boolean
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
         @possible_roles[element.value] = !@possible_roles[element.value]
         if element.value == 'developer'
-            @reflex_steps['specify team subset'] = !@reflex_steps['specify team subset']
+            @reflex_steps[4]['specify team subset'] = !@reflex_steps[4]['specify team subset']
         end
+        update_backbone_document
+    end
+
+    def set_development_role
+        reinstantiate_vars(rehash_vars(element.dataset[:vars]))
+        @development_team_subsets.each do |subset, members|
+            @development_team_subsets[subset] = []
+        end
+        @development_team_subsets[element.dataset[:subset]] << @user_id
+        update_backbone_document
     end
 
     def step_forward
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
-        @reflex_steps[element.dataset[:this_step]] = false
-        @reflex_steps[element.dataset[:next_step]] = true
+        @reflex_steps[@reflex_steps[0]['current step']].each do |desc, bool|
+            @reflex_steps[@reflex_steps[0]['current step']][desc] = !bool
+        end
+        @reflex_steps[0]['current step'] = @reflex_steps[0]['current step'] + 1
+        @reflex_steps[@reflex_steps[0]['current step']].each do |desc, bool|
+            @reflex_steps[@reflex_steps[0]['current step']][desc] = !bool
+        end
     end
 
     def step_backward
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
-        @reflex_steps[element.dataset[:this_step]] = false
-        @reflex_steps[element.dataset[:last_step]] = true
+        @reflex_steps[@reflex_steps[0]['current step']].each do |desc, bool|
+            @reflex_steps[@reflex_steps[0]['current step']][desc] = !bool
+        end
+        @reflex_steps[0]['current step'] = @reflex_steps[0]['current step'] - 1
+        @reflex_steps[@reflex_steps[0]['current step']].each do |desc, bool|
+            @reflex_steps[@reflex_steps[0]['current step']][desc] = !bool
+        end
     end
 
 end

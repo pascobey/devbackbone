@@ -40,7 +40,7 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
-
+  gem 'watir'
 end
 
 group :development do
