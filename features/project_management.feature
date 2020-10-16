@@ -1,9 +1,9 @@
 Feature: Project Management
-    As a user
+    As an authenticated user
     I should be able to create, edit, and delete my projects
 
     Background:
-        Given I have logged in as a registered user
+        Given I have signed in as a registered user
 
     Scenario: Creating a new project as project_owner, project manager, and scrum master with every development team subset as a programmer
         Given I visit the create project page

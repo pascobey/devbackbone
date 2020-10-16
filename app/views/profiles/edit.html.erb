@@ -1,2 +1,26 @@
-<h1>Profiles#edit</h1>
-<p>Find me in app/views/profiles/edit.html.erb</p>
+<h1 id="edit-profile-header">Profile</h1>
+<%= form_for @profile, :method => :PUT do |f| %>
+    <%= @profile.user_information %>
+    <%= label('first-name', 'First name') %>
+    <%= text_field(:profile, :first_name, value: @profile.user_information['first_name'], id: 'first-name') %>
+    <%= label('last-name', 'Last name') %>
+    <%= text_field(:profile, :last_name, value: @profile.user_information['last_name'], id: 'last-name') %>
+    <%= label('phone-number', 'Phone number') %>
+    <%= text_field(:profile, :phone_number, value: @profile.user_information['phone_number'], id: 'phone-number') %>
+    <%= label('profile-image', 'Profile image') %>
+    <%= f.file_field(:profile_image, id: 'profile-image-upload') %>
+    <%= label('bio', 'Bio') %>
+    <%= text_field(:profile, :bio, value: @profile.user_information['bio'], id: 'bio') %>
+    <%= label('github-address', 'Github') %>
+    <%= text_field(:profile, :github, value: @profile.user_information['externals']['github'], id: 'github-address') %>
+    <%= label('twitter-address', 'Twitter') %>
+    <%= text_field(:profile, :twitter, value: @profile.user_information['externals']['twitter'], id: 'twitter-address') %>
+    <%= label('facebook-address', 'Facebook') %>
+    <%= text_field(:profile, :facebook, value: @profile.user_information['externals']['facebook'], id: 'facebook-address') %>
+    <%= label('instagram-address', 'Instagram') %>
+    <%= text_field(:profile, :instagram, value: @profile.user_information['externals']['instagram'], id: 'instagram-address') %>
+    <%= label('site-address', 'Your Site') %>
+    <%= text_field(:profile, :site, value: @profile.user_information['externals']['site'], id: 'site-address') %>
+    <%= f.hidden_field(:user_information, value: @user_information) %>
+    <%= f.submit('Save changes', id: 'save') %>
+<% end %>

@@ -9,14 +9,12 @@ Feature: Authentication
         Then I should see that my account is confirmed
 
     Scenario: User Logs In
-        Given I am a registered user
-        And I visit the log in page
+        Given I visit the log in page
         When I fill in the login form
         Then I should be logged in
 
     Scenario: User Logs Out
-        Given I am a registered user
-        And I am logged in
+        Given I am logged in
         And I visit the homepage
         When I click on the log out link
         Then I should be logged out

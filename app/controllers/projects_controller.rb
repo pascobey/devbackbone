@@ -40,7 +40,8 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def project_params
-    params.require(:project).permit(:backbone_document)
-  end
+  private
+    def project_params
+      params.require(:project).permit(:backbone_document)
+    end
 end

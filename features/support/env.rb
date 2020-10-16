@@ -9,13 +9,9 @@ require 'email_spec'
 require 'email_spec/cucumber'
 require 'watir'
 
-@user_email = rand(16**16).to_s(16)
-@user_password = rand(32**16).to_s(32)
 
 Before do
   @test_base_url = 'localhost:3000'
-  @user_email = rand(16**16).to_s(16)
-  @user_password = rand(32**16).to_s(32)
   @browser = Watir::Browser.new :chrome
   @browser.window.maximize
 end
