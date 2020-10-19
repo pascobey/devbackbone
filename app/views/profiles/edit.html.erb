@@ -1,26 +1,25 @@
 <h1 id="edit-profile-header">Profile</h1>
 <%= form_for @profile, :method => :PUT do |f| %>
-    <%= @profile.user_information %>
     <%= label('first-name', 'First name') %>
-    <%= text_field(:profile, :first_name, value: @profile.user_information['first_name'], id: 'first-name') %>
+    <%= text_field_tag('first_name', @user_information['first_name'], id: 'first-name', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= label('last-name', 'Last name') %>
-    <%= text_field(:profile, :last_name, value: @profile.user_information['last_name'], id: 'last-name') %>
+    <%= text_field_tag( 'last_name', @user_information['last_name'], id: 'last-name', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= label('phone-number', 'Phone number') %>
-    <%= text_field(:profile, :phone_number, value: @profile.user_information['phone_number'], id: 'phone-number') %>
+    <%= text_field_tag('phone_number', @user_information['phone_number'], id: 'phone-number', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= label('profile-image', 'Profile image') %>
     <%= f.file_field(:profile_image, id: 'profile-image-upload') %>
-    <%= label('bio', 'Bio') %>
-    <%= text_field(:profile, :bio, value: @profile.user_information['bio'], id: 'bio') %>
+    <%= label('user-bio', 'Bio') %>
+    <%= text_field_tag('bio', @user_information['user_bio'], id: 'user-bio', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= label('github-address', 'Github') %>
-    <%= text_field(:profile, :github, value: @profile.user_information['externals']['github'], id: 'github-address') %>
+    <%= text_field_tag('github', @user_information['externals']['github'], id: 'externals-github-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= label('twitter-address', 'Twitter') %>
-    <%= text_field(:profile, :twitter, value: @profile.user_information['externals']['twitter'], id: 'twitter-address') %>
+    <%= text_field_tag('twitter', @user_information['externals']['twitter'], id: 'externals-twitter-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= label('facebook-address', 'Facebook') %>
-    <%= text_field(:profile, :facebook, value: @profile.user_information['externals']['facebook'], id: 'facebook-address') %>
+    <%= text_field_tag('facebook', @user_information['externals']['facebook'], id: 'externals-facebook-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= label('instagram-address', 'Instagram') %>
-    <%= text_field(:profile, :instagram, value: @profile.user_information['externals']['instagram'], id: 'instagram-address') %>
+    <%= text_field_tag('instagram', @user_information['externals']['instagram'], id: 'externals-instagram-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= label('site-address', 'Your Site') %>
-    <%= text_field(:profile, :site, value: @profile.user_information['externals']['site'], id: 'site-address') %>
+    <%= text_field_tag('site', @user_information['externals']['site'], id: 'externals-site-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
     <%= f.hidden_field(:user_information, value: @user_information) %>
-    <%= f.submit('Save changes', id: 'save') %>
+    <%= f.submit %>
 <% end %>

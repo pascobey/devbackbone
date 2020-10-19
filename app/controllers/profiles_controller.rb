@@ -7,12 +7,12 @@ class ProfilesController < ApplicationController
   end
 
   def edit
-    if !Profile.find_by(user_id: current_user.id)
-      @profile  = Profile.create(user_id: current_user.id, user_information: {
+    if !Profile.exists?(user_id: current_user.id)
+      @profile = Profile.create(user_id: current_user.id, user_information: {
         'first_name' => '',
         'last_name' => '',
         'phone_number' => '',
-        'bio' => '',
+        'user_bio' => '',
         'externals' => {
           'github' => '',
           'twitter' => '',
@@ -24,27 +24,19 @@ class ProfilesController < ApplicationController
     else
       @profile = Profile.find_by(user_id: current_user.id)
     end
-    # @user_information = @profile.user_information
-    @user_information = {
-      'first_name' => '',
-      'last_name' => '',
-      'phone_number' => '',
-      'bio' => '',
-      'externals' => {
-        'github' => '',
-        'twitter' => '',
-        'facebook' => '',
-        'instagram' => '',
-        'site' => ''
-      }
-    }
+    if Profile.find(params[:id]) != @profile
+      redirect_to edit_profile_path(@profile)
+    end
+    @user_information ||= @profile.user_information
   end
 
   def update
-    raise params.inspect
-    # @profile = Profile.find_by(user_id: current_user.id)
-    # @profile.update(user_information: params[:user_information], profile_image: params[:profile_image])
-    # redirect_to profile_path(@profile)
+    @profile = Profile.find(params[:id])
+    if @profile.update_attributes(profile_params)
+      redirect_to profile_path(@profile)
+    else
+      redirect_to edit_profile_path(@profile)
+    end
   end
 
   private
