@@ -7,7 +7,7 @@ end
 
 Given('I visit the edit profile page') do
     @browser.goto(@test_base_url + edit_profile_path(1))
-    @browser.element(id: 'edit-profile-header').present?
+    # @browser.element(id: 'edit-profile-header').present?
 end
 
 When('I fill in my name and phone number') do
@@ -23,7 +23,7 @@ When('I fill in my name and phone number') do
 end
 
 When('I upload a profile image') do
-    @browser.file_field(id: 'profile-image-upload').set(File.expand_path(__FILE__).split('/backbone-bdd')[0] + '/backbone-bdd/test/data/IMG_0667.jpg')
+    @browser.file_field(id: 'profile-image-upload').set(File.expand_path(__FILE__).split('/backbone-bdd')[0] + '/backbone-bdd/development_data/tester.jpg')
     sleep 1
 end
 
@@ -56,6 +56,6 @@ When('I click save') do
 end
 
 Then('I should see the changes reflected in my profile') do
-    @browser.element(id: 'edit-profile-header').present?
+    # @browser.element(id: 'edit-profile-header').present?
     sleep 5
 end

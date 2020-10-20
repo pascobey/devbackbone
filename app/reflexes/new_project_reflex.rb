@@ -5,6 +5,7 @@ class NewProjectReflex < ApplicationReflex
         @possible_roles = vars_hash['possible_roles']
         @development_team_subsets = vars_hash['development_team_subsets']
         @reflex_steps = vars_hash['reflex_steps']
+        @errors = vars_hash['errors']
         @backbone_document = vars_hash['backbone_document']
     end
 
@@ -39,6 +40,9 @@ class NewProjectReflex < ApplicationReflex
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
         if element.value.strip != ''
             @project_name = element.value
+        end
+        if Project.find_by(project_name: @project_name)
+            @errors['project_name'] << 'Sorry, that name has been taken and is unavailable'
         end
         update_backbone_document
     end

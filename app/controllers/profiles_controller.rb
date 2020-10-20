@@ -3,7 +3,11 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @profile = Profile.find_by(user_id: current_user.id)
+    if !Profile.find(params[:id])
+      redirect_to root, alert: "Profile #{params[:id]} does not exist!"
+    else
+      @profile = Profile.find(params[:id])
+    end
   end
 
   def edit
@@ -19,7 +23,8 @@ class ProfilesController < ApplicationController
           'facebook' => '',
           'instagram' => '',
           'site' => ''
-        }
+        },
+        'projects' => []
       })
     else
       @profile = Profile.find_by(user_id: current_user.id)

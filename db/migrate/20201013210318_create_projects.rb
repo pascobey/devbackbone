@@ -3,7 +3,7 @@ class CreateProjects < ActiveRecord::Migration[6.0]
     create_table :projects do |t|
       t.string :project_name
       t.jsonb :backbone_document
-      t.timestamps
+      t.jsonb :users_array
     end
   end
 end

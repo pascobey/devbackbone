@@ -17,5 +17,11 @@ Feature: Project Management
         And I click create
         Then I should see my project manager dashboard
 
+    Scenario: Show a project that was created with improper leadership (scrum master is the project manager)
+        Given I am the product owner of a project
+        When I visit the show project page
+        Then I should be notified that my project manager and scrum master are the same person
+        
+
 
     

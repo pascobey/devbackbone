@@ -1,6 +1,11 @@
 class ProjectsController < ApplicationController
 
   before_action :authenticate_user!
+  before_action :verify_access, only: [:show]
+
+  def show
+    @project = Project.find(params[:id])
+  end
 
   def new
     @current_user = current_user
@@ -19,6 +24,8 @@ class ProjectsController < ApplicationController
     @development_team_subsets ||= {}
     # the JSON to be stored
     @backbone_document ||= {}
+    # a list of users in the project to quickly authorize access to the project
+    @users_array = [ 0, current_user.id ]
     # reflex_steps are a way to give the page flow
     @reflex_steps ||= [
       { 'current step' => 1 },
@@ -27,6 +34,9 @@ class ProjectsController < ApplicationController
       { 'choose roles' => false },
       { 'specify team subset' => false }
     ]
+    @errors ||= {
+      'project_name' => []
+    }
     # a form is needed for a new project
     @project = Project.new
   end
@@ -34,14 +44,47 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     if @project.save
+      creator_profile = Profile.find_by(user_id: current_user.id)
+      creator_information = JSON.parse(creator_profile.user_information.gsub('=>', ':')).stringify_keys
+      roles = []
+      backbone_document = JSON.parse(@project.backbone_document.gsub('=>', ':')).stringify_keys
+      backbone_document['leaders'].each do |role, user|
+        if user == current_user.id
+          roles << role
+        end
+      end
+      backbone_document['development_team'].each do |subset, members|
+        if members.include?(current_user.id)
+          roles << subset
+        end
+      end
+      creator_information['projects'] << {
+        @project.id => { 
+          'roles' => roles
+        }
+      }
+      creator_profile.update(user_information: creator_information)
       redirect_to project_path(@project), notice: "Project saved!"
     else
       render :new, alert: 'Project unable to save, try again.'
     end
   end
 
+
   private
-    def project_params
-      params.require(:project).permit(:backbone_document)
+
+    def verify_access
+      if !Project.exists?(params[:id])
+        render :new, alert: "Project with id: #{params[:id]} does not exist!"
+      else
+        if !Project.find(params[:id]).users_array.split(' ').map(&:to_i).include?(current_user.id)
+            redirect_to new_project_path, alert: "You don't seem to have access to project #{params[:id]}..."
+        end
+      end
     end
+
+    def project_params
+      params.require(:project).permit(:backbone_document, :users_array)
+    end
+
 end
