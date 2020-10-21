@@ -9,9 +9,7 @@ class Profile < ApplicationRecord
                 p.user_information.values.each do |v|
                     search_items.each do |item|
                         if v.to_s.downcase.include?(item)
-                            if !profiles.include?(p)
-                                profiles << p
-                            end
+                            profiles << p
                         end
                     end
                 end
