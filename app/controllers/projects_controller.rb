@@ -4,7 +4,29 @@ class ProjectsController < ApplicationController
   before_action :verify_access, only: [:show]
 
   def show
+    @current_user = current_user
     @project = Project.find(params[:id])
+    @backbone_document ||= @project.get_backbone_document
+    @users_array ||= @project.users_array.split
+    @weaknesses = @project.get_weaknesses(@backbone_document)
+    @reflex_pages ||= {
+      'team details' => false,
+      'editing product owner' => false,
+      'editing project manager' => false,
+      'editing scrum master' => false
+    }
+    @backbone_document['leaders']['product_owner'].include?(current_user.id) ? (@editing_privledges = true) : (@editing_privledges = false)
+    @project_edited ||= false
+    @search_information ||= ''
+  end
+
+  def update
+    @project = Project.find(params[:id])
+    if @project.update_attributes(project_params)
+      redirect_to(project_path(@project), alert: 'Changes Successfully Saved!')
+    else
+      redirect_to(project_path(@project), alert: 'Changes Failed to Save!')
+    end
   end
 
   def new

@@ -18,10 +18,18 @@ Feature: Project Management
         Then I should see my project manager dashboard
 
     Scenario: Show a project that was created with improper leadership (scrum master is the project manager)
-        Given I am the product owner of a project
+        Given I am the product owner of a project with improper leadership
         When I visit the show project page
         Then I should be notified that my project manager and scrum master are the same person
-        
-
+    
+    Scenario: Editing (reflexively) the team members of a project
+        Given I am the product owner
+        When I visit the show project page
+        And I click the team details button
+        * I see the team details
+        * I have editing priviledges
+        * I change a leader
+        * I edit a team
+        Then I should be notified that the team details have changed
 
     
