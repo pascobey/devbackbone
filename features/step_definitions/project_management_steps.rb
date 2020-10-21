@@ -16,10 +16,9 @@ end
 When('I name the project') do
     Watir::Wait.until { @browser.text_field(id: 'project-name').present? }
     @browser.text_field(id: 'project-name').set('Test Project')
-    sleep 0.8
+    sleep 1.2
     Watir::Wait.until { @browser.button(id: 'next').present? }
     @browser.button(id: 'next').click
-    sleep 0.8
 end
 When('I check every box for development team subsets') do
     Watir::Wait.until { @browser.input(id: 'programmers').present? }
@@ -45,7 +44,6 @@ When('I check every box for development team subsets') do
     sleep 0.8
     Watir::Wait.until { @browser.button(id: 'next').present? }
     @browser.button(id: 'next').click
-    sleep 0.8
 end
 When('I make myself the product owner') do
     Watir::Wait.until { @browser.input(id: 'product_owner').present? }
@@ -109,31 +107,23 @@ When('I have editing priviledges') do
     Watir::Wait.until { @browser.button(value: 'edit').present? }
 end
 When('I change a leader') do
-    Watir::Wait.until { @browser.button(id: 'change-project-manager').present? }
-    @browser.button(id: 'change-project-manager').click
-    Watir::Wait.until { @browser.text_field(id: 'project-manager-search').present? }
-    @browser.text_field(id: 'project-manager-search').set('Kevin Skoglund')
+    Watir::Wait.until { @browser.button(id: 'change-scrum-master').present? }
+    @browser.button(id: 'change-scrum-master').click
+    Watir::Wait.until { @browser.text_field(id: 'scrum-master-search').present? }
+    @browser.text_field(id: 'scrum-master-search').set('Kevin Skoglund')
     sleep 0.8
-    Watir::Wait.until { @browser.button(id: 'make-Kevin-Skoglund-project-manager').present? }
+    Watir::Wait.until { @browser.button(id: 'make-Kevin-Skoglund-scrum-master').present? }
     sleep 0.8
-    @browser.button(id: 'make-Kevin-Skoglund-project-manager').click
-    Watir::Wait.until { @browser.p(id: 'project-manager-Kevin-Skoglund') }
+    @browser.button(id: 'make-Kevin-Skoglund-scrum-master').click
+    Watir::Wait.until { @browser.p(id: 'scrum-master-Kevin-Skoglund') }
+    Watir::Wait.until { @browser.button(id: 'change-scrum-master').present? }
+    sleep 0.8
+    @browser.button(id: 'change-scrum-master').click
+    sleep 10
 end
 When('I edit a team') do
-    Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
-    @browser.button(id: 'edit-programmers').click
-    Watir::Wait.until { @browser.text_field(id: 'programmer-search').present? }
-    @browser.text_field(id: 'programmer-search').set('David Heinemeier Hansson')
-    Watir::Wait.until { @browser.element(class: 'programmer-search-result').present? }
-    @browser.elements(class: 'programmer-search-result').each do |e|
-        if e.value == 'David Heinemeier Hansson'
-            e.click
-        end
-    end
+    pending
 end
 Then('I should be notified that the team details have changed') do
-    Watir::Wait.until { @browser.element(id: 'project-manager-name').present? }
-    Watir::Wait.until { @browser.element(id: 'project-manager-name').value == 'Kevin Skoglund' }
-    Watir::Wait.until { @browser.element(class: 'programmer-name').present? }
-    Watir::Wait.until { @browser.element(class: 'programmer-name').value == 'Kevin Skoglund' }
+    pending
 end

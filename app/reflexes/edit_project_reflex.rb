@@ -39,9 +39,7 @@ class EditProjectReflex < ApplicationReflex
 
     def edit_search_query
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
-        puts
-        puts @search_information = element.value
-        puts
+        @search_information = element.value.downcase
     end
 
     def change_leader_role
