@@ -1,2 +1,106 @@
+<% reflex_variables = { backbone_document: @backbone_document, search_information: @search_information, reflex_pages: @reflex_pages, project_edited: @project_edited } %>
 
-<%= @project.backbone_document %>
+<h1 id="show-project-header"><%= @backbone_document['project_name'] %></h1>
+<% if @weaknesses != [] %>
+    <div id="backbone-weaknesses">
+        <% @weaknesses.each do |w| %>
+            <p class="weakness"><%= w %></p>
+        <% end %>
+    </div>
+<% end %>
+
+<% if !@reflex_pages['team details'] %>
+    <%= button_tag('team details', id: 'team-details-button', data: { reflex: 'click->EditProject#show_team_details', vars: reflex_variables }) %>
+<% else %>
+    <%= button_tag('team details', id: 'team-details-button', disabled: true) %>
+    <h2 id="team-details-header">Team Details</h2>
+
+    <h4 id="team-leadership-header">Team leadership</h4>
+    <% @backbone_document['leaders'].each do |role, user| %>
+        <% role_css_formatted = role.gsub('_', '-') %>
+        <% role_copy_formatted = role.gsub('_', ' ') %>
+        <% user_information = Profile.find_by(user_id: user.first).user_information %>
+        <%= content_tag(:p, "#{role_copy_formatted}: #{user_information['first_name']} #{user_information['last_name']}", id: "#{role_css_formatted}-#{user_information['first_name'].gsub(' ', '')}-#{user_information['last_name'].gsub(' ', '')}") %>
+        <% if @owner_editing_privledges %>
+            <% if !@reflex_pages["editing #{role_copy_formatted}"] %>
+                <%= button_tag('edit', id: "change-#{role_css_formatted}", data: { reflex: 'click->EditProject#show_edit_leader', vars: reflex_variables, role: role_copy_formatted }) %>
+            <% else %>
+                <%= button_tag('done', id: "change-#{role_css_formatted}", data: { reflex: 'click->EditProject#finish_edit', vars: reflex_variables, page: "editing #{role_copy_formatted}" }) %>
+                <%= text_field_tag("search-for-#{role_css_formatted}", nil, placeholder: 'search', id: "#{role_css_formatted}-search", data: { reflex: 'keyup->EditProject#edit_search_query', vars: reflex_variables }) %>
+                <% Profile.all_containing(@search_information).each do |p| %>
+                    <% user_info = p.user_information %>
+                    <ul>
+                        <li>
+                            <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(p.id)) %>
+                            <%= content_tag(:p, user_info['user_bio']) %>
+                            <%= button_tag("make #{user_info['first_name']} #{user_info['last_name']} #{role_copy_formatted}", id: "make-#{user_info['first_name'].gsub(' ', '')}-#{user_info['last_name'].gsub(' ', '')}-#{role_css_formatted}", data: { reflex: 'click->EditProject#change_leader_role', vars: reflex_variables, role: role, user_id: p.user_id }) %>
+                        </li>
+                    </ul>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <% @backbone_document['development_team'].each do |subset, members| %>
+        <% subset_css_formatted = subset.gsub('_', '-') %>
+        <% subset_copy_formatted = subset.gsub('_', ' ') %>
+        <h4 id="development-subset-<%= subset_css_formatted %>"><%= subset_copy_formatted %></h4>
+        <% if @owner_editing_privledges %>
+            <% if !@reflex_pages["editing #{subset_copy_formatted}"] %>
+                <%= button_tag("edit", id: "edit-#{subset_css_formatted}", data: { reflex: 'click->EditProject#show_edit_subset', vars: reflex_variables, subset: subset_copy_formatted }) %>
+                <% members.each do |user_id| %>
+                    <% profile = Profile.find_by(user_id: user_id) %>
+                    <% user_info = profile.user_information %>
+                    <ul>
+                        <li>
+                            <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
+                        </li>
+                    </ul>
+                <% end %>
+            <% else %>
+                <%= button_tag("done", id: "edit-#{subset_css_formatted}", data: { reflex: 'click->EditProject#finish_edit', vars: reflex_variables, page: "editing #{subset_copy_formatted}" }) %>
+                <% members.each do |user_id| %>
+                    <% profile = Profile.find_by(user_id: user_id) %>
+                    <% user_info = profile.user_information %>
+                    <ul>
+                        <li>
+                            <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
+                            <%= content_tag(:p, user_info['user_bio']) %>
+                            <%= button_tag("remove #{user_info['first_name']} #{user_info['last_name']} from #{subset_copy_formatted}", id: "remove-#{user_info['first_name'].gsub(' ', '')}-#{user_info['last_name'].gsub(' ', '')}-from-#{subset_css_formatted}", data: { reflex: 'click->EditProject#remove_user_from_subset', vars: reflex_variables, subset: subset, user_id: user_id }) %>
+                        </li>
+                    </ul>
+                <% end %>
+                <%= text_field_tag("search-for-#{subset_css_formatted}", nil, placeholder: 'search', id: "#{subset_css_formatted}-search", data: { reflex: 'keyup->EditProject#edit_search_query', vars: reflex_variables }) %>
+                <% Profile.all_containing(@search_information).each do |p| %>
+                <% user_info = p.user_information %>
+                    <ul>
+                        <li>
+                            <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(p.id)) %>
+                            <%= content_tag(:p, user_info['user_bio']) %>
+                            <%= button_tag("add #{user_info['first_name']} #{user_info['last_name']} to #{subset_copy_formatted}", id: "add-#{user_info['first_name'].gsub(' ', '')}-#{user_info['last_name'].gsub(' ', '')}-to-#{subset_css_formatted}", data: { reflex: 'click->EditProject#add_user_to_subset', vars: reflex_variables, subset: subset, user_id: p.user_id }) %>
+                        </li>
+                    </ul>
+                <% end %>
+            <% end %>
+        <% else %>
+            <% members.each do |user_id| %>
+                <% profile = Profile.find_by(user_id: user_id) %>
+                <% user_info = profile.user_information %>
+                <ul>
+                    <li>
+                        <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
+                    </li>
+                </ul>
+            <% end %>
+        <% end %>
+    <% end %>
+
+<% end %>
+
+
+<% if @project_edited %>
+    <%= form_for @project, :method => :PUT do |f| %>
+        <%= f.hidden_field(:backbone_document, value: @backbone_document) %>
+        <%= f.submit('save changes') %>
+    <% end %>
+<% end %>

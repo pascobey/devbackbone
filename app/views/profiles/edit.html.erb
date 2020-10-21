@@ -1,4 +1,4 @@
-<h1 id="edit-profile-header">Profile</h1>
+<h1 id="edit-profile-header">Edit Profile</h1>
 <%= form_for @profile, :method => :PUT do |f| %>
     <%= label('first-name', 'First name') %>
     <%= text_field_tag('first_name', @user_information['first_name'], id: 'first-name', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>

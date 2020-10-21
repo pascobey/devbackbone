@@ -60,7 +60,7 @@ ray = User.create(
     confirmed_at: Time.now
 )
 ray_p = Profile.create(
-    user_id: chris.id,
+    user_id: ray.id,
     user_information: {
         'first_name' => 'Ray',
         'last_name' => 'Villalobos',
@@ -84,31 +84,7 @@ kevin = User.create(
     confirmed_at: Time.now
 )
 kevin_p = Profile.create(
-    user_id: chris.id,
-    user_information: {
-        'first_name' => 'Kevin',
-        'last_name' => 'Skoglund',
-        'phone_number' => '6155559394',
-        'user_bio' => 'Programmer, Teacher, Digital Security Consultant, Voting Integrity Advocate',
-        'externals' => {
-            'github' => 'https://github.com/kevinskoglund',
-            'twitter' => 'https://twitter.com/kskoglund',
-            'facebook' => 'https://www.facebook.com/kevin.skoglund',
-            'instagram' => '',
-            'site' => 'http://www.kevinskoglund.com/'
-        }
-    }
-)
-kevin_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('/backbone-bdd')[0] + '/backbone-bdd/development_data/kevin.jpg'), filename: 'kevin.jpg')
-
-
-kevin = User.create(
-    email: 'kevin@hey.com',
-    password: 'getmoreoutofrails',
-    confirmed_at: Time.now
-)
-kevin_p = Profile.create(
-    user_id: chris.id,
+    user_id: kevin.id,
     user_information: {
         'first_name' => 'Kevin',
         'last_name' => 'Skoglund',

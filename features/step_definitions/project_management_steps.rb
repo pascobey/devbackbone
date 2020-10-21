@@ -1,77 +1,139 @@
 Given('I have signed in as a registered user') do
     @browser.goto(@test_base_url + new_user_session_path)
-    @browser.element(id: 'user_email').send_keys("tester@testdomain.test")
-    @browser.element(id: 'user_password').send_keys('pa$$word')
+    Watir::Wait.until { @browser.text_field(id: 'user_email').present? }
+    @browser.text_field(id: 'user_email').set("tester@testdomain.test")
+    sleep 0.8
+    Watir::Wait.until { @browser.text_field(id: 'user_password').present? }
+    @browser.text_field(id: 'user_password').set('pa$$word')
+    sleep 0.8
+    Watir::Wait.until { @browser.element(value: 'Log in').present? }
     @browser.element(value: 'Log in').click
 end
 Given('I visit the create project page') do
     @browser.goto(@test_base_url + new_project_path)
-    # @browser.element(id: 'project-name').present?
+    Watir::Wait.until { @browser.h1(id: 'new-project-header').present? }
 end
 When('I name the project') do
-    @browser.element(id: 'project-name').send_keys(:command, 'a')
-    @browser.element(id: 'project-name').send_keys('Test Project')
-    sleep 1
+    Watir::Wait.until { @browser.text_field(id: 'project-name').present? }
+    @browser.text_field(id: 'project-name').set('Test Project')
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'next').present? }
     @browser.button(id: 'next').click
-    sleep 1
+    sleep 0.8
 end
 When('I check every box for development team subsets') do
+    Watir::Wait.until { @browser.input(id: 'programmers').present? }
     @browser.input(id: 'programmers').click
-    sleep 1
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'ux_ui_designers').present? }
     @browser.input(id: 'ux_ui_designers').click
-    sleep 1
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'writers').present? }
     @browser.input(id: 'writers').click
-    sleep 1
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'testers').present? }
     @browser.input(id: 'testers').click
-    sleep 1
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'dev_ops').present? }
     @browser.input(id: 'dev_ops').click
-    sleep 1
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'subject_matter_experts').present? }
     @browser.input(id: 'subject_matter_experts').click
-    sleep 1
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'legal').present? }
     @browser.input(id: 'legal').click
-    sleep 1
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'next').present? }
     @browser.button(id: 'next').click
-    sleep 1
+    sleep 0.8
 end
 When('I make myself the product owner') do
+    Watir::Wait.until { @browser.input(id: 'product_owner').present? }
     @browser.input(id: 'product_owner').click
-    sleep 1
+    sleep 0.8
 end
 When('I make myself the project manager') do
+    Watir::Wait.until { @browser.input(id: 'project_manager').present? }
     @browser.input(id: 'project_manager').click
-    sleep 1
+    sleep 0.8
 end
 When('I make myself the scrum master') do
+    Watir::Wait.until { @browser.input(id: 'scrum_master').present? }
     @browser.input(id: 'scrum_master').click
-    sleep 1
+    sleep 0.8
 end
 When('I make myself a developer') do
+    Watir::Wait.until { @browser.input(id: 'developer').present? }
     @browser.input(id: 'developer').click
-    sleep 1
+    sleep 0.8
 end
 When('I specify that I am a programmer') do
+    Watir::Wait.until { @browser.input(id: 'development_team_subset_programmers').present? }
     @browser.input(id: 'development_team_subset_programmers').click
-    sleep 1
+    sleep 0.8
 end
 When('I click create') do
+    Watir::Wait.until { @browser.button(id: 'create').present? }
     @browser.button(id: 'create').click
-    sleep 1
 end
 Then('I should see my project manager dashboard') do
-    # @browser.p.present?
-    sleep 4
+    Watir::Wait.until { @browser.h1(id: 'show-project-header').present? }
 end
 
 
-Given('I am the product owner of a project') do
-    @browser.goto(@test_base_url + project_path(1))
-    # @browser.element(id: 'project-name').present?
+Given('I am the product owner of a project with improper leadership') do
+    # lets assume the tester makes and owns the first project
 end
-
 When('I visit the show project page') do
-    pending # Write code here that turns the phrase above into concrete actions
+    @browser.goto(@test_base_url + project_path(1))
+    Watir::Wait.until { @browser.h1(id: 'show-project-header').present? }
+end
+Then('I should be notified that my project manager and scrum master are the same person') do
+    Watir::Wait.until { @browser.element(id: 'backbone-weaknesses').present? }
+    Watir::Wait.until { @browser.p(class: 'weakness').present? }
 end
 
-Then('I should be notified that my project manager and scrum master are the same person') do
-    pending # Write code here that turns the phrase above into concrete actions
+
+Given('I am the product owner') do
+    # lets assume the tester makes and owns the first project
+end
+When('I click the team details button') do
+    Watir::Wait.until { @browser.button(id: 'team-details-button').present? }
+    @browser.button(id: 'team-details-button').click
+    sleep 0.8
+end
+When('I see the team details') do
+    Watir::Wait.until { @browser.element(id: 'team-details-header').present? }
+end
+When('I have editing priviledges') do
+    Watir::Wait.until { @browser.button(value: 'edit').present? }
+end
+When('I change a leader') do
+    Watir::Wait.until { @browser.button(id: 'change-project-manager').present? }
+    @browser.button(id: 'change-project-manager').click
+    Watir::Wait.until { @browser.text_field(id: 'project-manager-search').present? }
+    @browser.text_field(id: 'project-manager-search').set('Kevin Skoglund')
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'make-Kevin-Skoglund-project-manager').present? }
+    sleep 0.8
+    @browser.button(id: 'make-Kevin-Skoglund-project-manager').click
+    Watir::Wait.until { @browser.p(id: 'project-manager-Kevin-Skoglund') }
+end
+When('I edit a team') do
+    Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
+    @browser.button(id: 'edit-programmers').click
+    Watir::Wait.until { @browser.text_field(id: 'programmer-search').present? }
+    @browser.text_field(id: 'programmer-search').set('David Heinemeier Hansson')
+    Watir::Wait.until { @browser.element(class: 'programmer-search-result').present? }
+    @browser.elements(class: 'programmer-search-result').each do |e|
+        if e.value == 'David Heinemeier Hansson'
+            e.click
+        end
+    end
+end
+Then('I should be notified that the team details have changed') do
+    Watir::Wait.until { @browser.element(id: 'project-manager-name').present? }
+    Watir::Wait.until { @browser.element(id: 'project-manager-name').value == 'Kevin Skoglund' }
+    Watir::Wait.until { @browser.element(class: 'programmer-name').present? }
+    Watir::Wait.until { @browser.element(class: 'programmer-name').value == 'Kevin Skoglund' }
 end
