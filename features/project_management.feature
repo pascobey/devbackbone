@@ -30,6 +30,7 @@ Feature: Project Management
         * I have editing priviledges
         * I change a leader
         * I edit a team
+        * I click the save changes button
         Then I should be notified that the team details have changed
 
     

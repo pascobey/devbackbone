@@ -129,11 +129,15 @@ When('I edit a team') do
     sleep 0.8
     Watir::Wait.until { @browser.button(id: 'add-David-HeinemeierHansson-to-programmers').present? }
     sleep 0.8
-    @browser.button(id: 'make-Kevin-Skoglund-scrum-master').click
+    @browser.button(id: 'add-David-HeinemeierHansson-to-programmers').click
     Watir::Wait.until { @browser.button(id: 'remove-David-HeinemeierHansson-from-programmers').present? }
     sleep 0.8
     Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
     @browser.button(id: 'edit-programmers').click
+end
+When('I click the save changes button') do
+    Watir::Wait.until { @browser.input(value: 'save changes').present? }
+    @browser.input(value: 'save changes').click
 end
 Then('I should be notified that the team details have changed') do
     Watir::Wait.until { @browser.div(id: 'flash-content').present? }
