@@ -119,11 +119,23 @@ When('I change a leader') do
     Watir::Wait.until { @browser.button(id: 'change-scrum-master').present? }
     sleep 0.8
     @browser.button(id: 'change-scrum-master').click
-    sleep 10
+    sleep 0.8
 end
 When('I edit a team') do
-    pending
+    Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
+    @browser.button(id: 'edit-programmers').click
+    Watir::Wait.until { @browser.text_field(id: 'programmers-search').present? }
+    @browser.text_field(id: 'programmers-search').set('creator of Ruby on Rails')
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'add-David-HeinemeierHansson-to-programmers').present? }
+    sleep 0.8
+    @browser.button(id: 'make-Kevin-Skoglund-scrum-master').click
+    Watir::Wait.until { @browser.button(id: 'remove-David-HeinemeierHansson-from-programmers').present? }
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
+    @browser.button(id: 'edit-programmers').click
 end
 Then('I should be notified that the team details have changed') do
-    pending
+    Watir::Wait.until { @browser.div(id: 'flash-content').present? }
+    Watir::Wait.until { @browser.div(text: 'Changes Successfully Saved!').present? }
 end
