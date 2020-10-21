@@ -1,6 +1,6 @@
 <% reflex_variables = { user_id: @current_user.id, project_name: @project_name, possible_roles: @possible_roles,  development_team_subsets: @development_team_subsets, reflex_steps: @reflex_steps, errors: @errors, backbone_document: @backbone_document } %>
 
-<h1 id="new-project-header">New Project</h1>
+<h1 id="new-project-header">New Project: <%= @project_name %></h1>
 
 <%= form_with model: @project do |f| %>
 
@@ -63,7 +63,6 @@
         <%= button_tag('next', data: { reflex: 'click->NewProject#step_forward', vars: reflex_variables }, id: 'next') %>
     <% elsif submit_ready %>
         <%= f.hidden_field(:backbone_document, value: @backbone_document) %>
-        <%= f.hidden_field(:users_array, value: @users_array) %>
         <%= f.submit(id: 'create') %>
     <% end %>
 
