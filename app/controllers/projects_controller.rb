@@ -84,7 +84,7 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:backbone_document, :users_array)
+      params.require(:project).permit(:project_name, :backbone_document)
     end
 
 end
