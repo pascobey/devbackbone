@@ -68,7 +68,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     if @project.save
       creator_profile = Profile.find_by(user_id: current_user.id)
-      creator_information = creator_profile.get_user_information.stringify_keys
+      creator_information = JSON.parse(creator_profile.user_information.gsub('=>', ':')).stringify_keys
       roles = []
       backbone_document = @project.get_backbone_document.stringify_keys
       backbone_document['leaders'].each do |role, user|
