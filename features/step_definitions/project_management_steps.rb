@@ -50,11 +50,6 @@ When('I make myself the product owner') do
     @browser.input(id: 'product_owner').click
     sleep 0.8
 end
-When('I make myself the project manager') do
-    Watir::Wait.until { @browser.input(id: 'project_manager').present? }
-    @browser.input(id: 'project_manager').click
-    sleep 0.8
-end
 When('I make myself the scrum master') do
     Watir::Wait.until { @browser.input(id: 'scrum_master').present? }
     @browser.input(id: 'scrum_master').click
@@ -74,7 +69,7 @@ When('I click create') do
     Watir::Wait.until { @browser.button(id: 'create').present? }
     @browser.button(id: 'create').click
 end
-Then('I should see my project manager dashboard') do
+Then('I should see the project dashboard') do
     Watir::Wait.until { @browser.h1(id: 'show-project-header').present? }
 end
 
@@ -86,7 +81,7 @@ When('I visit the show project page') do
     @browser.goto(@test_base_url + project_path(1))
     Watir::Wait.until { @browser.h1(id: 'show-project-header').present? }
 end
-Then('I should be notified that my project manager and scrum master are the same person') do
+Then('I should be notified that my product owner and scrum master are the same person') do
     Watir::Wait.until { @browser.element(id: 'backbone-weaknesses').present? }
     Watir::Wait.until { @browser.p(class: 'weakness').present? }
 end

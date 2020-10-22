@@ -42,7 +42,6 @@ class ProjectsController < ApplicationController
     @project_name ||= 'Project Name'
     @possible_roles ||= {
       'product_owner' => false,
-      'project_manager' => false, 
       'scrum_master' => false,
       'developer' => false
     }
@@ -98,7 +97,7 @@ class ProjectsController < ApplicationController
 
     def verify_access
       if !Project.exists?(params[:id])
-        render :new, alert: "Project with id: #{params[:id]} does not exist!"
+        redirect_to(profile_path(current_user.id), alert: "Project with id: #{params[:id]} does not exist!")
       else
         backbone_document = Project.find(params[:id]).get_backbone_document.stringify_keys
         users_array = []

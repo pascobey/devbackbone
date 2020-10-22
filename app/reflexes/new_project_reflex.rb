@@ -12,7 +12,6 @@ class NewProjectReflex < ApplicationReflex
     def update_backbone_document
         leaders = {
             'product_owner' => [],
-            'project_manager' => [],
             'scrum_master' => []
         }
         @possible_roles.each do |role, bool|
@@ -24,7 +23,6 @@ class NewProjectReflex < ApplicationReflex
             'project_name' => @project_name,
             'leaders' => {
                 'product_owner' => leaders['product_owner'],
-                'project_manager' => leaders['project_manager'],
                 'scrum_master' => leaders['scrum_master']
             },
             'development_team' => @development_team_subsets

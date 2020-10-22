@@ -4,8 +4,8 @@ class Project < ApplicationRecord
     end
     def get_weaknesses(doc)
         weaknesses = []
-        if doc['leaders']['project_manager'] == doc['leaders']['scrum_master']
-            weaknesses << 'In agile development, it is strongly advised that the scrum master and project manager not be the same person.'
+        if doc['leaders']['product_owner'] == doc['leaders']['scrum_master']
+            weaknesses << 'In agile development, it is strongly advised that the scrum master and product owner not be the same person.'
         end
         return weaknesses
     end

@@ -23,6 +23,10 @@ class EditProjectReflex < ApplicationReflex
 
     def show_team_details
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
+        puts
+        puts @backbone_document
+        puts @backbone_document.class
+        puts
         hide_all_reflex_pages
         @reflex_pages['team details'] = true
     end
