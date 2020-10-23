@@ -30,7 +30,7 @@ class ProfilesController < ApplicationController
       @profile = Profile.find_by(user_id: current_user.id)
     end
     if Profile.find(params[:id]) != @profile
-      redirect_to edit_profile_path(@profile)
+      redirect_to(edit_profile_path(@profile), alert: "We've redirected you to your profile...")
     end
     @user_information ||= @profile.user_information
   end

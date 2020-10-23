@@ -11,6 +11,7 @@ When('I fill in the sign up form') do
     @browser.text_field(id: 'user_password_confirmation').set('pa$$word')
     Watir::Wait.until { @browser.element(value: 'Sign up').present? }
     @browser.element(value: 'Sign up').click
+    Watir::Wait.until { @browser.element(text: 'A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.') }
 end
 When('I confirm the email') do
     sleep 3

@@ -1,4 +1,4 @@
-Given('I have signed in as an authenciated user') do
+Given('I have signed in as an authenticated user') do
     @browser.goto(@test_base_url + new_user_session_path)
     Watir::Wait.until { @browser.text_field(id: 'user_email').present? }
     @browser.text_field(id: 'user_email').set("tester@testdomain.test")
@@ -64,4 +64,13 @@ end
 
 Then('I should see the changes reflected in my profile') do
     Watir::Wait.until { @browser.element(id: 'show-profile-header').present? }
+end
+
+
+When('I visit the show profile page') do
+    pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then('I should see my profile') do
+    pending # Write code here that turns the phrase above into concrete actions
 end

@@ -101,4 +101,18 @@ kevin_p = Profile.create(
 )
 kevin_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('/backbone-bdd')[0] + '/backbone-bdd/development_data/kevin.jpg'), filename: 'kevin.jpg')
 
-
+bbd = {
+    'project_name' => 'Project Two',
+    'leaders' => {
+        'product_owner' => 1,
+        'scrum_master' => 1
+    },
+    'development_team' => {
+        'programmers' => [1]
+    }
+}
+project2 = Project.create(
+    id: 2,
+    project_name: 'Project Two',
+    backbone_document: bbd.to_s
+)
