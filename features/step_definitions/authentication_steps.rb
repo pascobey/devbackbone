@@ -13,8 +13,11 @@ When('I fill in the sign up form') do
     @browser.element(value: 'Sign up').click
 end
 When('I confirm the email') do
-    # MUST BE MANUALlY CONFIRMED IN BROWSER!!!
-    sleep 10
+    sleep 3
+    @browser.goto "file://#{Dir.glob(File.expand_path(__FILE__).split('/backbone-bdd')[0] + '/backbone-bdd/tmp/letter_opener/**/rich.html').first}"
+    Watir::Wait.until { @browser.iframe.a(text: 'Confirm my account').present? }
+    @browser.iframe.a(text: 'Confirm my account').click
+    sleep 3
     @browser.goto(@test_base_url + new_user_session_path)
     Watir::Wait.until { @browser.text_field(id: 'user_email').present? }
     @browser.text_field(id: 'user_email').set("tester@testdomain.test")
