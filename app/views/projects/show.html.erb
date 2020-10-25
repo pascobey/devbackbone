@@ -1,6 +1,7 @@
 <% reflex_variables = { backbone_document: @backbone_document, search_information: @search_information, reflex_pages: @reflex_pages, project_edited: @project_edited } %>
 
-<h1 id="show-project-header"><%= @backbone_document['project_name'] %></h1>
+<h1 id="show-project-header"><%= @project.project_name %></h1>
+
 <% if @weaknesses != [] %>
     <div id="backbone-weaknesses">
         <% @weaknesses.each do |w| %>

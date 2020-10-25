@@ -20,7 +20,6 @@ class NewProjectReflex < ApplicationReflex
             end
         end
         @backbone_document = {
-            'project_name' => @project_name,
             'leaders' => {
                 'product_owner' => leaders['product_owner'],
                 'scrum_master' => leaders['scrum_master']

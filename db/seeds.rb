@@ -113,6 +113,5 @@ bbd = {
 }
 project2 = Project.create(
     id: 2,
-    project_name: 'Project Two',
     backbone_document: bbd.to_s
 )

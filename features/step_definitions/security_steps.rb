@@ -11,5 +11,4 @@ When('I visit the show project page of a project I am not a part of') do
 end
 Then('I should be redirected to the site root') do
     Watir::Wait.until { @browser.element(id: 'flash-content').present? }
-    sleep 10
 end

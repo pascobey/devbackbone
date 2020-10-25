@@ -62,6 +62,7 @@
     <% if @reflex_steps[0]['current step'] < @reflex_steps.size - 2 && @errors['project_name'] == [] %>
         <%= button_tag('next', data: { reflex: 'click->NewProject#step_forward', vars: reflex_variables }, id: 'next') %>
     <% elsif submit_ready %>
+        <%= f.hidden_field(:project_name, value: @project_name) %>
         <%= f.hidden_field(:backbone_document, value: @backbone_document) %>
         <%= f.submit(id: 'create') %>
     <% end %>
