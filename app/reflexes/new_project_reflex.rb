@@ -1,4 +1,5 @@
 class NewProjectReflex < ApplicationReflex
+
     def reinstantiate_vars(vars_hash)
         @user_id = vars_hash['user_id']
         @project_name = vars_hash['project_name']
