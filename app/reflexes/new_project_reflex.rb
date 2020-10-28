@@ -25,7 +25,19 @@ class NewProjectReflex < ApplicationReflex
                 'product_owner' => leaders['product_owner'],
                 'scrum_master' => leaders['scrum_master']
             },
-            'development_team' => @development_team_subsets
+            'development_team' => @development_team_subsets,
+            'sprint' => {
+                'start' => '',
+                'end' => '',
+                'daily_scrum' => '', 
+                'sprint_review' => ''
+            },
+            'backlog' => {
+                'user_stories' => {}
+            },
+            'burndown' => {
+                'velocity' => 0
+            }
         }
     end
 

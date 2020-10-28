@@ -87,6 +87,68 @@ Then('I should be notified that my product owner and scrum master are the same p
 end
 
 
+Given('I am the scrum master of the project') do
+    # lets assume the tester is the scrum master
+end
+Then('I should be notified that my schedule is undefined and my backlog is empty') do
+    Watir::Wait.until { @browser.element(id: 'backbone-weaknesses').present? }
+    Watir::Wait.until { @browser.p(class: 'weakness').present? }
+end
+
+
+When('I see click the scrum details button') do
+    Watir::Wait.until { @browser.button(id: 'scrum-details-button').present? }
+    @browser.button(id: 'scrum-details-button').click
+    sleep 0.8
+end
+When('I see the scrum details') do
+    Watir::Wait.until { @browser.element(id: 'team-details-header').present? }
+end
+When('I set the sprint timeframe') do
+    Watir::Wait.until { @browser.input(id: 'start-date-month').present? }
+    @browser.input(id: 'start-date-month').double_click
+    @browser.input(id: 'start-date-month').set('11')
+    Watir::Wait.until { @browser.input(id: 'start-date-day').present? }
+    @browser.input(id: 'start-date-day').double_click
+    @browser.input(id: 'start-date-day').set('1')
+    Watir::Wait.until { @browser.input(id: 'start-date-year').present? }
+    @browser.input(id: 'start-date-year').double_click
+    @browser.input(id: 'start-date-year').set('2020')
+    Watir::Wait.until { @browser.input(id: 'end-date-month').present? }
+    @browser.input(id: 'end-date-month').double_click
+    @browser.input(id: 'end-date-month').set('11')
+    Watir::Wait.until { @browser.input(id: 'end-date-day').present? }
+    @browser.input(id: 'end-date-day').double_click
+    @browser.input(id: 'end-date-day').set('1')
+    Watir::Wait.until { @browser.input(id: 'end-date-year').present? }
+    @browser.input(id: 'end-date-year').double_click
+    @browser.input(id: 'end-date-year').set('2020')
+    sleep 0.8
+end
+When('I set the daily scrum meeting time') do
+    Watir::Wait.until { @browser.input(id: 'daily-scrum-time-hour').present? }
+    @browser.input(id: 'daily-scrum-time-hour').double_click
+    @browser.input(id: 'daily-scrum-time-hour').set('10')
+    Watir::Wait.until { @browser.input(id: 'daily-scrum-time-minute').present? }
+    @browser.input(id: 'daily-scrum-time-minute').double_click
+    @browser.input(id: 'daily-scrum-time-minute').set('00')
+    sleep 0.8
+end
+When('I schedule the sprint review meeting') do
+    Watir::Wait.until { @browser.input(id: 'sprint-review-time').present? }
+    @browser.input(id: 'sprint-review-time').double_click
+    @browser.input(id: 'sprint-review-time').set('10')
+    Watir::Wait.until { @browser.input(id: 'sprint-review-time').present? }
+    @browser.input(id: 'sprint-review-time').double_click
+    @browser.input(id: 'sprint-review-time').set('00')
+    sleep 0.8
+end
+Then('I should be notified that the scrum details have changed') do
+    Watir::Wait.until { @browser.div(id: 'flash-content').present? }
+    Watir::Wait.until { @browser.div(text: 'Changes Successfully Saved!').present? }
+end
+
+
 Given('I am the product owner') do
     # lets assume the tester makes and owns the first project
 end

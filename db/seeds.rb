@@ -109,6 +109,37 @@ bbd = {
     },
     'development_team' => {
         'programmers' => [1]
+    },
+    'sprint' => {
+        'start' => Time.new(2020, 11, 4).strftime("%d of %B, %Y"),
+        'end' => Time.new(2020, 11, 12).strftime("%d of %B, %Y"),
+        'daily_scrum' => Time.new("09:00").strftime("%k:%M"),
+        'sprint_review' => Time.new(2020, 11, 12).strftime("%d of %B, %Y")
+    },
+    'backlog' => {
+        'user_stories' => [
+            {
+                'story' => 'As a badass motha, I want to whoop some ass, so that I can prove myself.',
+                'value' => 15,
+                'authors' => [ 3, 2 ],
+                'approved' => false
+            },
+            {
+                'story' => 'As a cold bish, I want to smoke some fools, so that I can just go home.',
+                'value' => 21,
+                'authors' => [ 4 ],
+                'approved' => true
+            },
+            {
+                'story' => 'As a gangsta, I want to move that shit, so that I can get that money.',
+                'value' => 8,
+                'authors' => [ 1 ],
+                'approved' => true
+            }
+        ]
+    },
+    'burndown' => {
+        'velocity' => 0
     }
 }
 project2 = Project.create(

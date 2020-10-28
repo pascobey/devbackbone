@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 2020_10_16_032843) do
   create_table "projects", force: :cascade do |t|
     t.string "project_name"
     t.jsonb "backbone_document"
-    t.jsonb "scrum_document"
   end
 
   create_table "users", force: :cascade do |t|

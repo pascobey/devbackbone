@@ -20,6 +20,11 @@ Feature: Project Management
         Given I am the product owner of a project with improper leadership
         When I visit the show project page
         Then I should be notified that my product owner and scrum master are the same person
+
+    Scenario: Show a project that has no scrum data yet
+        Given I am the scrum master of the project
+        When I visit the show project page
+        Then I should be notified that my schedule is undefined and my backlog is empty
     
     Scenario: Editing (reflexively) the team members of a project
         Given I am the product owner
@@ -31,5 +36,17 @@ Feature: Project Management
         * I edit a team
         * I click the save changes button
         Then I should be notified that the team details have changed
+
+    Scenario: Editing (reflexively) the scrum details of a project
+        Given I am the scrum master of the project
+        When I visit the show project page
+        And I see click the scrum details button
+        * I see the scrum details
+        * I have editing priviledges
+        * I set the sprint timeframe
+        * I set the daily scrum meeting time
+        * I schedule the sprint review meeting
+        And I click the save changes button
+        Then I should be notified that the scrum details have changed
 
     
