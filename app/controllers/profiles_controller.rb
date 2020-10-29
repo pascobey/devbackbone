@@ -3,8 +3,8 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    if !Profile.find(params[:id])
-      redirect_to root, alert: "Profile #{params[:id]} does not exist!"
+    if !Profile.exists?(params[:id])
+      redirect_to(edit_profile_path(params[:id]), alert: "No profile information found!")
     else
       @profile = Profile.find(params[:id])
     end
@@ -26,6 +26,7 @@ class ProfilesController < ApplicationController
         },
         'projects' => []
       })
+      @profile.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('/backbone-bdd')[0] + '/backbone-bdd/app/assets/images/default_profile.jpg'), filename: 'default_profile.jpg')
     else
       @profile = Profile.find_by(user_id: current_user.id)
     end

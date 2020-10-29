@@ -2,7 +2,8 @@ class EditProjectReflex < ApplicationReflex
     def reinstantiate_vars(vars_hash)
         @backbone_document = vars_hash['backbone_document']
         @search_information = vars_hash['search_information']
-        @reflex_pages = vars_hash['reflex_pages']
+        @reflex_page_buttons = vars_hash['reflex_page_buttons']
+        @reflex_page_items = vars_hash['reflex_page_items']
         @project_edited = vars_hash['project_edited']
     end
 
@@ -11,8 +12,11 @@ class EditProjectReflex < ApplicationReflex
     end
 
     def hide_all_reflex_pages
-        @reflex_pages.each do |page, b|
-            page = false
+        @reflex_page_items.each do |page, b|
+            @reflex_page_items[page] = false
+        end
+        @reflex_page_buttons.each do |button, b|
+            @reflex_page_buttons[button] = false
         end
     end
 
@@ -21,14 +25,11 @@ class EditProjectReflex < ApplicationReflex
         @reflex_pages[element.dataset[:page]] = false
     end
 
-    def show_team_details
+    def show_page
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
-        puts
-        puts @backbone_document
-        puts @backbone_document.class
-        puts
         hide_all_reflex_pages
-        @reflex_pages['team details'] = true
+        @reflex_page_buttons["#{element.value}"] = true
+        @reflex_page_items["#{element.value} details"] = true
     end
 
     def show_edit_leader

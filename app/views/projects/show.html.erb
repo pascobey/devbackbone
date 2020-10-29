@@ -1,4 +1,4 @@
-<% reflex_variables = { backbone_document: @backbone_document, search_information: @search_information, reflex_pages: @reflex_pages, project_edited: @project_edited } %>
+<% reflex_variables = { backbone_document: @backbone_document, search_information: @search_information, reflex_page_buttons: @reflex_page_buttons, reflex_page_items: @reflex_page_items, project_edited: @project_edited } %>
 
 <h1 id="show-project-header"><%= @project.project_name %></h1>
 
@@ -10,10 +10,24 @@
     </div>
 <% end %>
 
-<% if !@reflex_pages['team details'] %>
-    <%= button_tag('team details', id: 'team-details-button', data: { reflex: 'click->EditProject#show_team_details', vars: reflex_variables }) %>
-<% else %>
-    <%= button_tag('team details', id: 'team-details-button', disabled: true) %>
+
+<% @reflex_page_buttons.each do |button, bool| %>
+    <% if !@reflex_page_buttons[button] %>
+        <%= button_tag(button, id: "#{button}-button", value: button, data: { reflex: 'click->EditProject#show_page', vars: reflex_variables }) %>
+    <% else %>
+        <%= button_tag(button, id: "#{button}-button", value: button, disabled: true) %>
+    <% end %>
+<% end %>
+
+
+<% if @reflex_page_items['scrum details'] %>
+    <h2 id="scrum-details-header">Scrum Details</h2>
+
+    <h4 id="sprint-header">Sprint Info<h4>
+<% end %>
+
+
+<% if @reflex_page_items['team details'] %>
     <h2 id="team-details-header">Team Details</h2>
 
     <h4 id="team-leadership-header">Team leadership</h4>
@@ -25,7 +39,7 @@
         <%= content_tag(:p, "#{role_copy_formatted}: ", id: "#{role_css_formatted}-#{user_information['first_name'].gsub(' ', '')}-#{user_information['last_name'].gsub(' ', '')}") %>
         <%= link_to("#{user_information['first_name']} #{user_information['last_name']}", profile_path(profile.id)) %>
         <% if @owner_editing_privledges %>
-            <% if !@reflex_pages["editing #{role_copy_formatted}"] %>
+            <% if !@reflex_page_items["editing #{role_copy_formatted}"] %>
                 <%= button_tag('edit', id: "change-#{role_css_formatted}", data: { reflex: 'click->EditProject#show_edit_leader', vars: reflex_variables, role: role_copy_formatted }) %>
             <% else %>
                 <%= button_tag('done', id: "change-#{role_css_formatted}", data: { reflex: 'click->EditProject#finish_edit', vars: reflex_variables, page: "editing #{role_copy_formatted}" }) %>
@@ -51,7 +65,7 @@
         <% subset_copy_formatted = subset.gsub('_', ' ') %>
         <h4 id="development-subset-<%= subset_css_formatted %>"><%= subset_copy_formatted %></h4>
         <% if @owner_editing_privledges %>
-            <% if !@reflex_pages["editing #{subset_copy_formatted}"] %>
+            <% if !@reflex_page_items["editing #{subset_copy_formatted}"] %>
                 <%= button_tag("edit", id: "edit-#{subset_css_formatted}", data: { reflex: 'click->EditProject#show_edit_subset', vars: reflex_variables, subset: subset_copy_formatted }) %>
                 <% members.each do |user_id| %>
                     <% profile = Profile.find_by(user_id: user_id) %>
@@ -103,6 +117,8 @@
     <% end %>
 
 <% end %>
+
+
 
 
 <% if @project_edited %>

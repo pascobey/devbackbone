@@ -102,7 +102,7 @@ When('I see click the scrum details button') do
     sleep 0.8
 end
 When('I see the scrum details') do
-    Watir::Wait.until { @browser.element(id: 'team-details-header').present? }
+    Watir::Wait.until { @browser.element(id: 'scrum-details-header').present? }
 end
 When('I set the sprint timeframe') do
     Watir::Wait.until { @browser.input(id: 'start-date-month').present? }

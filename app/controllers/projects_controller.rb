@@ -6,21 +6,17 @@ class ProjectsController < ApplicationController
   def show
     @current_user = current_user
     @project = Project.find(params[:id])
-    @backbone_document ||= @project.get_backbone_document
-    @weaknesses = @project.get_weaknesses(@backbone_document)
-    leader_pages = {}
-    @backbone_document['leaders'].each do |role, user|
-      leader_pages["editing #{role.gsub('_', ' ')}"] = false
-    end
-    development_team_pages = {}
-    @backbone_document['development_team'].each do |subset, members|
-      development_team_pages["editing #{subset.gsub('_', ' ')}"] = false
-    end
-    @reflex_pages ||= leader_pages.merge(development_team_pages)
+    @backbone_document ||= @project.backbone_document_safe
     @backbone_document['leaders']['product_owner'].include?(current_user.id) ? (@owner_editing_privledges = true) : (@owner_editing_privledges = false)
     @backbone_document['leaders']['scrum_master'].include?(current_user.id) ? (@scrum_editing_privledges = true) : (@scrum_editing_privledges = false)
-    @project_edited ||= false
+    @weaknesses = @project.get_weaknesses(@backbone_document)
+    @reflex_page_buttons ||= {
+      'team' => false,
+      'scrum' => false
+    }
+    @reflex_page_items ||= {}
     @search_information ||= ''
+    @project_edited ||= false
   end
 
   def update
@@ -69,7 +65,7 @@ class ProjectsController < ApplicationController
       creator_profile = Profile.find_by(user_id: current_user.id)
       creator_information = creator_profile.user_information_safe
       roles = []
-      backbone_document = @project.get_backbone_document.stringify_keys
+      backbone_document = @project.backbone_document_safe
       backbone_document['leaders'].each do |role, user|
         if user == current_user.id
           roles << role
@@ -99,7 +95,7 @@ class ProjectsController < ApplicationController
       if !Project.exists?(params[:id])
         redirect_to(profile_path(current_user.id), alert: "Project with id: #{params[:id]} does not exist!")
       else
-        backbone_document = Project.find(params[:id]).get_backbone_document.stringify_keys
+        backbone_document = Project.find(params[:id]).backbone_document_safe
         users_array = []
         backbone_document['leaders'].each do |role, user_id|
           users_array << user_id if !users_array.include?(user_id)
