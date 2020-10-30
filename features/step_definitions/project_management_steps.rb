@@ -97,12 +97,12 @@ end
 
 
 When('I see click the scrum details button') do
-    Watir::Wait.until { @browser.button(id: 'scrum-details-button').present? }
-    @browser.button(id: 'scrum-details-button').click
+    Watir::Wait.until { @browser.button(id: 'scrum-button').present? }
+    @browser.button(id: 'scrum-button').click
     sleep 0.8
 end
 When('I see the scrum details') do
-    Watir::Wait.until { @browser.element(id: 'scrum-details-header').present? }
+    Watir::Wait.until { @browser.element(id: 'scrum-header').present? }
 end
 When('I set the sprint timeframe') do
     Watir::Wait.until { @browser.input(id: 'start-date-month').present? }
@@ -153,12 +153,12 @@ Given('I am the product owner') do
     # lets assume the tester makes and owns the first project
 end
 When('I click the team details button') do
-    Watir::Wait.until { @browser.button(id: 'team-details-button').present? }
-    @browser.button(id: 'team-details-button').click
+    Watir::Wait.until { @browser.button(id: 'team-button').present? }
+    @browser.button(id: 'team-button').click
     sleep 0.8
 end
 When('I see the team details') do
-    Watir::Wait.until { @browser.element(id: 'team-details-header').present? }
+    Watir::Wait.until { @browser.element(id: 'team-header').present? }
 end
 When('I have editing priviledges') do
     Watir::Wait.until { @browser.button(value: 'edit').present? }
@@ -166,21 +166,22 @@ end
 When('I change a leader') do
     Watir::Wait.until { @browser.button(id: 'change-scrum-master').present? }
     @browser.button(id: 'change-scrum-master').click
+    sleep 1
     Watir::Wait.until { @browser.text_field(id: 'scrum-master-search').present? }
     @browser.text_field(id: 'scrum-master-search').set('Kevin Skoglund')
-    sleep 0.8
+    sleep 1
     Watir::Wait.until { @browser.button(id: 'make-Kevin-Skoglund-scrum-master').present? }
-    sleep 0.8
     @browser.button(id: 'make-Kevin-Skoglund-scrum-master').click
+    sleep 0.8
     Watir::Wait.until { @browser.p(id: 'scrum-master-Kevin-Skoglund') }
     Watir::Wait.until { @browser.button(id: 'change-scrum-master').present? }
-    sleep 0.8
     @browser.button(id: 'change-scrum-master').click
     sleep 0.8
 end
 When('I edit a team') do
     Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
     @browser.button(id: 'edit-programmers').click
+    sleep 0.8
     Watir::Wait.until { @browser.text_field(id: 'programmers-search').present? }
     @browser.text_field(id: 'programmers-search').set('creator of Ruby on Rails')
     sleep 0.8
@@ -191,12 +192,16 @@ When('I edit a team') do
     sleep 0.8
     Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
     @browser.button(id: 'edit-programmers').click
+    sleep 0.8
 end
 When('I click the save changes button') do
     Watir::Wait.until { @browser.input(value: 'save changes').present? }
     @browser.input(value: 'save changes').click
+    sleep 0.8
 end
 Then('I should be notified that the team details have changed') do
     Watir::Wait.until { @browser.div(id: 'flash-content').present? }
+    sleep 0.8
     Watir::Wait.until { @browser.div(text: 'Changes Successfully Saved!').present? }
+    sleep 0.8
 end
