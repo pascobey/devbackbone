@@ -1,0 +1,49 @@
+<h2 id="scrum-header">Scrum</h2>
+
+
+<h4 id="sprint-header">Sprint Schedule<h4>
+<% @backbone_document['sprint'].each do |item, time| %>
+    <% datetime = { 'date' => true, 'time' => false } %>
+    <% item_css_formatted = item.gsub('_', '-') %>
+    <% item_copy_formatted = item.gsub('_', ' ') %>
+    <% if item.split('_').size > 1 %>
+        <% if item.split('_')[0] != 'sprint' %>
+            <% datetime['date'] = false %>
+        <% end %>
+        <% datetime['time'] = true %>
+    <% end %>
+    <% if time != '' %>
+        <% if time.class == String %>
+            <% time = Time.parse(time) %>
+        <% end %>
+        <% if item == 'daily_scrum'%>
+            <% time = time.strftime("%r") %>
+        <% elsif item.split('_').size < 2 %>
+            <% time = time.strftime("%A, %B %d, %Y") %>
+        <% else %>
+            <% time = time.strftime("%A, %B %d, %Y, %r") %>
+        <% end %>
+    <% else %>
+        <% time = 'not set' %>
+    <% end %>
+    <%= content_tag(:p, "#{item_copy_formatted}: #{time}", id: "sprint-#{item_css_formatted}") %>
+    <% if @scrum_editing_privileges %>
+        <% if !@reflex_pages["#{item_copy_formatted}"] %>
+            <%= button_tag('edit', id: "change-sprint-#{item_css_formatted}", value: item_copy_formatted, data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
+        <% else %>
+            <%= button_tag('done', id: "change-sprint-#{item_css_formatted}", value: item_copy_formatted, data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
+            <% if datetime['date'] %>
+                <div id="<%= item_css_formatted %>-datepicker" class="input-group date bootstrap-datepicker datepicker" data-provide="datepicker">
+                    <%= render 'shared/datepicker' %>
+                    <%= text_field_tag("#{item_css_formatted}-date-input", nil, placeholder: "00/00/0000", id: "#{item_css_formatted}-date-input", type: 'text', data: { reflex: 'mouseover->EditProject#change_date', vars: @reflex_variables, item: item }, :readonly => true) %>
+                </div>
+            <% end %>
+            <% if datetime['time'] %>
+                <div id="<%= item_css_formatted %>-timepicker" class="input-group time bootstrap-timepicker timepicker">
+                    <%= render 'shared/timepicker' %>
+                    <%= text_field_tag("#{item_css_formatted}-time-input", nil, placeholder: "00:00 AM/PM", id: "#{item_css_formatted}-time-input", type: 'text', data: { provide: 'timepicker', reflex: 'keyup->EditProject#change_time', vars: @reflex_variables, item: item }) %>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+<% end %>

@@ -81,7 +81,8 @@ class EditProjectReflex < ApplicationReflex
                     date = @backbone_document['sprint'][element.dataset[:item]].split(' ')[0]
                 end
             end
-            @backbone_document['sprint'][element.dataset[:item]] = Time.parse("#{date}T#{element.value}").to_s.gsub(':', '|')
+            @backbone_document['sprint'][element.dataset[:item]] = Time.parse("#{date}T#{element.value}")
+            @project_edited = true
         end
     end
 
