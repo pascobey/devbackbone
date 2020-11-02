@@ -12,34 +12,26 @@ class EditProjectReflex < ApplicationReflex
 
     def hide_reflex_pages
         @reflex_pages.each do |page, b|
-            @reflex_pages[page] = false
+            if b.class == Hash
+                b.each do |button, b|
+                    @reflex_pages['buttons'][button] = false
+                end
+            else
+                @reflex_pages[page] = false
+            end
         end
-    end
-
-    def finish_edit
-        reinstantiate_vars(rehash_vars(element.dataset[:vars]))
-        @reflex_pages[element.dataset[:page]] = false
     end
 
     def show_page
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
         hide_reflex_pages
-        @reflex_pages["#{element.value}"] = true
+        @reflex_pages['buttons'][element.value] = true
+        @reflex_pages[element.value] = true
     end
 
-    def show_page_item
+    def toggle_page_item
         reinstantiate_vars(rehash_vars(element.dataset[:vars]))
-        @reflex_pages["#{element.value}"] = true
-    end
-
-    def show_edit_leader
-        reinstantiate_vars(rehash_vars(element.dataset[:vars]))
-        @reflex_pages["editing #{element.dataset[:role]}"] = true
-    end
-
-    def show_edit_subset
-        reinstantiate_vars(rehash_vars(element.dataset[:vars]))
-        @reflex_pages["editing #{element.dataset[:subset]}"] = true
+        @reflex_pages["#{element.value}"] = !@reflex_pages["#{element.value}"]
     end
 
     def edit_search_query
@@ -59,6 +51,38 @@ class EditProjectReflex < ApplicationReflex
         @search_information = ''
         @backbone_document['development_team'][element.dataset[:subset]] << element.dataset[:user_id].to_i
         @project_edited = true
+    end
+
+    def change_date
+        reinstantiate_vars(rehash_vars(element.dataset[:vars]))
+        if element.value != ''
+            date_items = element.value.split('/')
+            if date_items.size == 3
+                if @backbone_document['sprint'][element.dataset[:item]] == ''
+                    time = Time.now.to_s.split(' ')[1]
+                else
+                    time = @backbone_document['sprint'][element.dataset[:item]].split(' ')[1]
+                end
+                @backbone_document['sprint'][element.dataset[:item]] = Time.parse("#{date_items[2]}-#{date_items[0]}-#{date_items[1]}T#{time}")
+                @project_edited = true
+            end
+        end
+    end
+
+    def change_time
+        reinstantiate_vars(rehash_vars(element.dataset[:vars]))
+        if element.value.include?(':')
+            if @backbone_document['sprint'][element.dataset[:item]] == ''
+                date = Time.now.to_s.split(' ')[0]
+            else
+                if @backbone_document['sprint'][element.dataset[:item]].include?('T')
+                    date = @backbone_document['sprint'][element.dataset[:item]].split('T')[0]
+                else
+                    date = @backbone_document['sprint'][element.dataset[:item]].split(' ')[0]
+                end
+            end
+            @backbone_document['sprint'][element.dataset[:item]] = Time.parse("#{date}T#{element.value}").to_s.gsub(':', '|')
+        end
     end
 
     def remove_user_from_subset

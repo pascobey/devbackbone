@@ -1,7 +1,4 @@
 class Project < ApplicationRecord
-    # def get_backbone_document
-    #     return JSON.parse(self.backbone_document.gsub('=>', ':')).stringify_keys
-    # end
     def backbone_document_safe
         if self.backbone_document.class != Hash.class
             JSON.parse(self.backbone_document.gsub('=>', ':')).stringify_keys

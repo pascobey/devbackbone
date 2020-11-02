@@ -105,42 +105,70 @@ When('I see the scrum details') do
     Watir::Wait.until { @browser.element(id: 'scrum-header').present? }
 end
 When('I set the sprint timeframe') do
-    Watir::Wait.until { @browser.input(id: 'start-date-month').present? }
-    @browser.input(id: 'start-date-month').double_click
-    @browser.input(id: 'start-date-month').set('11')
-    Watir::Wait.until { @browser.input(id: 'start-date-day').present? }
-    @browser.input(id: 'start-date-day').double_click
-    @browser.input(id: 'start-date-day').set('1')
-    Watir::Wait.until { @browser.input(id: 'start-date-year').present? }
-    @browser.input(id: 'start-date-year').double_click
-    @browser.input(id: 'start-date-year').set('2020')
-    Watir::Wait.until { @browser.input(id: 'end-date-month').present? }
-    @browser.input(id: 'end-date-month').double_click
-    @browser.input(id: 'end-date-month').set('11')
-    Watir::Wait.until { @browser.input(id: 'end-date-day').present? }
-    @browser.input(id: 'end-date-day').double_click
-    @browser.input(id: 'end-date-day').set('1')
-    Watir::Wait.until { @browser.input(id: 'end-date-year').present? }
-    @browser.input(id: 'end-date-year').double_click
-    @browser.input(id: 'end-date-year').set('2020')
+    Watir::Wait.until { @browser.button(id: 'change-sprint-start').present? }
+    @browser.button(id: 'change-sprint-start').click
     sleep 0.8
+    Watir::Wait.until { @browser.svg(class: 'bi-calendar-event').present? }
+    @browser.svg(class: 'bi-calendar-event').click
+    sleep 0.8
+    Watir::Wait.until { @browser.td(class: 'day').present? }
+    @browser.td(text: '2').click
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'start-date-input').present? }
+    @browser.input(id: 'start-date-input').hover
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'change-sprint-start').present? }
+    @browser.button(id: 'change-sprint-start').click
+    sleep 1.4
+    Watir::Wait.until { @browser.button(id: 'change-sprint-end').present? }
+    @browser.button(id: 'change-sprint-end').click
+    sleep 0.8
+    Watir::Wait.until { @browser.svg(class: 'bi-calendar-event').present? }
+    @browser.svg(class: 'bi-calendar-event').click
+    sleep 0.8
+    Watir::Wait.until { @browser.td(class: 'day').present? }
+    @browser.td(text: '13').click
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'end-date-input').present? }
+    @browser.input(id: 'end-date-input').hover
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'change-sprint-end').present? }
+    @browser.button(id: 'change-sprint-end').click
+    sleep 1.4
 end
 When('I set the daily scrum meeting time') do
-    Watir::Wait.until { @browser.input(id: 'daily-scrum-time-hour').present? }
-    @browser.input(id: 'daily-scrum-time-hour').double_click
-    @browser.input(id: 'daily-scrum-time-hour').set('10')
-    Watir::Wait.until { @browser.input(id: 'daily-scrum-time-minute').present? }
-    @browser.input(id: 'daily-scrum-time-minute').double_click
-    @browser.input(id: 'daily-scrum-time-minute').set('00')
+    Watir::Wait.until { @browser.button(id: 'change-sprint-daily-scrum').present? }
+    @browser.button(id: 'change-sprint-daily-scrum').click
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'daily-scrum-time-input').present? }
+    @browser.input(id: 'daily-scrum-time-input').send_keys(:command, 'a')
+    sleep 0.2
+    @browser.input(id: 'daily-scrum-time-input').send_keys('9:00 AM')
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'change-sprint-daily-scrum').present? }
+    @browser.button(id: 'change-sprint-daily-scrum').click
     sleep 0.8
 end
 When('I schedule the sprint review meeting') do
-    Watir::Wait.until { @browser.input(id: 'sprint-review-time').present? }
-    @browser.input(id: 'sprint-review-time').double_click
-    @browser.input(id: 'sprint-review-time').set('10')
-    Watir::Wait.until { @browser.input(id: 'sprint-review-time').present? }
-    @browser.input(id: 'sprint-review-time').double_click
-    @browser.input(id: 'sprint-review-time').set('00')
+    Watir::Wait.until { @browser.button(id: 'change-sprint-sprint-review').present? }
+    @browser.button(id: 'change-sprint-sprint-review').click
+    sleep 0.8
+    Watir::Wait.until { @browser.svg(class: 'bi-calendar-event').present? }
+    @browser.svg(class: 'bi-calendar-event').click
+    sleep 0.8
+    Watir::Wait.until { @browser.td(class: 'day').present? }
+    @browser.td(text: '16').click
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'sprint-review-date-input').present? }
+    @browser.input(id: 'sprint-review-date-input').hover
+    sleep 0.8
+    Watir::Wait.until { @browser.input(id: 'sprint-review-time-input').present? }
+    @browser.input(id: 'sprint-review-time-input').send_keys(:command, 'a')
+    sleep 0.2
+    @browser.input(id: 'sprint-review-time-input').send_keys('10:00 AM')
+    sleep 0.8
+    Watir::Wait.until { @browser.button(id: 'change-sprint-sprint-review').present? }
+    @browser.button(id: 'change-sprint-sprint-review').click
     sleep 0.8
 end
 Then('I should be notified that the scrum details have changed') do
@@ -163,39 +191,45 @@ end
 When('I have editing priviledges') do
     Watir::Wait.until { @browser.button(value: 'edit').present? }
 end
-When('I change a leader') do
-    Watir::Wait.until { @browser.button(id: 'change-scrum-master').present? }
-    @browser.button(id: 'change-scrum-master').click
-    sleep 1
-    Watir::Wait.until { @browser.text_field(id: 'scrum-master-search').present? }
-    @browser.text_field(id: 'scrum-master-search').set('Kevin Skoglund')
-    sleep 1
-    Watir::Wait.until { @browser.button(id: 'make-Kevin-Skoglund-scrum-master').present? }
-    @browser.button(id: 'make-Kevin-Skoglund-scrum-master').click
-    sleep 0.8
-    Watir::Wait.until { @browser.p(id: 'scrum-master-Kevin-Skoglund') }
-    Watir::Wait.until { @browser.button(id: 'change-scrum-master').present? }
-    @browser.button(id: 'change-scrum-master').click
-    sleep 0.8
-end
 When('I edit a team') do
     Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
+    sleep 0.8
     @browser.button(id: 'edit-programmers').click
     sleep 0.8
     Watir::Wait.until { @browser.text_field(id: 'programmers-search').present? }
+    sleep 0.8
     @browser.text_field(id: 'programmers-search').set('creator of Ruby on Rails')
-    sleep 0.8
+    sleep 1
     Watir::Wait.until { @browser.button(id: 'add-David-HeinemeierHansson-to-programmers').present? }
-    sleep 0.8
+    sleep 1.2
     @browser.button(id: 'add-David-HeinemeierHansson-to-programmers').click
+    sleep 1
     Watir::Wait.until { @browser.button(id: 'remove-David-HeinemeierHansson-from-programmers').present? }
     sleep 0.8
     Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
+    sleep 0.8
     @browser.button(id: 'edit-programmers').click
+    sleep 0.8
+end
+When('I change a leader') do
+    Watir::Wait.until { @browser.button(id: 'change-product-owner').present? }
+    sleep 1
+    @browser.button(id: 'change-product-owner').click
+    sleep 1
+    Watir::Wait.until { @browser.text_field(id: 'product-owner-search').present? }
+    sleep 1
+    @browser.text_field(id: 'product-owner-search').set('Kevin Skoglund')
+    sleep 1
+    Watir::Wait.until { @browser.button(id: 'make-Kevin-Skoglund-product-owner').present? }
+    sleep 1
+    @browser.button(id: 'make-Kevin-Skoglund-product-owner').click
+    sleep 0.8
+    Watir::Wait.until { @browser.p(id: 'product-owner-Kevin-Skoglund') }
     sleep 0.8
 end
 When('I click the save changes button') do
     Watir::Wait.until { @browser.input(value: 'save changes').present? }
+    sleep 0.8
     @browser.input(value: 'save changes').click
     sleep 0.8
 end
