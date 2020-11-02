@@ -7,9 +7,9 @@ class ProjectsController < ApplicationController
     @current_user = current_user
     @project = Project.find(params[:id])
     @backbone_document ||= @project.backbone_document_safe
+    @weaknesses = @project.get_weaknesses
     @backbone_document['leaders']['product_owner'].include?(current_user.id) ? (@owner_editing_privileges = true) : (@owner_editing_privileges = false)
     @backbone_document['leaders']['scrum_master'].include?(current_user.id) ? (@scrum_editing_privileges = true) : (@scrum_editing_privileges = false)
-    @weaknesses = @project.get_weaknesses(@backbone_document)
     @reflex_pages ||= { 'buttons' => {'dashboard' => true, 'team' => false, 'scrum' => false }, 'dashboard' => true }
     @search_information ||= ''
     @project_edited ||= false

@@ -9,4 +9,12 @@ class ApplicationReflex < StimulusReflex::Reflex
   #   delegate :current_user, to: :connection
   #
   # Learn more at: https://docs.stimulusreflex.com
+
+  def reinstantiate_vars(vars_string)
+    vars_hash = JSON.parse(vars_string).stringify_keys
+    vars_hash.each do |k, v|
+        instance_variable_set("@#{k}", v)
+    end
+  end
+  
 end

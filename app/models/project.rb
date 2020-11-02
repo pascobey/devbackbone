@@ -6,7 +6,8 @@ class Project < ApplicationRecord
             self.backbone_document
         end
     end
-    def get_weaknesses(doc)
+    def get_weaknesses
+        doc = self.backbone_document_safe
         weaknesses = []
         if doc['leaders']['product_owner'] == doc['leaders']['scrum_master']
             weaknesses << 'In agile development, it is strongly advised that the scrum master and product owner not be the same person.'
