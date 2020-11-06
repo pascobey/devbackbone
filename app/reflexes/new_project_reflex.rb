@@ -23,7 +23,7 @@ class NewProjectReflex < ApplicationReflex
                 'sprint_review' => ''
             },
             'backlog' => {
-                'user_stories' => {}
+                'user_stories' => []
             },
             'burndown' => {
                 'velocity' => 0

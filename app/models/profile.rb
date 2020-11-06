@@ -2,7 +2,7 @@ class Profile < ApplicationRecord
     belongs_to :user
     has_one_attached :profile_image
     def user_information_safe
-        if self.user_information.class != Hash.class
+        if self.user_information.class != Hash
             JSON.parse(self.user_information.gsub('=>', ':')).stringify_keys
         else
             self.user_information

@@ -1,0 +1,9 @@
+
+<% f = ->(x){ x < 2 ? x : f[x-1] + f[x-2] } %>
+<% fibonacci = [] %>
+<% i = 0 %>
+<% until i == 20 %>
+    <% fibonacci << f[i] %>
+    <% i = i.next %>
+<% end %>
+<%= select_tag('story-value', options_for_select(fibonacci), data: { reflex: 'change->EditProject#set_user_story_value', vars: @reflex_variables }) %>

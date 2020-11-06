@@ -6,6 +6,7 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
@@ -22,5 +23,17 @@
       <%= link_to('Sign in', new_user_session_path, method: :get, id: 'sign-in') %>
     <% end %>
     <%= yield %>
+  <script>
+    window.onload = function() {
+      // var bootstrap_enabled = (typeof $().modal == 'function');
+      // if (window.jQuery) {  
+      //   // jQuery is loaded  
+      //   alert("Yeah!");
+      // } else {
+      //   // jQuery is not loaded
+      //   alert("Doesn't Work");
+      // }
+    }
+  </script>
   </body>
 </html>

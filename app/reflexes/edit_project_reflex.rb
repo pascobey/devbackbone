@@ -82,4 +82,32 @@ class EditProjectReflex < ApplicationReflex
         @project_edited = true
     end
 
+    def set_user_story_text
+        reinstantiate_vars(element.dataset[:vars])
+        @new_user_story['story'] = element.value
+    end
+
+    def set_user_story_value
+        reinstantiate_vars(element.dataset[:vars])
+        @new_user_story['value'] = element.value
+    end
+
+    def set_user_story_color
+        reinstantiate_vars(element.dataset[:vars])
+        @new_user_story['color'] = element.value
+    end
+
+    def add_user_story
+        toggle_page_item
+        @backbone_document['backlog']['user_stories'] << @new_user_story
+        @project_edited = true
+    end
+
+    def toggle_user_story_approval
+        reinstantiate_vars(element.dataset[:vars])
+        story = @backbone_document['backlog']['user_stories'].find {|story| story['story'].strip == eval(element.dataset[:story]).stringify_keys['story']}
+        story['approved'] = !story['approved']
+        @project_edited = true
+    end
+
 end

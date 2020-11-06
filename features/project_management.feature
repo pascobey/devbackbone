@@ -16,6 +16,11 @@ Feature: Project Management
         And I click create
         Then I should see the project dashboard
 
+    Scenario: Visiting the show project will default to the dashboard
+        Given I have access to the project
+        When I visit the show project page
+        Then I should see the project dashboard
+
     Scenario: Show a project that was created with improper leadership (scrum master is the product owner)
         Given I am the product owner of a project with improper leadership
         When I visit the show project page
@@ -26,27 +31,44 @@ Feature: Project Management
         When I visit the show project page
         Then I should be notified that my schedule is undefined and my backlog is empty
     
-    Scenario: Editing (reflexively) the team members of a project
+    Scenario: Editing the team members of a project
         Given I am the product owner
         When I visit the show project page
-        And I click the team details button
+        And I click the team button
         * I see the team details
-        * I have editing priviledges
+        * I have editing privileges
         * I edit a team
         * I change a leader
         * I click the save changes button
         Then I should be notified that the team details have changed
 
-    Scenario: Editing (reflexively) the scrum details of a project
+    Scenario: Editing the scrum details of a project
         Given I am the scrum master of the project
         When I visit the show project page
-        And I see click the scrum details button
+        And I see click the scrum button
         * I see the scrum details
-        * I have editing priviledges
+        * I have editing privileges
         * I set the sprint timeframe
         * I set the daily scrum meeting time
         * I schedule the sprint review meeting
         And I click the save changes button
         Then I should be notified that the scrum details have changed
 
-    
+    Scenario: Editing the project backlog as a team member
+        Given I am a member of the development team
+        When I visit the show project page
+        And I click the backlog button
+        * I see the backlog
+        * I add a user story
+        And I click the save changes button
+        Then I should see that the user story has been created
+
+    Scenario: Approving the project backlog as the scrum master
+        Given I am the scrum master of the project
+        When I visit the show project page
+        And I click the backlog button
+        * I see the backlog
+        * I see if any user stories need approval
+        And I approve all user stories
+        Then I should not see any unapproved user stories
+        

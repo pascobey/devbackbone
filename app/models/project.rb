@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
     def backbone_document_safe
-        if self.backbone_document.class != Hash.class
+        if self.backbone_document.class != Hash
             JSON.parse(self.backbone_document.gsub('=>', ':')).stringify_keys
         else
             self.backbone_document
@@ -21,7 +21,7 @@ class Project < ApplicationRecord
                 end
             end
         end
-        if doc['backlog']['user_stories'] == {}
+        if doc['backlog']['user_stories'] == []
             weaknesses << "The product backlog is empty."
         end 
         return weaknesses
