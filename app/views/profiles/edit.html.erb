@@ -1,25 +1,78 @@
-<h1 id="edit-profile-header">Edit Profile</h1>
-<%= form_for @profile, :method => :PUT do |f| %>
-    <%= label('first-name', 'First name') %>
-    <%= text_field_tag('first_name', @user_information['first_name'], id: 'first-name', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= label('last-name', 'Last name') %>
-    <%= text_field_tag( 'last_name', @user_information['last_name'], id: 'last-name', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= label('phone-number', 'Phone number') %>
-    <%= text_field_tag('phone_number', @user_information['phone_number'], id: 'phone-number', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= label('profile-image', 'Profile image') %>
-    <%= f.file_field(:profile_image, id: 'profile-image-upload') %>
-    <%= label('user-bio', 'Bio') %>
-    <%= text_field_tag('bio', @user_information['user_bio'], id: 'user-bio', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= label('github-address', 'Github') %>
-    <%= text_field_tag('github', @user_information['externals']['github'], id: 'externals-github-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= label('twitter-address', 'Twitter') %>
-    <%= text_field_tag('twitter', @user_information['externals']['twitter'], id: 'externals-twitter-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= label('facebook-address', 'Facebook') %>
-    <%= text_field_tag('facebook', @user_information['externals']['facebook'], id: 'externals-facebook-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= label('instagram-address', 'Instagram') %>
-    <%= text_field_tag('instagram', @user_information['externals']['instagram'], id: 'externals-instagram-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= label('site-address', 'Your Site') %>
-    <%= text_field_tag('site', @user_information['externals']['site'], id: 'externals-site-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
-    <%= f.hidden_field(:user_information, value: @user_information) %>
-    <%= f.submit %>
-<% end %>
+<% content_for :title, 'Edit Profile' %>
+
+<% @current_link = {'Edit Profile' => edit_profile_path(current_user.id)} %>
+<% @dropdown_links = [] %>
+<% @available_links = [{'Sign out' => destroy_user_session_path}] %>
+<%= render 'shared/navbar' %>
+
+
+
+<!-- content-container - container-lg (responsive) -->
+<div id="content-container" class="container-lg">
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="bg-lavender px-4 py-1 rounded-shadow">
+                <h1 id="edit-profile-header" class="border-smoky-black border-bottom mb-3">Edit Profile</h1>
+                <%= form_for @profile, :method => :PUT do |f| %>
+                    <div class="row justify-content-between">
+                        <div class="col-md-3 col-12">
+                            <%= image_tag(@profile.profile_image.variant(resize: "200x200"), class: 'img-thumbnail bg-mountbatten') %>
+                            <%# label('profile-image', 'Profile image') %>
+                            <%= f.file_field(:profile_image, id: 'profile-image-upload') %>
+                        </div>
+                        <div class="col-md-9 col-12">
+                            <div class="d-flex flex-row border-bottom pb-2 border-middle-grey">
+                                <div class="col-6">
+                                    <%= label('first-name', 'First name:', class: 'font-weight-bold mb-0') %>
+                                    <%= text_field_tag('first_name', @user_information['first_name'], id: 'first-name', class: 'form-control', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                </div>
+                                <div class="col-6">
+                                    <%= label('last-name', 'Last name:', class: 'font-weight-bold mb-0') %>
+                                    <%= text_field_tag( 'last_name', @user_information['last_name'], id: 'last-name', class: 'form-control', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row border-bottom py-2 border-middle-grey">
+                                <div class="col-12 d-flex flex-column justify-content-center">
+                                    <%= label('bio', 'Bio:', class: 'font-weight-bold mb-0') %>
+                                    <%= text_field_tag('bio', @user_information['user_bio'], id: 'user-bio', class: 'form-control', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row border-bottom py-2 border-middle-grey">
+                                <div class="col-5">
+                                    <%= label('phone-number', 'Phone number:', class: 'font-weight-bold mb-0') %>
+                                    <%= text_field_tag('phone_number', @user_information['phone_number'], id: 'phone-number', class: 'form-control', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                </div>
+                                <div class="col-7">
+                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                        <%= label('github-address', 'Github:', class: 'font-weight-bold mb-0') %>
+                                        <%= text_field_tag('github', @user_information['externals']['github'], id: 'externals-github-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                        <%= label('twitter-address', 'Twitter:', class: 'font-weight-bold mb-0') %>
+                                        <%= text_field_tag('twitter', @user_information['externals']['twitter'], id: 'externals-twitter-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                        <%= label('facebook-address', 'Facebook:', class: 'font-weight-bold mb-0') %>
+                                        <%= text_field_tag('facebook', @user_information['externals']['facebook'], id: 'externals-facebook-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                        <%= label('instagram-address', 'Instagram:', class: 'font-weight-bold mb-0') %>
+                                        <%= text_field_tag('instagram', @user_information['externals']['instagram'], id: 'externals-instagram-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                        <%= label('site-address', 'Your Site:', class: 'font-weight-bold mb-0') %>
+                                        <%= text_field_tag('site', @user_information['externals']['site'], id: 'externals-site-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row py-4 justify-content-end">
+                                <%= f.hidden_field(:user_information, value: @user_information) %>
+                                <%= f.submit(class: 'btn btn-mountbatten') %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

@@ -28,7 +28,7 @@ When('I confirm the email') do
     @browser.element(value: 'Log in').click
 end
 Then('I should see that my account is confirmed') do
-    Watir::Wait.until { @browser.a(id: 'sign-out').present? }
+    Watir::Wait.until { @browser.div(id: 'flash-content').present? }
 end
 
 
@@ -45,7 +45,7 @@ When('I fill in the login form') do
     @browser.element(value: 'Log in').click
 end
 Then('I should be logged in') do
-    Watir::Wait.until { @browser.a(id: 'sign-out').present? }
+    Watir::Wait.until { @browser.div(id: 'flash-content').present? }
 end
 
 

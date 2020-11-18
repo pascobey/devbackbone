@@ -39,9 +39,9 @@ class ProfilesController < ApplicationController
   def update
     @profile = Profile.find(params[:id])
     if @profile.update_attributes(profile_params)
-      redirect_to profile_path(@profile)
+      redirect_to profile_path(@profile), alert: 'Profile update successful.'
     else
-      redirect_to edit_profile_path(@profile)
+      redirect_to edit_profile_path(@profile), alert: 'Profile update unsuccessful.'
     end
   end
 

@@ -20,12 +20,14 @@ namespace :tmp do
 end
 
 
-namespace :test_build do
+namespace :build do
 
-    desc "Reverts and rebuilds all migrations, seeds database, and emptys letter_opener"
-    task :fresh_cucumber  do
-        Rake::Task["db:seed"].invoke
-        Rake::Task["tmp:letter_opener:empty_mailbox"].invoke
+    namespace :test do 
+        desc "Reverts and rebuilds all migrations, seeds database, and emptys letter_opener"
+        task :cucumber  do
+            Rake::Task["db:seed"].invoke
+            Rake::Task["tmp:letter_opener:empty_mailbox"].invoke
+        end
     end
 
 end

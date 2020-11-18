@@ -1,8 +1,38 @@
-
+$body-bg: #F8E8C9;
 $theme-colors: (
+    "almond": #F8E8C9,
+    "vegas-gold": #D6BA73,
+    "eton-blue": #8BBF9F,
+    "mountbatten": #987284,
+    "lavender": #FDECF4,
+    "middle-grey": #857E7B,
+    "smoky-black": #191516,
     "sticky-1": #feff9c,
     "sticky-2": #fff740,
     "sticky-3": #7afcff,
     "sticky-4": #ff7eb9
- );
- @import '~bootstrap/scss/bootstrap'
+);
+@import '~bootstrap/scss/bootstrap';
+
+.fade-out {
+    -webkit-animation: fadeOut 2s forwards;
+    -moz-animation: fadeOut 2s forwards;
+    -o-animation: fadeOut 2s forwards;
+    animation: fadeOut 2s forwards;
+}
+@-webkit-keyframes fadeOut {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-moz-keyframes fadeOut {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-o-keyframes fadeOut {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+@keyframes fadeOut {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}

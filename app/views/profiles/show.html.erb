@@ -1,3 +1,78 @@
-<h1 id="show-profile-header">Profile</h1>
-<%= link_to image_tag(@profile.profile_image.variant(resize: "200x200")), @profile.profile_image %>
-<%= @profile.user_information %>
+<% content_for :title, 'Profile' %>
+
+<% @current_link = {'Profile' => profile_path(current_user.id)} %>
+<% @dropdown_links = [] %>
+<% @available_links = [{'Sign out' => destroy_user_session_path}, {'Edit' => edit_profile_path(current_user.id)}] %>
+<%= render 'shared/navbar' %>
+
+<!-- content-container - container-lg (responsive) -->
+<div id="content-container" class="container-lg">
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="bg-lavender px-4 py-1 rounded shadow">
+                <h1 id="show-profile-header" class="border-bottom border-mountbatten">Profile</h1>
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="list-group list-group-flush">
+                            <% info = @profile.user_information_safe %>
+                            <li class="list-group-item d-flex row bg-lavender">
+                                <div class="col-12 col-md-9 order-last-md">
+                                    <ul class="list-group list-group-flush d-flex flex-column">
+                                        <li class="list-group-item d-flex flex-row justify-content-between bg-lavender">
+                                            <div class="column text-center">
+                                                <%= content_tag(:p, raw("<strong><u>Name:</u></strong>"), class: 'mb-0') %>
+                                                <%= content_tag(:p, "#{info['first_name']} #{info['last_name']}", class: 'mb-0') %>
+                                            </div>
+                                            <div class="column text-center">
+                                                <%= content_tag(:p, raw("<strong><u>Email:</u></strong>"), class: 'mb-0') %>
+                                                <%= link_to(current_user.email, "mailto:#{current_user.email}") %>
+                                            </div>
+                                            <div class="column text-center">
+                                                <%= content_tag(:p, raw("<strong><u>Phone:</u></strong>"), class: 'mb-0') %>
+                                                <%= link_to(info['phone_number'], "tel:#{info['phone_number']}") %>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex flex-row justify-content-center bg-lavender">
+                                            <div class="column text-center">
+                                                <%= content_tag(:p, raw("<strong><u>Bio:</u></strong>"), class: 'mb-0') %>
+                                                <%= content_tag(:p, info['user_bio'], class: 'mb-0') %>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex flex-row justify-content-between bg-lavender">
+                                            <div class="col-1">
+                                                <%= content_tag(:p, raw("<strong><u>externals:</u></strong>"), class: 'mb-0') %>
+                                            </div>
+                                            <div class="col-10 offset-2">
+                                                <% info['externals'].each do |l, v| %>
+                                                    <%= link_to(v, v, class: 'mb-0') %>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <% end %>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-3 d-flex justify-content-end order-first-md">
+                                    <%= link_to image_tag(@profile.profile_image.variant(resize: "200x200"), class: 'img-thumbnail bg-mountbatten'), @profile.profile_image %>
+                                </div>
+                            </li>
+                            <% info['projects'].each do |p| %>
+                                <% project = Project.find(p.keys.first) %>
+                                <li class="list-group-item d-flex flex-row justify-content-between bg-lavender">
+                                    <div class="col-2 text-center">
+                                        <%= link_to raw("<strong><em>#{project.project_name}</em></strong>"), project_path(project.id)  %>
+                                    </div>
+                                    <div class="col-10 text-center">
+                                        <% p[p.keys.first]['roles'].each do |r| %>
+                                            <%= r[0..(r.length-2)] %>
+                                        <% end %>
+                                    </div>
+                                </li>
+                            <% end %>
+                        </ul>
+                    </div>
+                    <%# @profile.user_information %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- content-container - container-lg (responsive) -->

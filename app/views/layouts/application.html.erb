@@ -1,38 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>BackboneBdd</title>
+    <title><%= yield(:title) %> | backbone</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 
   <body>
-    <%# notice bar - flex-row %>
-    <div id="flash">
+
+
+    <%# notice bar - container-fluid %>
+    <div id="flash" class="container-fluid d-flex justify-content-center" style="position: fixed; z-index: 100;">
       <% flash.each do |name, msg| %>
-        <%= content_tag :div, msg, id: 'flash-content' %>
+        <%= content_tag :div, raw("<em>#{msg}</em>"), id: 'flash-content', class: 'text-light mt-3', style: 'position: fixed;' %>
       <% end %>
-    </div><%# notice bar - flex-row %>
-    <% if user_signed_in? %>
-      <%= link_to('Sign out', destroy_user_session_path, method: :delete, id: 'sign-out') %>
-    <% else %>
-      <%= link_to('Sign in', new_user_session_path, method: :get, id: 'sign-in') %>
-    <% end %>
-    <%= yield %>
+    </div><%# notice bar - container-fluid %>
+
+
+    <%# yield-container %>
+    <div id="yield-container">
+      <%= yield %>
+    </div><%# yield-container %>
+    
+
   <script>
     window.onload = function() {
-      // var bootstrap_enabled = (typeof $().modal == 'function');
-      // if (window.jQuery) {  
-      //   // jQuery is loaded  
-      //   alert("Yeah!");
-      // } else {
-      //   // jQuery is not loaded
-      //   alert("Doesn't Work");
-      // }
+      var bootstrap_enabled = (typeof $().modal == 'function');
+      var flash = $('#flash');
+      function fadeOut() {
+        flash.addClass('fade-out')
+      }
+      function removeElement() {
+        flash.addClass('d-none');
+        flash.removeClass('d-flex');
+      }
+      setTimeout(fadeOut, 1500);
+      setTimeout(removeElement, 8000);
     }
   </script>
   </body>
