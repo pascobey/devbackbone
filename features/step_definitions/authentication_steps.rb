@@ -60,7 +60,8 @@ Given("I am logged in") do
 end
 When('I visit the homepage') do 
     @browser.goto(@test_base_url)
-    Watir::Wait.until { @browser.a(id: 'sign-out').present? }
+    Watir::Wait.until { @browser.a(id: 'profile').present? }
+    @browser.a(id: 'profile').click
 end
 When('I click on the log out link') do
     @browser.a(id: 'sign-out').click

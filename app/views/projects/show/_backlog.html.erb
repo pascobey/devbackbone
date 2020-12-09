@@ -1,82 +1,90 @@
 
-<h2 id="backlog-header">Backlog</h2>
-<h4 id="user-stories-header">User Stories</h4>
+<div id="backlog-container" class="row mt-4">
+    <div class="col-12">
+        <div class="bg-lavender px-4 py-4 rounded shadow">
+            <div class="d-flex flex-row justift-content-center">
+                <h4 id="user-stories-header">User Stories</h4>
+            </div>
+            <div class="d-flex flex-row justift-content-between">
+                <% @backbone_document['backlog']['user_stories'].each do |story| %>
+                    <div class="container-fluid m-1">
+                        <% color = "bg-sticky-#{story['color']}" %>
+                        <div class="row">
+                            <div class="col-3 <%= color %>" style="min-width: 275px;">
+                                <div class="row px-1 <%= color %>">
+                                    <%= story['story'] %>
+                                </div>
+                                <div class="row px-2 pb-1 <%= color %> justify-content-between" style="opacity: 90%;">
+                                    <div class="col-1 d-flex justify-content-end" style="margin-left: 3px;">
+                                        <% story['approved'] ? (approval = 'approved') : (approval = 'unapproved') %>
+                                        <% if !@scrum_editing_privileges %>
+                                            <%= content_tag(:div, raw(render "shared/#{approval}"), data: { toggle: "tooltip", placement: 'top' }, title: 'Tooltip on top') %>
+                                        <% else %>
+                                            <%= content_tag(:div, raw(render "shared/#{approval}"), class: "#{approval}", style: "cursor: pointer;", data: { reflex: 'click->EditProject#toggle_user_story_approval', vars: @reflex_variables, story: story, toggle: "tooltip", placement: 'top' }, title: approval) %>
+                                        <% end %>
+                                    </div>
+                                    <div class="column d-flex justify-content-center mt-1" style="positon: relative; padding-left: 3px; margin-left: -15px; width: 83%; bottom: -5px;">
+                                        <% user_info = Profile.find_by(user_id: story['editor'].to_i).user_information_safe %>
+                                        <%= "creator - #{user_info['first_name']} #{user_info['last_name']}" %>
+                                    </div>
 
-<% @backbone_document['backlog']['user_stories'].each do |story| %>
-    <div class="container-fluid m-1">
-        <% color = "bg-sticky-#{story['color']}" %>
-        <div class="row">
-            <div class="col-3 <%= color %>" style="min-width: 275px;">
-                <div class="row px-1 <%= color %>">
-                    <%= story['story'] %>
-                </div>
-                <div class="row px-2 pb-1 <%= color %> justify-content-between" style="opacity: 90%;">
-                    <div class="col-1 d-flex justify-content-end" style="margin-left: 3px;">
-                        <% story['approved'] ? (approval = 'approved') : (approval = 'unapproved') %>
-                        <% if !@scrum_editing_privileges %>
-                            <%= content_tag(:div, raw(render "shared/#{approval}"), data: { toggle: "tooltip", placement: 'top' }, title: 'Tooltip on top') %>
-                        <% else %>
-                            <%= content_tag(:div, raw(render "shared/#{approval}"), class: "#{approval}", style: "cursor: pointer;", data: { reflex: 'click->EditProject#toggle_user_story_approval', vars: @reflex_variables, story: story, toggle: "tooltip", placement: 'top' }, title: approval) %>
-                        <% end %>
-                    </div>
-                    <div class="column d-flex justify-content-center mt-1" style="positon: relative; padding-left: 3px; margin-left: -15px; width: 83%; bottom: -5px;">
-                        <% user_info = Profile.find_by(user_id: story['editor'].to_i).user_information_safe %>
-                        <%= "creator - #{user_info['first_name']} #{user_info['last_name']}" %>
-                    </div>
+                                        <%# button_tag(raw(render 'shared/move'), class: 'btn btn-light btn-sm py-0', style: 'margin-top: 2px; height: 20px; width: 20px;') %>
 
-                        <%# button_tag(raw(render 'shared/move'), class: 'btn btn-light btn-sm py-0', style: 'margin-top: 2px; height: 20px; width: 20px;') %>
-
-                    <div class="col-1 d-flex justify-content-end" style="padding-right: 2px;">
-                        <%= story['value'] %>
+                                    <div class="col-1 d-flex justify-content-end" style="padding-right: 2px;">
+                                        <%= story['value'] %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                <% end %>
+                <% if !@reflex_pages['adding user story'] %>
+                    <%= button_tag('New User Story', id: 'new-user-story', value: 'adding user story', class: 'btn btn-sticky-1 border-sticky-4 shadow', data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
+                <% else %>
+                    <div class="container-fluid m-1">
+                        <div class="row">
+                            <div class="col-3 bg-sticky-<%= @new_user_story['color'] %>" style="min-width: 275px;">
+                                <%= text_area_tag('user-story-input', @new_user_story['story'], id: 'user-story-input', value: @new_user_story['story'], class: "row bg-sticky-#{ @new_user_story['color'] } px-1", data: { reflex: 'keyup->EditProject#set_user_story_text', vars: @reflex_variables }, rows: 4, style: 'width: 97%; border: none; margin-left: 6.5px;') %>
+                                <div class="row px-2 mb-1 <%=  %> justify-content-between" style="opacity: %90;">
+                                    <div class="col-4" style="positon: relative; padding-left: 0px;">
+                                        <%= button_tag(raw(render 'shared/exit'), id: 'cancel-user-story', class: 'btn btn-danger btn-sm py-0', value: 'adding user story', data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }, style: 'height: 20px; width: 20px;') %>
+                                        <%= button_tag(raw(render 'shared/add'), id: 'add-user-story', class: 'btn btn-success btn-sm py-0', value: 'adding user story', data: { reflex: 'click->EditProject#add_user_story', vars: @reflex_variables }, style: 'height: 20px; width: 20px;') %>
+                                    </div>
+                                    <div class="col-4 d-flex p-0 justify-content-center">
+                                        <% if @new_user_story['color'].to_s == '1' %>
+                                            <%= button_tag('', class: 'btn btn-sticky-1 btn-sm py-0 rounded-0', disabled: true, style: 'opacity: 100%;') %>
+                                        <% else %>
+                                            <%= button_tag('', class: 'btn btn-sticky-1 btn-sm py-0 rounded-0', value: 1, data: { reflex: 'click->EditProject#set_user_story_color', vars: @reflex_variables }, style: 'height: 24px; width: 24px;') %>
+                                        <% end %>
+                                        <% if @new_user_story['color'].to_s == '2' %>
+                                            <%= button_tag('', class: 'btn btn-sticky-2 btn-sm py-0 rounded-0', disabled: true, style: 'opacity: 100%;') %>
+                                        <% else %>
+                                            <%= button_tag('', class: 'btn btn-sticky-2 btn-sm py-0 rounded-0', value: 2, data: { reflex: 'click->EditProject#set_user_story_color', vars: @reflex_variables }, style: 'height: 24px; width: 24px;') %>
+                                        <% end %>
+                                        <% if @new_user_story['color'].to_s == '3' %>
+                                            <%= button_tag('', class: 'btn btn-sticky-3 btn-sm py-0 rounded-0', disabled: true, style: 'opacity: 100%;') %>
+                                        <% else %>
+                                            <%= button_tag('', class: 'btn btn-sticky-3 btn-sm py-0 rounded-0', value: 3, data: { reflex: 'click->EditProject#set_user_story_color', vars: @reflex_variables }, style: 'height: 24px; width: 24px;') %>
+                                        <% end %>
+                                        <% if @new_user_story['color'].to_s == '4' %>
+                                            <%= button_tag('', class: 'btn btn-sticky-4 btn-sm py-0 rounded-0', disabled: true, style: 'opacity: 100%;') %>
+                                        <% else %>
+                                            <%= button_tag('', class: 'btn btn-sticky-4 btn-sm py-0 rounded-0', value: 4, data: { reflex: 'click->EditProject#set_user_story_color', vars: @reflex_variables }, style: 'height: 24px; width: 24px;') %>
+                                        <% end %>
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end" style="padding-right: 2px;">
+                                        <% if @new_user_story['value'] == 0 %>
+                                            <%= render 'shared/fibonacci_select' %>
+                                        <% else %>
+                                            <%= @new_user_story['value'] %>
+                                        <% end %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
             </div>
         </div>
     </div>
-<% end %>
-<% if !@reflex_pages['adding user story'] %>
-    <%= button_tag('New User Story', id: 'new-user-story', value: 'adding user story', class: 'btn btn-sticky-1 border-sticky-4 shadow', data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
-<% else %>
-    <div class="container-fluid m-1">
-        <div class="row">
-            <div class="col-3 bg-sticky-<%= @new_user_story['color'] %>" style="min-width: 275px;">
-                <%= text_area_tag('user-story-input', @new_user_story['story'], id: 'user-story-input', value: @new_user_story['story'], class: "row bg-sticky-#{ @new_user_story['color'] } px-1", data: { reflex: 'keyup->EditProject#set_user_story_text', vars: @reflex_variables }, rows: 4, style: 'width: 97%; border: none; margin-left: 6.5px;') %>
-                <div class="row px-2 mb-1 <%=  %> justify-content-between" style="opacity: %90;">
-                    <div class="col-4" style="positon: relative; padding-left: 0px;">
-                        <%= button_tag(raw(render 'shared/exit'), id: 'cancel-user-story', class: 'btn btn-danger btn-sm py-0', value: 'adding user story', data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }, style: 'height: 20px; width: 20px;') %>
-                        <%= button_tag(raw(render 'shared/add'), id: 'add-user-story', class: 'btn btn-success btn-sm py-0', value: 'adding user story', data: { reflex: 'click->EditProject#add_user_story', vars: @reflex_variables }, style: 'height: 20px; width: 20px;') %>
-                    </div>
-                    <div class="col-4 d-flex p-0 justify-content-center">
-                        <% if @new_user_story['color'].to_s == '1' %>
-                            <%= button_tag('', class: 'btn btn-sticky-1 btn-sm py-0 rounded-0', disabled: true, style: 'opacity: 100%;') %>
-                        <% else %>
-                            <%= button_tag('', class: 'btn btn-sticky-1 btn-sm py-0 rounded-0', value: 1, data: { reflex: 'click->EditProject#set_user_story_color', vars: @reflex_variables }, style: 'height: 24px; width: 24px;') %>
-                        <% end %>
-                        <% if @new_user_story['color'].to_s == '2' %>
-                            <%= button_tag('', class: 'btn btn-sticky-2 btn-sm py-0 rounded-0', disabled: true, style: 'opacity: 100%;') %>
-                        <% else %>
-                            <%= button_tag('', class: 'btn btn-sticky-2 btn-sm py-0 rounded-0', value: 2, data: { reflex: 'click->EditProject#set_user_story_color', vars: @reflex_variables }, style: 'height: 24px; width: 24px;') %>
-                        <% end %>
-                        <% if @new_user_story['color'].to_s == '3' %>
-                            <%= button_tag('', class: 'btn btn-sticky-3 btn-sm py-0 rounded-0', disabled: true, style: 'opacity: 100%;') %>
-                        <% else %>
-                            <%= button_tag('', class: 'btn btn-sticky-3 btn-sm py-0 rounded-0', value: 3, data: { reflex: 'click->EditProject#set_user_story_color', vars: @reflex_variables }, style: 'height: 24px; width: 24px;') %>
-                        <% end %>
-                        <% if @new_user_story['color'].to_s == '4' %>
-                            <%= button_tag('', class: 'btn btn-sticky-4 btn-sm py-0 rounded-0', disabled: true, style: 'opacity: 100%;') %>
-                        <% else %>
-                            <%= button_tag('', class: 'btn btn-sticky-4 btn-sm py-0 rounded-0', value: 4, data: { reflex: 'click->EditProject#set_user_story_color', vars: @reflex_variables }, style: 'height: 24px; width: 24px;') %>
-                        <% end %>
-                    </div>
-                    <div class="col-4 d-flex justify-content-end" style="padding-right: 2px;">
-                        <% if @new_user_story['value'] == 0 %>
-                            <%= render 'shared/fibonacci_select' %>
-                        <% else %>
-                            <%= @new_user_story['value'] %>
-                        <% end %>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<% end %>
+</div>

@@ -3,7 +3,7 @@
 <% @current_link = {'Home' => root_path} %>
 <% @dropdown_links = [] %>
 <% if user_signed_in? %>
-    <% @available_links = [{'Sign out' => destroy_user_session_path}, {'Profile' => profile_path(current_user.id)}] %>
+    <% @available_links = [{'New project' => new_project_path}, {'Profile' => profile_path(current_user.id)}] %>
 <% else %>
     <% @available_links = [{'Sign in' => new_user_session_path}, {'Sign up' => new_user_registration_path}] %>
 <% end %>
@@ -17,7 +17,7 @@
 
 
 
-    <div class="row mt-2">
+    <div class="row mt-4">
         <div class="col-12">
             <div class="bg-lavender px-4 py-1 rounded shadow">
                 <h1>Welcome to <strong class="border-bottom border-mountbatten">backbone</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-muted"><strong>the </strong><u><em>only</em></u> <strong class="text-vegas-gold">free</strong> <strong>agile team development suite!</strong> </small></h1>

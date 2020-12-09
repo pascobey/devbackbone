@@ -79,7 +79,7 @@ When('I click create') do
 end
 
 Then('I should see the project dashboard') do
-    Watir::Wait.until { @browser.h1(id: 'show-project-header').present? }
+    Watir::Wait.until { @browser.div(id: 'show-project-header').present? }
 end
 
 Given('I am the product owner of a project with improper leadership') do
@@ -88,7 +88,7 @@ end
 
 When('I visit the show project page') do
     @browser.goto(@test_base_url + project_path(1))
-    Watir::Wait.until { @browser.h1(id: 'show-project-header').present? }
+    Watir::Wait.until { @browser.div(id: 'show-project-header').present? }
 end
 
 Then('I should be notified that my product owner and scrum master are the same person') do
@@ -112,7 +112,7 @@ When('I see click the scrum button') do
 end
 
 When('I see the scrum details') do
-    Watir::Wait.until { @browser.element(id: 'scrum-header').present? }
+    Watir::Wait.until { @browser.element(id: 'scrum-container').present? }
 end
 
 When('I set the sprint timeframe') do
@@ -201,7 +201,7 @@ When('I click the team button') do
 end
 
 When('I see the team details') do
-    Watir::Wait.until { @browser.element(id: 'team-header').present? }
+    Watir::Wait.until { @browser.element(id: 'team-container').present? }
 end
 
 When('I have editing privileges') do
@@ -276,7 +276,7 @@ When('I click the backlog button') do
 end
 
 When('I see the backlog') do
-    Watir::Wait.until { @browser.h2(id: 'backlog-header').present? }
+    Watir::Wait.until { @browser.div(id: 'backlog-container').present? }
     sleep 0.8
 end
 
@@ -295,7 +295,7 @@ When('I add a user story') do
     @browser.textarea(id: 'user-story-input').send_keys('As the scrum master, I want to be able to approve and disallow changes made to the product backlog so that confusion does not arise out of what its to be done.')
     sleep 0.8
     @browser.button(id: 'add-user-story').hover
-    @browser.button(id: 'add-user-story').double_click
+    @browser.button(id: 'add-user-story').click
     sleep 0.8
 end
 

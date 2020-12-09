@@ -1,70 +1,136 @@
+<% content_for :title, 'New Project' %>
+
+<% @current_link = {'New project' => new_project_path} %>
+<% @dropdown_links = [] %>
+<% @available_links = [{'Profile' => profile_path(current_user.id)}] %>
+<%= render 'shared/navbar' %>
+
+
 <% reflex_variables = { user_id: @current_user.id, project_name: @project_name, possible_roles: @possible_roles,  development_team_subsets: @development_team_subsets, reflex_steps: @reflex_steps, errors: @errors, backbone_document: @backbone_document } %>
 
-<h1 id="new-project-header">New Project: <%= @project_name %></h1>
-
-<%= form_with model: @project do |f| %>
-
-    <% if @reflex_steps[1]['name the project'] %>
-        <%= label('project-name', 'Project name') %>
-        <%= text_field(:project, :project_name, value: @project_name, id: 'project-name', data: { reflex: 'keyup->NewProject#set_project_name', vars: reflex_variables }) %>
-    <% end %>
-
-    <% if @reflex_steps[2]['add team subsets'] %>
-        <%= label('development-subset', 'Who will be included on the development team?') %>
-        <% @possible_development_team_subsets.each do |possible_subset| %>
-            <%= label(possible_subset, possible_subset) %>
-            <% if @development_team_subsets.key?(possible_subset) %>
-                <%= check_box_tag(possible_subset, possible_subset, true, data: { reflex: 'click->NewProject#toggle_team_subset', vars: reflex_variables }) %>
-            <% else %>
-                <%= check_box_tag(possible_subset, possible_subset, false, data: { reflex: 'click->NewProject#toggle_team_subset', vars: reflex_variables }) %>
-            <% end %>
-        <% end %>
-    <% end %>
-
-    <% if @reflex_steps[3]['choose roles'] %>
-        <%= content_tag(:p, 'What will be your role in this project?') %>
-        <% @possible_roles.each do |role, bool| %>
-            <%= label(role, role.gsub('_', ' ')) %>
-            <%= check_box_tag(role, role, bool, data: { reflex: 'click->NewProject#toggle_role_boolean', vars: reflex_variables }) %>
-        <% end %>
-    <% end %>
-
-    <% if @reflex_steps[4]['specify team subset'] %>
-        <%= content_tag(:p, 'Where do you fit on the development team?') %>
-        <% @development_team_subsets.each do |subset, members| %>
-            <%= label(subset, subset.gsub('_', ' ')) %>
-            <% if @development_team_subsets[subset] != [] %>
-                <%= radio_button_tag('development_team_subset', subset.gsub('_', ' '), true, data: { reflex: 'click->NewProject#set_development_role', vars: reflex_variables, subset: subset }) %>
-            <% else %>
-                <%= radio_button_tag('development_team_subset', subset.gsub('_', ' '), false, data: { reflex: 'click->NewProject#set_development_role', vars: reflex_variables, subset: subset }) %>
-            <% end %>
-        <% end %>
-    <% end %>
 
 
-    <% if @reflex_steps[0]['current step'] > 1 %>
-        <%= button_tag('back', data: { reflex: 'click->NewProject#step_backward', vars: reflex_variables }, id: 'back') %>
-    <% end %>
-    <% submit_ready = false %>
-    <% if !@possible_roles['developer'] %>
-        <% submit_ready = true %>
-    <% else %>
-        <% subsets_empty = true %>
-        <% @development_team_subsets.each do |subset, members| %>
-            <% if @development_team_subsets[subset] != [] %>
-                <% subsets_empty = false %>
-            <% end %>
-        <% end %>
-        <% if !subsets_empty %>
-            <% submit_ready = true %>
-        <% end %>
-    <% end %>
-    <% if @reflex_steps[0]['current step'] < @reflex_steps.size - 2 && @errors['project_name'] == [] %>
-        <%= button_tag('next', data: { reflex: 'click->NewProject#step_forward', vars: reflex_variables }, id: 'next') %>
-    <% elsif submit_ready %>
-        <%= f.hidden_field(:project_name, value: @project_name) %>
-        <%= f.hidden_field(:backbone_document, value: @backbone_document) %>
-        <%= f.submit(id: 'create') %>
-    <% end %>
+<!-- content-container - container-lg (responsive) -->
+<div id="content-container" class="container-lg">
 
-<% end %>
+
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="bg-lavender px-4 py-1 rounded shadow">
+                <h1 id="new-project-header" class="border-bottom border-mountbatten">New Project: <%= @project_name %></h1>
+
+                <%= form_with model: @project do |f| %>
+
+
+                    <div class="row">
+                        <div class="col-12">
+
+
+                            <% if @reflex_steps[1]['name the project'] %>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <div class="col-12 text-center">
+                                        <%= label('project-name', 'Name the project...', class: 'h4 font-weight-bold') %>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <div class="col-12 text-center">
+                                        <%= text_field(:project, :project_name, value: @project_name, id: 'project-name', data: { reflex: 'keyup->NewProject#set_project_name', vars: reflex_variables }) %>
+                                    </div>
+                                </div>
+                            <% end %>
+
+                            <% if @reflex_steps[2]['add team subsets'] %>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <%= label('development-subset', 'Who will be included on the development team?', class: 'h4 font-weight-bold') %>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <ul class="col-5">
+                                        <% @possible_development_team_subsets.each do |possible_subset| %>
+                                            <li class="d-flex flex-row justify-content-between bg-lavender">
+                                                <%= label(possible_subset, possible_subset) %>
+                                                <% if @development_team_subsets.key?(possible_subset) %>
+                                                    <%= check_box_tag(possible_subset, possible_subset, true, data: { reflex: 'click->NewProject#toggle_team_subset', vars: reflex_variables }) %>
+                                                <% else %>
+                                                    <%= check_box_tag(possible_subset, possible_subset, false, data: { reflex: 'click->NewProject#toggle_team_subset', vars: reflex_variables }) %>
+                                                <% end %>
+                                            </li>
+                                        <% end %>
+                                    </ul>
+                                </div>
+                            <% end %>
+
+                            <% if @reflex_steps[3]['choose roles'] %>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <%= label('role-selection', 'What will be your role in this project?', class: 'h4 font-weight-bold') %>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <ul class="col-5">
+                                        <% @possible_roles.each do |role, bool| %>
+                                            <li class="d-flex flex-row justify-content-between bg-lavender">
+                                                <%= label(role, role.gsub('_', ' ')) %>
+                                                <%= check_box_tag(role, role, bool, data: { reflex: 'click->NewProject#toggle_role_boolean', vars: reflex_variables }) %>
+                                            </li>
+                                        <% end %>
+                                    </ul>
+                                </div>
+                            <% end %>
+
+                            <% if @reflex_steps[4]['specify team subset'] %>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <%= label('dev-role-select', 'Where do you fit on the development team?', class: 'h5') %>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <ul class="col-5">
+                                        <% @development_team_subsets.each do |subset, members| %>
+                                            <li class="d-flex flex-row justify-content-between bg-lavender">
+                                                <%= label(subset, subset.gsub('_', ' ')) %>
+                                                <% if @development_team_subsets[subset] != [] %>
+                                                    <%= radio_button_tag('development_team_subset', subset.gsub('_', ' '), true, data: { reflex: 'click->NewProject#set_development_role', vars: reflex_variables, subset: subset }) %>
+                                                <% else %>
+                                                    <%= radio_button_tag('development_team_subset', subset.gsub('_', ' '), false, data: { reflex: 'click->NewProject#set_development_role', vars: reflex_variables, subset: subset }) %>
+                                                <% end %>
+                                            </li>
+                                        <% end %>
+                                    </ul>
+                                </div>
+                            <% end %>
+
+
+                            <% submit_ready = false %>
+                            <% if !@possible_roles['developer'] && (@possible_roles['product_owner'] || @possible_roles['scrum_master']) %>
+                                <% submit_ready = true %>
+                            <% else %>
+                                <% subsets_empty = true %>
+                                <% @development_team_subsets.each do |subset, members| %>
+                                    <% if @development_team_subsets[subset] != [] %>
+                                        <% subsets_empty = false %>
+                                    <% end %>
+                                <% end %>
+                                <% if !subsets_empty %>
+                                    <% submit_ready = true %>
+                                <% end %>
+                            <% end %>
+                            <div class="d-flex flex-row justify-content-end">
+                                <% if @reflex_steps[0]['current step'] > 1 %>
+                                    <%= button_tag('back', class: 'btn btn-outline-mountbatten', data: { reflex: 'click->NewProject#step_backward', vars: reflex_variables }, id: 'back') %>
+                                <% end %>
+                                <% if @reflex_steps[0]['current step'] < @reflex_steps.size - 2 && @errors['project_name'] == [] %>
+                                    <%= button_tag('next', class: 'ml-1 btn btn-outline-eton-blue', data: { reflex: 'click->NewProject#step_forward', vars: reflex_variables }, id: 'next') %>
+                                <% elsif submit_ready %>
+                                    <%= f.hidden_field(:project_name, value: @project_name) %>
+                                    <%= f.hidden_field(:backbone_document, value: @backbone_document) %>
+                                    <%= f.submit(id: 'create', class: 'ml-1 btn btn-eton-blue') %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+
+
+</div><!-- content-container - container-lg (responsive) -->
+

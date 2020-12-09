@@ -142,7 +142,3 @@ bbd = {
         'velocity' => 0
     }
 }
-project2 = Project.create(
-    id: 2,
-    backbone_document: bbd.to_s
-)
