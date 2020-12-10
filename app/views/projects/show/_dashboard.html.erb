@@ -1,8 +1,25 @@
 
-<div id="dashboard-container" class="row mt-4">
+<div id="dashboard-container" class="row mt-3">
     <div class="col-12">
-        <div class="bg-lavender px-4 py-4 rounded shadow text-center">
-            <h4 id="dashboard">This is where we will see recent activity and discussion posts</h4>
+        <div class="px-4 text-center">
+            <div class="row">
+                <div class="col-12 col-md-2 pt-1 rounded shadow border border-mountbatten">
+                    <% @reflex_pages['dashboard-items'].each do |page, b| %>
+                        <% if b %>
+                            <%= content_tag(:p, page, id: "#{page}-button", class: 'h5 d-flex flex-row justify-content-center mb-1 pl-1 text-mountbatten') %>
+                        <% else %>
+                            <%= content_tag(:a, page, id: "#{page}-button", class: ' h5 d-flex flex-row justify-content-start mb-1 pl-1 text-smoky-black', data: { reflex: 'click->ProjectDashboard#toggle_dashboard_item', vars: @reflex_variables, page: page }) %>
+                        <% end %>
+                    <% end %>
+                </div>
+                <div class="col-12 col-md-10">
+                    <% @reflex_pages['dashboard-items'].each do |page, b| %>
+                        <% if @reflex_pages['dashboard-items'][page] %>
+                            <%= render "projects/show/dashboard/#{page}" %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
         </div>
     </div>
 </div>

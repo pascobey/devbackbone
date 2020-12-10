@@ -106,8 +106,8 @@ Then('I should be notified that my schedule is undefined and my backlog is empty
 end
 
 When('I see click the scrum button') do
-    Watir::Wait.until { @browser.button(id: 'scrum-button').present? }
-    @browser.button(id: 'scrum-button').click
+    Watir::Wait.until { @browser.a(id: 'schedule-button').present? }
+    @browser.a(id: 'schedule-button').click
     sleep 0.8
 end
 
@@ -187,7 +187,7 @@ end
 
 Then('I should be notified that the scrum details have changed') do
     Watir::Wait.until { @browser.div(id: 'flash-content').present? }
-    Watir::Wait.until { @browser.div(text: 'Changes Successfully Saved!').present? }
+    Watir::Wait.until { @browser.div(text: 'Change logged!').present? }
 end
 
 Given('I am the product owner') do
@@ -195,8 +195,8 @@ Given('I am the product owner') do
 end
 
 When('I click the team button') do
-    Watir::Wait.until { @browser.button(id: 'team-button').present? }
-    @browser.button(id: 'team-button').click
+    Watir::Wait.until { @browser.a(id: 'team-button').present? }
+    @browser.a(id: 'team-button').click
     sleep 0.8
 end
 
@@ -246,17 +246,17 @@ When('I change a leader') do
     sleep 0.8
 end
 
-When('I click the save changes button') do
-    Watir::Wait.until { @browser.input(value: 'save changes').present? }
-    sleep 0.8
-    @browser.input(value: 'save changes').click
-    sleep 0.8
-end
+# When('I click the save changes button') do
+#     Watir::Wait.until { @browser.input(value: 'save changes').present? }
+#     sleep 0.8
+#     @browser.input(value: 'save changes').click
+#     sleep 0.8
+# end
 
 Then('I should be notified that the team details have changed') do
     Watir::Wait.until { @browser.div(id: 'flash-content').present? }
     sleep 0.8
-    Watir::Wait.until { @browser.div(text: 'Changes Successfully Saved!').present? }
+    Watir::Wait.until { @browser.div(text: 'Change logged!').present? }
     sleep 0.8
 end
 
@@ -281,7 +281,7 @@ When('I see the backlog') do
 end
 
 When('I add a user story') do
-    Watir::Wait.until { @browser.h4(id: 'user-stories-header').present? }
+    Watir::Wait.until { @browser.h3(id: 'user-stories-header').present? }
     sleep 0.8
     Watir::Wait.until { @browser.button(id: 'new-user-story').present? }
     @browser.button(id: 'new-user-story').click
@@ -302,7 +302,7 @@ end
 Then('I should see that the user story has been created') do
     Watir::Wait.until { @browser.div(id: 'flash-content').present? }
     sleep 0.8
-    Watir::Wait.until { @browser.div(text: 'Changes Successfully Saved!').present? }
+    Watir::Wait.until { @browser.div(text: 'Change logged!').present? }
     sleep 0.8
 end
 

@@ -39,7 +39,7 @@ Feature: Project Management
         * I have editing privileges
         * I edit a team
         * I change a leader
-        * I click the save changes button
+        # * I click the save changes button
         Then I should be notified that the team details have changed
 
     Scenario: Editing the scrum details of a project
@@ -51,7 +51,7 @@ Feature: Project Management
         * I set the sprint timeframe
         * I set the daily scrum meeting time
         * I schedule the sprint review meeting
-        And I click the save changes button
+        # And I click the save changes button
         Then I should be notified that the scrum details have changed
 
     Scenario: Editing the project backlog as a team member
@@ -60,7 +60,7 @@ Feature: Project Management
         And I click the backlog button
         * I see the backlog
         * I add a user story
-        And I click the save changes button
+        # And I click the save changes button
         Then I should see that the user story has been created
 
     Scenario: Approving the project backlog as the scrum master

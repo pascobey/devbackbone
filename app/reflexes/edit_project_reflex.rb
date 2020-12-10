@@ -4,7 +4,9 @@ class EditProjectReflex < ApplicationReflex
         @reflex_pages.each do |page, b|
             if b.class == Hash
                 b.each do |button, b|
-                    @reflex_pages['buttons'][button] = false
+                    if @reflex_pages['buttons'][button]
+                        @reflex_pages['buttons'][button] = !@reflex_pages['buttons'][button]
+                    end
                 end
             else
                 @reflex_pages[page] = false

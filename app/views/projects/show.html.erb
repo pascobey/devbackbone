@@ -13,22 +13,6 @@
 
 <!-- content-container - container-lg (responsive) -->
 <div id="content-container" class="container-fluid w-100">
-    <div class="row bg-smoky-black shadow">
-        <div class="col-6 d-flex justify-content-start pl-0">
-            <% @reflex_pages['buttons'].each do |button, bool| %>
-                <% if !@reflex_pages['buttons'][button] %>
-                    <%= button_tag(button, id: "#{button}-button", class: 'btn btn-outline-ess-blue m-0 h-100 rounded-0', value: button, data: { reflex: 'click->EditProject#show_page', vars: @reflex_variables }) %>
-                <% else %>
-                    <%= button_tag(button, id: "#{button}-button", class: 'btn btn-ess-blue m-0 h-100 rounded-0', value: button, disabled: true) %>
-                <% end %>
-            <% end %>
-        </div>
-        <div class="col-6 d-flex justify-content-end">
-            <div id="show-project-header" class="display-4 text-ess-blue">
-                <%= link_to @project.project_name, project_path(@project.id), class: 'text-ess-blue' %>
-            </div>
-        </div>
-    </div>
     <% if @weaknesses != [] %>
         <div id="backbone-weaknesses">
             <% @weaknesses.each do |w| %>
@@ -39,19 +23,34 @@
 
     <% if @reflex_pages['dashboard'] %>
         <%= render 'projects/show/dashboard' %>
-    <% elsif @reflex_pages['team'] %>
-        <%= render 'projects/show/team' %>
-    <% elsif @reflex_pages['scrum'] %>
-        <%= render 'projects/show/scrum' %>
     <% elsif @reflex_pages['backlog'] %>
         <%= render 'projects/show/backlog' %>
+    <% elsif @reflex_pages['sprint'] %>
+        <%= render 'projects/show/sprint' %>
     <% end %>
 
-    <% if @project_edited %>
-        <%= form_for @project, :method => :PUT do |f| %>
-            <%= f.hidden_field(:backbone_document, value: @backbone_document) %>
-            <%= f.submit('save changes', style: 'margin-bottom: 50px;') %>
-        <% end %>
+    <% if @project_edited == true %>
+        <% @project.update(backbone_document: @backbone_document) %>
+        <% @project_edited = false %>
+        <% flash.now[:notice] = 'Change logged!' %>
     <% end %>
+
+    <div class="row bg-smoky-black shadow fixed-bottom">
+        <div class="col-6 d-flex justify-content-start">
+            <% @reflex_pages['buttons'].each do |button, bool| %>
+                <% if !@reflex_pages['buttons'][button] %>
+                    <%= button_tag(button, id: "#{button}-button", class: 'btn btn-outline-dark text-ess-blue m-0 h-100 rounded-0', value: button, data: { reflex: 'click->EditProject#show_page', vars: @reflex_variables }) %>
+                <% else %>
+                    <%= button_tag(button, id: "#{button}-button", class: 'btn btn-dark text-ess-blue m-0 h-100 rounded-0', value: button, disabled: true) %>
+                <% end %>
+            <% end %>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <div id="show-project-header" class="display-4 text-ess-blue">
+                <%= link_to @project.project_name, project_path(@project.id), class: 'text-ess-blue' %>&nbsp;
+            </div>
+        </div>
+    </div>
+
 </div><!-- content-container - container-lg (responsive) -->
 

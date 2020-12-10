@@ -3,6 +3,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :verify_access, only: [:show]
 
+
   def show
     @current_user = current_user
     @project = Project.find(params[:id])
@@ -10,11 +11,30 @@ class ProjectsController < ApplicationController
     @weaknesses = @project.get_weaknesses
     @backbone_document['leaders']['product_owner'].include?(current_user.id) ? (@owner_editing_privileges = true) : (@owner_editing_privileges = false)
     @backbone_document['leaders']['scrum_master'].include?(current_user.id) ? (@scrum_editing_privileges = true) : (@scrum_editing_privileges = false)
-    @reflex_pages ||= { 'buttons' => {'dashboard' => true, 'team' => false, 'scrum' => false, 'backlog' => false }, 'dashboard' => true }
+    @reflex_pages ||= {
+      'buttons' => {
+        'dashboard' => true,
+        'backlog' => false,
+        'sprint' => false
+      },
+        'dashboard' => true,
+        'dashboard-items' => {
+          'activity' => true,
+          'team' => false,
+          'schedule' => false
+        }
+    }
     @search_information ||= ''
-    @new_user_story ||= { 'story' => 'As a <type of user>, I want <some goal> so that <some reason>.', 'value' => 0, 'editor' => @current_user.id, 'approved' => false, 'color' => 1 }
+    @new_user_story ||= {
+      'story' => 'As a <type of user>, I want <some goal> so that <some reason>.',
+      'value' => 0,
+      'editor' => @current_user.id,
+      'approved' => false,
+      'color' => 1
+    }
     @project_edited ||= false
   end
+
 
   def update
     @project = Project.find(params[:id])
