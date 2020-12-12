@@ -1,4 +1,4 @@
-<% ChangeLog.find_by(project_id: params[:id]).entries.each do |i| %>
+<% ChangeLog.find_by(project_id: params[:id]).entries.reverse_each do |i| %>
     <div class="d-flex flex-row justify-content-center bg-lavender mb-1 rounded">
         <%= i.message %>
     </div>
