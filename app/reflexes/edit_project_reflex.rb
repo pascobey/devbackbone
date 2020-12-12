@@ -35,14 +35,14 @@ class EditProjectReflex < ApplicationReflex
         reinstantiate_vars(element.dataset[:vars])
         @search_information = ''
         @backbone_document['leaders'][element.dataset[:role]] = [ element.dataset[:user_id].to_i ]
-        @project_edited = true
+        save_and_log(@backbone_document)
     end
 
     def add_user_to_subset
         reinstantiate_vars(element.dataset[:vars])
         @search_information = ''
         @backbone_document['development_team'][element.dataset[:subset]] << element.dataset[:user_id].to_i
-        @project_edited = true
+        save_and_log(@backbone_document)
     end
 
     def change_date
@@ -56,7 +56,7 @@ class EditProjectReflex < ApplicationReflex
                     time = @backbone_document['sprint'][element.dataset[:item]].split(' ')[1]
                 end
                 @backbone_document['sprint'][element.dataset[:item]] = Time.parse("#{date_items[2]}-#{date_items[0]}-#{date_items[1]}T#{time}")
-                @project_edited = true
+                save_and_log(@backbone_document)
             end
         end
     end
@@ -74,14 +74,14 @@ class EditProjectReflex < ApplicationReflex
                 end
             end
             @backbone_document['sprint'][element.dataset[:item]] = Time.parse("#{date}T#{element.value}")
-            @project_edited = true
+            save_and_log(@backbone_document)
         end
     end
 
     def remove_user_from_subset
         reinstantiate_vars(element.dataset[:vars])
         @backbone_document['development_team'][element.dataset[:subset]].delete(element.dataset[:user_id].to_i)
-        @project_edited = true
+        save_and_log(@backbone_document)
     end
 
     def set_user_story_text
@@ -102,14 +102,14 @@ class EditProjectReflex < ApplicationReflex
     def add_user_story
         toggle_page_item
         @backbone_document['backlog']['user_stories'] << @new_user_story
-        @project_edited = true
+        save_and_log(@backbone_document)
     end
 
     def toggle_user_story_approval
         reinstantiate_vars(element.dataset[:vars])
         story = @backbone_document['backlog']['user_stories'].find {|story| story['story'].strip == eval(element.dataset[:story]).stringify_keys['story']}
         story['approved'] = !story['approved']
-        @project_edited = true
+        save_and_log(@backbone_document)
     end
 
 end

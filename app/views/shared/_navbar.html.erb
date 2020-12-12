@@ -14,6 +14,18 @@
                     <%= link_to(@current_link.keys.first, @current_link[@current_link.keys.first], class: 'nav-link') %>
                 </li>
             <% end %>
+            <% if @dropdown_links[@dropdown_links.keys.first] != [] %>
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <%= @dropdown_links.keys.first %>
+                    </a>
+                    <div class="dropdown-menu bg-smoky-black" aria-labelledby="navbarDropdown">
+                        <% @dropdown_links[@dropdown_links.keys.first].each do |l| %>
+                            <%= link_to(l.keys.first, l[l.keys.first], class: 'dropdown-item text-light') %>
+                        <% end %>
+                    </div>
+                </li>
+            <% end %>
             <% @available_links.each do |l| %>
                 <li class="nav-item">
                     <% if l.keys.first == 'Sign out' %>
@@ -31,18 +43,6 @@
                         <% method = :get %>
                     <% end %>
                     <%= link_to(display, l[l.keys.first], id: l.keys.first.downcase.gsub(' ', '-'), :method => method, class: 'nav-link') %>
-                </li>
-            <% end %>
-            <% if @dropdown_links != [] %>
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Sign up
-                    </a>
-                    <div class="dropdown-menu bg-smoky-black" aria-labelledby="navbarDropdown">
-                        <% @dropdown_links.each do |l| %>
-                            <%= link_to(l.keys.first, l[l.keys.first], class: 'dropdown-item text-light') %>
-                        <% end %>
-                    </div>
                 </li>
             <% end %>
         </ul>

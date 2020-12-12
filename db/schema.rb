@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_16_032843) do
+ActiveRecord::Schema.define(version: 2020_12_11_220221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -35,6 +35,20 @@ ActiveRecord::Schema.define(version: 2020_10_16_032843) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "change_logs", force: :cascade do |t|
+    t.integer "project_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "entries", force: :cascade do |t|
+    t.integer "change_log_id"
+    t.integer "committer_id"
+    t.string "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "profiles", force: :cascade do |t|

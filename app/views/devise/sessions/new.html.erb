@@ -1,7 +1,7 @@
 <% content_for :title, 'Sign in' %>
 
 <% @current_link = {'Sign in' => new_user_session_path} %>
-<% @dropdown_links = [] %>
+<% @dropdown_links = {'' => []} %>
 <% @available_links = [{'Sign up' => new_user_registration_path}] %>
 <%= render 'shared/navbar'%>
 

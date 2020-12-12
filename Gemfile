@@ -5,6 +5,7 @@ ruby '2.6.3'
 
 
 gem 'devise'
+gem 'sidekiq'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

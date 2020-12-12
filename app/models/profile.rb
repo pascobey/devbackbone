@@ -1,6 +1,8 @@
 class Profile < ApplicationRecord
+
     belongs_to :user
     has_one_attached :profile_image
+
     def user_information_safe
         if self.user_information.class != Hash
             JSON.parse(self.user_information.gsub('=>', ':')).stringify_keys
@@ -8,6 +10,7 @@ class Profile < ApplicationRecord
             self.user_information
         end
     end
+
     def self.all_containing(search)
         profiles = []
         if search.strip != ''
@@ -28,4 +31,5 @@ class Profile < ApplicationRecord
         end
         return profiles
     end
+    
 end

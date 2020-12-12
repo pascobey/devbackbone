@@ -1,4 +1,7 @@
 class Project < ApplicationRecord
+
+    has_one :change_log
+    
     def backbone_document_safe
         if self.backbone_document.class != Hash
             JSON.parse(self.backbone_document.gsub('=>', ':')).stringify_keys
@@ -6,6 +9,7 @@ class Project < ApplicationRecord
             self.backbone_document
         end
     end
+
     def get_weaknesses
         doc = self.backbone_document_safe
         weaknesses = []
@@ -26,4 +30,5 @@ class Project < ApplicationRecord
         end 
         return weaknesses
     end
+
 end

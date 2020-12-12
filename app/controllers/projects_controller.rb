@@ -32,7 +32,6 @@ class ProjectsController < ApplicationController
       'approved' => false,
       'color' => 1
     }
-    @project_edited ||= false
   end
 
 
@@ -79,6 +78,7 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     if @project.save
+      ChangeLog.create(project_id: @project.id)
       creator_profile = Profile.find_by(user_id: current_user.id)
       creator_information = creator_profile.user_information_safe
       roles = []
@@ -115,7 +115,7 @@ class ProjectsController < ApplicationController
         backbone_document = Project.find(params[:id]).backbone_document_safe
         users_array = []
         backbone_document['leaders'].each do |role, user_id|
-          users_array << user_id if !users_array.include?(user_id)
+          users_array << user_id.first if !users_array.include?(user_id.first)
         end
         backbone_document['development_team'].each do |subset, members|
           members.each do |user_id|

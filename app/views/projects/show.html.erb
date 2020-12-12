@@ -5,35 +5,43 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js" integrity="sha512-2xXe2z/uA+2SyT/sTSt9Uq4jDKsT0lV4evd3eoE/oxKih8DSAsOF6LUb+ncafMJPAimWAXdu9W+yMXGrCVOzQA==" crossorigin="anonymous"></script>
 
-<% @reflex_variables = { backbone_document: @backbone_document, search_information: @search_information, new_user_story: @new_user_story, reflex_pages: @reflex_pages, project_edited: @project_edited } %>
+<% @reflex_variables = { project_id: @project_id, user_id: @current_user.id, backbone_document: @backbone_document, search_information: @search_information, new_user_story: @new_user_story, reflex_pages: @reflex_pages } %>
 
-<% @dropdown_links = [] %>
+<% @dropdown_links = { '' => [] } %>
 <% @available_links = [{'Profile' => profile_path(current_user.id)}] %>
 <%= render 'shared/navbar' %>
 
 <!-- content-container - container-lg (responsive) -->
 <div id="content-container" class="container-fluid w-100">
     <% if @weaknesses != [] %>
-        <div id="backbone-weaknesses">
+
+
+
+        <div id="backbone-weaknesses" class="mt-3">
             <% @weaknesses.each do |w| %>
-                <p class="weakness mb-0"><%= w %></p>
+                <div class="alert alert-mountbatten mt-1 mb-0" role="alert">
+                    <em><%= w %></em>
+                </div>
             <% end %>
         </div>
     <% end %>
+    <div style="margin-bottom: 80px;">
+        <% if @reflex_pages['dashboard'] %>
+            <%= render 'projects/show/dashboard' %>
+        <% elsif @reflex_pages['backlog'] %>
+            <%= render 'projects/show/backlog' %>
+        <% elsif @reflex_pages['sprint'] %>
+            <%= render 'projects/show/sprint' %>
+        <% end %>
+    </div>
 
-    <% if @reflex_pages['dashboard'] %>
-        <%= render 'projects/show/dashboard' %>
-    <% elsif @reflex_pages['backlog'] %>
-        <%= render 'projects/show/backlog' %>
-    <% elsif @reflex_pages['sprint'] %>
-        <%= render 'projects/show/sprint' %>
-    <% end %>
-
-    <% if @project_edited == true %>
-        <% @project.update(backbone_document: @backbone_document) %>
-        <% @project_edited = false %>
-        <% flash.now[:notice] = 'Change logged!' %>
-    <% end %>
+    <%# if @project_edited == true %>
+        <%# GenerateLogEntryJob.perform_async(@log.id, @project.backbone_document_safe.to_a, @backbone_document.to_a) %>
+        <%# @log.project_log_entry(@project.backbone_document_safe.to_a, @backbone_document.to_a) %>
+        <%# @project.update(backbone_document: @backbone_document) %>
+        <%# flash[:notice] = 'Change logged!' %>
+        <%# @project_edited = false %>
+    <%# end %>
 
     <div class="row bg-smoky-black shadow fixed-bottom">
         <div class="col-6 d-flex justify-content-start">
