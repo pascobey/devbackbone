@@ -5,9 +5,11 @@
 <% if user_signed_in? %>
     <% @available_links = [{'Profile' => profile_path(current_user.id)}] %>
     <% @dropdown_links = {'Projects' => [{'New project' => new_project_path}]} %>
-    <% Profile.find_by(user_id: @current_user.id).user_information_safe['projects'].each do |p| %>
-        <% project = Project.find(p.keys.first) %>
-        <% @dropdown_links['Projects'] << {project.project_name => project_path(project.id)} %>
+    <% if Profile.exists?(user_id: @current_user.id) %>
+        <% Profile.find_by(user_id: @current_user.id).user_information_safe['projects'].each do |p| %>
+            <% project = Project.find(p.keys.first) %>
+            <% @dropdown_links['Projects'] << {project.project_name => project_path(project.id)} %>
+        <% end %>
     <% end %>
 <% else %>
     <% @available_links = [{'Sign in' => new_user_session_path}, {'Sign up' => new_user_registration_path}] %>
