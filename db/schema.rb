@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_220221) do
     t.integer "change_log_id"
     t.integer "committer_id"
     t.string "message"
+    t.string "type_meta"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

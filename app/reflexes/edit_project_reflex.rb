@@ -17,8 +17,8 @@ class EditProjectReflex < ApplicationReflex
     def show_page
         reinstantiate_vars(element.dataset[:vars])
         hide_reflex_pages
-        @reflex_pages['buttons'][element.value] = true
-        @reflex_pages[element.value] = true
+        @reflex_pages['buttons'][element.dataset[:button]] = true
+        @reflex_pages[element.dataset[:button]] = true
     end
 
     def toggle_page_item
@@ -37,7 +37,7 @@ class EditProjectReflex < ApplicationReflex
         @backbone_document['leaders'][element.dataset[:role]] = [ element.dataset[:user_id].to_i ]
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
-        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{element.dataset[:role].gsub('_', ' ')} changed to #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']}.")
+        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{element.dataset[:role].gsub('_', ' ')} changed to #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']}.", type_meta: 'team')
     end
 
     def add_user_to_subset
@@ -46,7 +46,7 @@ class EditProjectReflex < ApplicationReflex
         @backbone_document['development_team'][element.dataset[:subset]] << element.dataset[:user_id].to_i
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
-        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']} added to #{element.dataset[:subset]}.")
+        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']} added to #{element.dataset[:subset]}.", type_meta: 'team')
     end
 
     def remove_user_from_subset
@@ -54,7 +54,7 @@ class EditProjectReflex < ApplicationReflex
         @backbone_document['development_team'][element.dataset[:subset]].delete(element.dataset[:user_id].to_i)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
-        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']} removed from #{element.dataset[:subset]}.")
+        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']} removed from #{element.dataset[:subset]}.", type_meta: 'team')
     end
 
     def change_date
@@ -70,7 +70,7 @@ class EditProjectReflex < ApplicationReflex
                 @backbone_document['sprint'][element.dataset[:item]] = Time.parse("#{date_items[2]}-#{date_items[0]}-#{date_items[1]}T#{time}")
                 project = Project.find(params[:id])
                 project.update(backbone_document: @backbone_document)
-                Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "Sprint #{element.dataset[:item].gsub('_', ' ')} set to #{@backbone_document['sprint'][element.dataset[:item]]}.")
+                Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "Sprint #{element.dataset[:item].gsub('_', ' ')} set to #{@backbone_document['sprint'][element.dataset[:item]]}.", type_meta: 'schedule')
             end
         end
     end
@@ -90,7 +90,7 @@ class EditProjectReflex < ApplicationReflex
             @backbone_document['sprint'][element.dataset[:item]] = Time.parse("#{date}T#{element.value}")
             project = Project.find(params[:id])
             project.update(backbone_document: @backbone_document)
-            Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "Sprint #{element.dataset[:item].gsub('_', ' ')} set to #{@backbone_document['sprint'][element.dataset[:item]]}.")
+            Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "Sprint #{element.dataset[:item].gsub('_', ' ')} set to #{@backbone_document['sprint'][element.dataset[:item]]}.", type_meta: 'schedule')
         end
     end
 
@@ -114,7 +114,7 @@ class EditProjectReflex < ApplicationReflex
         @backbone_document['backlog']['user_stories'] << @new_user_story
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
-        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{Profile.find_by(user_id: @user_id).user_information_safe['first_name']} #{Profile.find_by(user_id: @user_id).user_information_safe['last_name']} added a user story.")
+        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "New user story: #{@new_user_story['story'].capitalize}", type_meta: 'backlog')
     end
 
     def toggle_user_story_approval

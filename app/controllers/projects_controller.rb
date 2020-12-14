@@ -21,7 +21,8 @@ class ProjectsController < ApplicationController
         'dashboard-items' => {
           'activity' => true,
           'team' => false,
-          'schedule' => false
+          'schedule' => false, 
+          'previous' => ''
         }
     }
     @search_information ||= ''
@@ -32,6 +33,8 @@ class ProjectsController < ApplicationController
       'approved' => false,
       'color' => 1
     }
+    @post ||= 'Share something with the team.'
+    @hidden_types ||= []
   end
 
 

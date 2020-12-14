@@ -1,12 +1,12 @@
 
-<div id="scrum-container" class="row">
+<div id="scrum-container" class="row slide-in">
     <div class="col-12">
         <div class="bg-lavender px-4 py-4 rounded shadow">
             <div class="row mb-4">
-                <div class="col-4">
+                <div class="col-3">
                     <h4 id="sprint-header">Sprint Schedule:<h4>
                 </div>
-                <div class="col-8">
+                <div class="col-9">
                     <% @backbone_document['sprint'].each do |item, time| %>
                         <% datetime = { 'date' => true, 'time' => false } %>
                         <% item_css_formatted = item.gsub('_', '-') %>
@@ -33,24 +33,18 @@
                         <% end %>
                         <div class="d-flex flex-row justify-content-between border-bottom">
                             <%= label(item_copy_formatted, "#{item_copy_formatted}:", id: "sprint-#{item_css_formatted}") %>
-                            <%= content_tag(:p,  time) %>
                             <% if @scrum_editing_privileges %>
-                                <% if !@reflex_pages["#{item_copy_formatted}"] %>
-                                    <%= button_tag('edit', id: "change-sprint-#{item_css_formatted}", value: item_copy_formatted, data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
-                                <% else %>
-                                    <%= button_tag('done', id: "change-sprint-#{item_css_formatted}", value: item_copy_formatted, data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
-                                    <% if datetime['date'] %>
-                                        <div id="<%= item_css_formatted %>-datepicker" class="input-group date bootstrap-datepicker datepicker" data-provide="datepicker">
-                                            <%= render 'shared/datepicker' %>
-                                            <%= text_field_tag("#{item_css_formatted}-date-input", nil, placeholder: "00/00/0000", id: "#{item_css_formatted}-date-input", type: 'text', data: { reflex: 'mouseover->EditProject#change_date', vars: @reflex_variables, item: item }, :readonly => true) %>
-                                        </div>
-                                    <% end %>
-                                    <% if datetime['time'] %>
-                                        <div id="<%= item_css_formatted %>-timepicker" class="input-group time bootstrap-timepicker timepicker">
-                                            <%= render 'shared/timepicker' %>
-                                            <%= text_field_tag("#{item_css_formatted}-time-input", nil, placeholder: "00:00 AM/PM", id: "#{item_css_formatted}-time-input", type: 'text', data: { provide: 'timepicker', reflex: 'keyup->EditProject#change_time', vars: @reflex_variables, item: item }) %>
-                                        </div>
-                                    <% end %>
+                                <% if datetime['date'] %>
+                                    <div class="input-group date h-100 w-75 ml-2" data-provide="datepicker">
+                                        <%= text_field_tag("#{item_css_formatted}-date-input", time, id: "#{item_css_formatted}-date-input", type: 'text', class: 'form-control', data: { reflex: 'click->EditProject#change_date', vars: @reflex_variables, item: item }, :readonly => true) %>
+                                        <%= render 'shared/datepicker' %>
+                                    </div>
+                                <% end %>
+                                <% if datetime['time'] %>
+                                    <div class="input-group date h-100 w-75 ml-2" data-provide="timepicker">
+                                        <%= text_field_tag("#{item_css_formatted}-time-input", time, id: "#{item_css_formatted}-time-input", type: 'text', class: 'form-control', data: { reflex: 'click->EditProject#change_time', vars: @reflex_variables, item: item }, :readonly => true) %>
+                                        <%= render 'shared/timepicker' %>
+                                    </div>
                                 <% end %>
                             <% end %>
                         </div>

@@ -1,7 +1,7 @@
 <% if !@current_link.nil? %>
-    <nav class="navbar navbar-expand-md navbar-dark bg-smoky-black shadow">
+    <nav class="navbar navbar-expand-md navbar-dark bg-smoky-black shadow px-4 py-1">
 <% else %>
-    <nav class="navbar navbar-expand-md navbar-dark bg-smoky-black">
+    <nav class="navbar navbar-expand-md navbar-dark bg-smoky-black px-4 py-1">
 <% end %>
     <a href="/" class="navbar-brand">backbone</a>
     <button class="navbar-toggler" type=button data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,12 +28,14 @@
             <% end %>
             <% @available_links.each do |l| %>
                 <li class="nav-item">
+                    <% classes = '' %>
                     <% if l.keys.first == 'Sign out' %>
                         <% display = l.keys.first %>
                         <% method = :delete %>
                     <% elsif l.keys.first == 'Profile' %>
                         <% if Profile.exists?(user_id: current_user.id) %>
-                            <% display = image_tag(Profile.find_by(user_id: current_user.id).profile_image.variant(resize: "30x30")) %>
+                            <% display = image_tag(Profile.find_by(user_id: current_user.id).profile_image.variant(resize: "40x40")) %>
+                            <% classes = 'py-0' %>
                         <% else %>
                             <% display = 'Profile' %>
                         <% end %>
@@ -42,7 +44,7 @@
                         <% display = l.keys.first %>
                         <% method = :get %>
                     <% end %>
-                    <%= link_to(display, l[l.keys.first], id: l.keys.first.downcase.gsub(' ', '-'), :method => method, class: 'nav-link') %>
+                    <%= link_to(display, l[l.keys.first], id: l.keys.first.downcase.gsub(' ', '-'), :method => method, class: "nav-link #{classes}") %>
                 </li>
             <% end %>
         </ul>

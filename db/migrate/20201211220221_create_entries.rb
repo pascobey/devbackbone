@@ -4,6 +4,7 @@ class CreateEntries < ActiveRecord::Migration[6.0]
       t.integer :change_log_id
       t.integer :committer_id
       t.string :message
+      t.string :type_meta
 
       t.timestamps
     end

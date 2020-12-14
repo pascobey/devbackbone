@@ -14,7 +14,86 @@ $theme-colors: (
     "sticky-4": #ff7eb9
 );
 @import '~bootstrap/scss/bootstrap';
+body {
+    font-family: 'Rubik', sans-serif;
+}
 
+.slide-in {
+    position: relative;
+    -webkit-animation: slideIn 1s forwards;
+    -moz-animation: slideIn 1s forwards;
+    -o-animation: slideIn 1s forwards;
+    animation: slideIn 1s forwards;
+}
+.slide-in-slow {
+    position: relative;
+    -webkit-animation: slideIn 2s forwards;
+    -moz-animation: slideIn 2s forwards;
+    -o-animation: slideIn 2s forwards;
+    animation: slideIn 2s forwards;
+}
+@-webkit-keyframes slideIn {
+    0%   { top: 100vh; }
+    100% { top: 0vh; }
+}
+@-moz-keyframes slideIn {
+    0%   { top: 100vh; }
+    100% { top: 0vh; }
+}
+@-o-keyframes slideIn {
+    0%   { top: 100vh; }
+    100% { top: 0vh; }
+}
+@keyframes slideIn {
+    0%   { top: 100vh; }
+    100% { top: 0vh; }
+}
+.slide-over {
+    position: relative;
+    -webkit-animation: slideOver 0.7s forwards;
+    -moz-animation: slideOver 0.7s forwards;
+    -o-animation: slideOver 0.7s forwards;
+    animation: slideOver 0.7s forwards;
+}
+@-webkit-keyframes slideOver {
+    0%   { left: -50%; }
+    100% { left: 0; }
+}
+@-moz-keyframes slideOver {
+    0%   { left: -50%; }
+    100% { left: 0; }
+}
+@-o-keyframes slideOver {
+    0%   { left: -50%; }
+    100% { left: 0; }
+}
+@keyframes slideOver {
+    0%   { left: -50%; }
+    100% { left: 0; }
+}
+.slide-back {
+    position: relative;
+    -webkit-animation: slideBack 0.3s forwards;
+    -moz-animation: slideBack 0.3s forwards;
+    -o-animation: slideBack 0.3s forwards;
+    animation: slideBack 0.3s forwards;
+}
+@-webkit-keyframes slideBack {
+    0%   { right: -50%; }
+    100% { right: 0; }
+}
+@-moz-keyframes slideBack {
+    0%   { right: -50%; }
+    100% { right: 0; }
+}
+@-o-keyframes slideBack {
+    0%   { right: -50%; }
+    100% { right: 0; }
+}
+@keyframes slideBack {
+    0%   { right: -50%; }
+    100% { right: 0; }
+}
 .fade-out {
     -webkit-animation: fadeOut 2s forwards;
     -moz-animation: fadeOut 2s forwards;
@@ -36,4 +115,12 @@ $theme-colors: (
 @keyframes fadeOut {
     0%   { opacity: 1; }
     100% { opacity: 0; }
+}
+
+
+#post-button {
+    cursor: pointer;
+}
+#post-button:hover {
+    opacity: 0.7;
 }

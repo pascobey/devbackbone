@@ -5,7 +5,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js" integrity="sha512-2xXe2z/uA+2SyT/sTSt9Uq4jDKsT0lV4evd3eoE/oxKih8DSAsOF6LUb+ncafMJPAimWAXdu9W+yMXGrCVOzQA==" crossorigin="anonymous"></script>
 
-<% @reflex_variables = { project_id: @project_id, user_id: @current_user.id, backbone_document: @backbone_document, search_information: @search_information, new_user_story: @new_user_story, reflex_pages: @reflex_pages } %>
+<% @reflex_variables = { project_id: @project_id, user_id: @current_user.id, backbone_document: @backbone_document, search_information: @search_information, new_user_story: @new_user_story, reflex_pages: @reflex_pages, hidden_types: @hidden_types } %>
 
 <% @dropdown_links = { '' => [] } %>
 <% @available_links = [{'Profile' => profile_path(current_user.id)}] %>
@@ -13,19 +13,25 @@
 
 <!-- content-container - container-lg (responsive) -->
 <div id="content-container" class="container-fluid w-100">
-    <% if @weaknesses != [] %>
 
-
-
-        <div id="backbone-weaknesses" class="mt-3">
-            <% @weaknesses.each do |w| %>
-                <div class="alert alert-mountbatten mt-1 mb-0" role="alert">
-                    <em><%= w %></em>
-                </div>
+    <div class="row border-bottom border-eton-blue pb-1 mb-2">
+        <div class="col-6 d-flex justify-content-between">
+            <% @reflex_pages['buttons'].each do |button, bool| %>
+                <% if !@reflex_pages['buttons'][button] %>
+                    <%= content_tag(:a, button.capitalize, id: "#{button}-button", class: 'd-flex flex-column text-eton-blue h4 justify-content-center mt-3', data: { reflex: 'click->EditProject#show_page', vars: @reflex_variables, button: button }) %>
+                <% else %>
+                    <%= content_tag(:a, button.capitalize, id: "#{button}-button", class: 'd-flex flex-column text-mountbatten h4 justify-content-center mt-2 mb-0', style: 'font-size: 1.8rem;', data: { reflex: 'click->EditProject#show_page', vars: @reflex_variables, button: button }) %>
+                <% end %>
             <% end %>
         </div>
-    <% end %>
-    <div style="margin-bottom: 80px;">
+        <div class="col-6 d-flex justify-content-end" style="margin-top: -0.5%; margin-bottom: -1.5%;">
+            <div id="show-project-header" class="display-4 text-ess-blue">
+                <%= link_to @project.project_name, project_path(@project.id), class: 'text-eton-blue', style: 'text-shadow: 3px 3px #987284;' %>&nbsp;
+            </div>
+        </div>
+    </div>
+
+    <div>
         <% if @reflex_pages['dashboard'] %>
             <%= render 'projects/show/dashboard' %>
         <% elsif @reflex_pages['backlog'] %>
@@ -35,30 +41,15 @@
         <% end %>
     </div>
 
-    <%# if @project_edited == true %>
-        <%# GenerateLogEntryJob.perform_async(@log.id, @project.backbone_document_safe.to_a, @backbone_document.to_a) %>
-        <%# @log.project_log_entry(@project.backbone_document_safe.to_a, @backbone_document.to_a) %>
-        <%# @project.update(backbone_document: @backbone_document) %>
-        <%# flash[:notice] = 'Change logged!' %>
-        <%# @project_edited = false %>
-    <%# end %>
-
-    <div class="row bg-smoky-black shadow fixed-bottom">
-        <div class="col-6 d-flex justify-content-start">
-            <% @reflex_pages['buttons'].each do |button, bool| %>
-                <% if !@reflex_pages['buttons'][button] %>
-                    <%= button_tag(button, id: "#{button}-button", class: 'btn btn-outline-dark text-ess-blue m-0 h-100 rounded-0', value: button, data: { reflex: 'click->EditProject#show_page', vars: @reflex_variables }) %>
-                <% else %>
-                    <%= button_tag(button, id: "#{button}-button", class: 'btn btn-dark text-ess-blue m-0 h-100 rounded-0', value: button, disabled: true) %>
-                <% end %>
+    <% if @weaknesses != [] %>
+        <div id="backbone-weaknesses" class="fixed-bottom">
+            <% @weaknesses.each do |w| %>
+                <div class="d-flex justify-content-end slide-in-slow px-1" style="opacity: .8; width: 100%;">
+                    <em class="alert alert-middle-grey mb-1" role="alert"><%= w %></em>
+                </div>
             <% end %>
         </div>
-        <div class="col-6 d-flex justify-content-end">
-            <div id="show-project-header" class="display-4 text-ess-blue">
-                <%= link_to @project.project_name, project_path(@project.id), class: 'text-ess-blue' %>&nbsp;
-            </div>
-        </div>
-    </div>
+    <% end %>
 
 </div><!-- content-container - container-lg (responsive) -->
 

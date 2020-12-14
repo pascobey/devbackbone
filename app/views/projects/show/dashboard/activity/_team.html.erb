@@ -1,0 +1,38 @@
+
+<div class="d-flex flex-row justify-content-center mb-1 rounded shadow">
+    <div class="col-12 p-0">
+        <div class="d-flex flex-row rounded border border-ess-blue">
+            <div class="col-2 bg-ess-blue pt-1 pl-1 pr-1 pb-0">
+                <% profile = Profile.find_by(user_id: entry.committer_id) %>
+                <div class="d-flex flex-row justify-content-between border-bottom border-smoky-black pb-1">
+                    <%= render 'shared/updated_team' %>
+                    <%= link_to("#{profile.user_information_safe["first_name"]} #{profile.user_information_safe["last_name"]}", profile_path(profile.id), class: 'align-self-center text-smoky-black ml-auto mr-auto', style: 'font-size: 1.1rem;') %>
+                </div>
+                <div class="d-flex flex-row justify-content-between ml-1" style="font-size: 0.7rem;">
+                    <% minutes = ((Time.now - entry.created_at) / 60).floor %>
+                    <% if minutes < 1 %>
+                        <em>Less than a minute ago</em>
+                    <% elsif minutes < 60 %>
+                        <% if minutes < 2 %>
+                            <em>1 min ago</em>
+                        <% else %>
+                            <em><%= "#{minutes} mins ago" %></em>
+                        <% end %>
+                    <% elsif minutes < 1440 %>
+                        <% hrs = (minutes/60).floor %>
+                        <% if hrs < 2 %>
+                            <em>1 hour ago</em>
+                        <% else %>
+                            <em><%= "#{(minutes/60).floor} hours ago" %></em>
+                        <% end %>
+                    <% elsif minutes > 1440 %>
+                        <em><%= "#{(minutes/1440).floor} days ago" %></em>
+                    <% end %>
+                </div>
+            </div>
+            <div class="col-10 d-flex flex-column justify-content-center bg-lavender rounded-right">
+                <%= entry.message.capitalize %>
+            </div>
+        </div>
+    </div>
+</div>
