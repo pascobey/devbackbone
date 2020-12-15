@@ -35,13 +35,13 @@
                             <%= label(item_copy_formatted, "#{item_copy_formatted}:", id: "sprint-#{item_css_formatted}") %>
                             <% if @scrum_editing_privileges %>
                                 <% if datetime['date'] %>
-                                    <div class="input-group date h-100 w-75 ml-2" data-provide="datepicker">
+                                    <div id="scrum-edit-date" class="input-group date h-100 w-75 ml-2" data-provide="datepicker">
                                         <%= text_field_tag("#{item_css_formatted}-date-input", time, id: "#{item_css_formatted}-date-input", type: 'text', class: 'form-control', data: { reflex: 'click->EditProject#change_date', vars: @reflex_variables, item: item }, :readonly => true) %>
                                         <%= render 'shared/datepicker' %>
                                     </div>
                                 <% end %>
                                 <% if datetime['time'] %>
-                                    <div class="input-group date h-100 w-75 ml-2" data-provide="timepicker">
+                                    <div id="scrum-edit-time" class="scrum-edit input-group date h-100 w-75 ml-2" data-provide="timepicker">
                                         <%= text_field_tag("#{item_css_formatted}-time-input", time, id: "#{item_css_formatted}-time-input", type: 'text', class: 'form-control', data: { reflex: 'click->EditProject#change_time', vars: @reflex_variables, item: item }, :readonly => true) %>
                                         <%= render 'shared/timepicker' %>
                                     </div>

@@ -93,7 +93,6 @@ end
 
 Then('I should be notified that my product owner and scrum master are the same person') do
     Watir::Wait.until { @browser.element(id: 'backbone-weaknesses').present? }
-    Watir::Wait.until { @browser.p(class: 'weakness').present? }
 end
 
 Given('I am the scrum master of the project') do
@@ -102,7 +101,6 @@ end
 
 Then('I should be notified that my schedule is undefined and my backlog is empty') do
     Watir::Wait.until { @browser.element(id: 'backbone-weaknesses').present? }
-    Watir::Wait.until { @browser.p(class: 'weakness').present? }
 end
 
 When('I see click the scrum button') do
@@ -202,10 +200,12 @@ end
 
 When('I see the team details') do
     Watir::Wait.until { @browser.element(id: 'team-container').present? }
+    sleep 0.8
 end
 
 When('I have editing privileges') do
-    Watir::Wait.until { @browser.button(value: 'edit').present? }
+    Watir::Wait.until { @browser.button(id: 'edit-programmers').present? }
+    sleep 0.8
 end
 
 When('I edit a team') do
@@ -269,9 +269,9 @@ Given('I am a member of the development team') do
 end
 
 When('I click the backlog button') do
-    Watir::Wait.until { @browser.button(id: 'backlog-button').present? }
+    Watir::Wait.until { @browser.a(id: 'backlog-button').present? }
     sleep 0.8
-    @browser.button(id: 'backlog-button').click
+    @browser.a(id: 'backlog-button').click
     sleep 0.8
 end
 

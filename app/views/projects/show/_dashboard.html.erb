@@ -22,11 +22,11 @@
                                             </div>
                                         <% elsif page == @reflex_pages['dashboard-items']['previous'] %>
                                             <div class="d-flex flex-row justify-content-start border-bottom border-eton-blue">
-                                                <%= content_tag(:a, page.capitalize, id: "#{page}-button", class: ' h5 slide-back mb-1 px-1 text-smoky-black', data: { reflex: 'click->ProjectDashboard#toggle_dashboard_item', vars: @reflex_variables, page: page, previous: previous }) %>
+                                                <%= content_tag(:a, page.capitalize, id: "#{page}-button", class: ' h5 slide-back mb-1 px-1 text-eton-blue hand', data: { reflex: 'click->ProjectDashboard#toggle_dashboard_item', vars: @reflex_variables, page: page, previous: previous }) %>
                                             </div>
                                         <% else %>
                                             <div class="d-flex flex-row justify-content-start border-bottom border-eton-blue">
-                                                <%= content_tag(:a, page.capitalize, id: "#{page}-button", class: ' h5 d-flex flex-row justify-content-start mb-1 px-1 text-smoky-black', data: { reflex: 'click->ProjectDashboard#toggle_dashboard_item', vars: @reflex_variables, page: page, previous: previous }) %>
+                                                <%= content_tag(:a, page.capitalize, id: "#{page}-button", class: ' h5 d-flex flex-row justify-content-start mb-1 px-1 text-eton-blue hand', data: { reflex: 'click->ProjectDashboard#toggle_dashboard_item', vars: @reflex_variables, page: page, previous: previous }) %>
                                             </div>
                                         <% end %>
                                     <% end %>

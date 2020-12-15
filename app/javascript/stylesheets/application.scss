@@ -17,6 +17,9 @@ $theme-colors: (
 body {
     font-family: 'Rubik', sans-serif;
 }
+.hand {
+    cursor: pointer;
+}
 
 .slide-in {
     position: relative;
@@ -47,6 +50,26 @@ body {
 @keyframes slideIn {
     0%   { top: 100vh; }
     100% { top: 0vh; }
+}
+@-webkit-keyframes slideOut {
+    0%   { top: 0vh; }
+    10% { top: 100vh; }
+    100% { top: 100vh; }
+}
+@-moz-keyframes slideOut {
+    0%   { top: 0vh; }
+    10% { top: 100vh; }
+    100% { top: 100vh; }
+}
+@-o-keyframes slideOut {
+    0%   { top: 0vh; }
+    10% { top: 100vh; }
+    100% { top: 100vh; }
+}
+@keyframes slideOut {
+    0%   { top: 0vh; }
+    10% { top: 100vh; }
+    100% { top: 100vh; }
 }
 .slide-over {
     position: relative;

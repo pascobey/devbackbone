@@ -35,6 +35,7 @@ class ProjectsController < ApplicationController
     }
     @post ||= 'Share something with the team.'
     @hidden_types ||= []
+    @dismissed ||= []
   end
 
 

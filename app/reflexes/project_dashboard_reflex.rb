@@ -13,6 +13,11 @@ class ProjectDashboardReflex < ApplicationReflex
         end
     end
 
+    def dismiss_weakness
+        reinstantiate_vars(element.dataset[:vars])
+        @dismissed << element.dataset[:weakness]
+    end
+
     def hide_meta
         reinstantiate_vars(element.dataset[:vars])
         @hidden_types << element.dataset[:meta]

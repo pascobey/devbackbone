@@ -12,8 +12,9 @@
 <% end %>
 <div class="p-1 rounded bg-middle-grey shadow slide-in">
     <div class="d-flex flex-row">
-        <div class="col-2 px-0 d-flex justify-content-start">
+        <div class="col-2 pl-0 d-flex justify-content-start">
             <div class="dropdown">
+                <% showing = [] %>
                 <%= button_tag(raw("#{render "shared/filter"}&nbsp;Filter"), class: 'btn btn-lavender mb-1 dropdown-toggle', type: "button", id: "dropdownMenuButton", data: { toggle: "dropdown" }) %>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <% type_metas.each do |tm| %>
@@ -23,6 +24,7 @@
                                 <%# tm %>
                             <%# </a> %>
                         <% else %>
+                            <% showing << tm %>
                             <%= link_to(tm, '#', class: 'dropdown-item', data: { reflex: 'click->ProjectDashboard#hide_meta', vars: @reflex_variables, meta: tm }) %>
                             <%# <a class="dropdown-item"> %>
                                 <%# tm %>
@@ -32,7 +34,24 @@
                 </div>
             </div>
         </div>
-        <div class="col-5 offset-5 px-0">
+        <div class="col-5 d-flex flex-column justify-content-center px-0 text-lavender text-center" style="font-size: 1.1rem;">
+            <% showing_string = '' %>
+            <% showing.each do |et| %>
+                <% if et == showing.first %>
+                    <% showing_string = et %>
+                <% elsif (showing.index(et) + 1) == showing.size %>
+                    <% showing_string = showing_string + ", and " + et %>
+                <% else %>
+                    <% showing_string = showing_string + ", " + et %>
+                <% end %>
+            <% end %>
+            <% if showing_string == '' %>
+                Nothing to show.
+            <% else %>
+                Showing <%= showing_string %> activity.
+            <% end %>
+        </div>
+        <div class="col-5 pr-0">
             <div class="d-flex flex-row input-group">
                 <%= text_field_tag('post-message', @post, class: 'form-control', data: { reflex: 'keyup->ProjectDashboard#build_post', vars: @reflex_variables}) %>
                 <%= content_tag(:span, raw("#{render "shared/post"}"), id: 'post-button', class: 'input-group-addon bg-ess-blue rounded-right pt-2 px-2', data: { reflex: 'click->ProjectDashboard#post', vars: @reflex_variables, message: @post }) %>
@@ -43,7 +62,7 @@
         <% if entries.size < 1 %>
             <div class="d-flex flex-row justify-content-center mb-1 rounded">
                 <div class="col-12 p-0">
-                    <div class="d-flex flex-row display-4 justify-content-center text-middle-grey">
+                    <div class="d-flex flex-row display-4 justify-content-center my-4 text-middle-grey">
                         <em>No activity yet...</em>
                     </div>
                 </div>
