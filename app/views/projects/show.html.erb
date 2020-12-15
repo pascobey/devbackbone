@@ -46,12 +46,11 @@
             <% @weaknesses.each do |w| %>
                 <% if !@dismissed.include?(w) %>
                     <div class="d-flex justify-content-end slide-in-slow px-1" style="opacity: .7; width: 100%;">
-                        <em class="alert alert-middle-grey shadow border border-eton-blue mb-1 pl-2" role="alert">
-                            <%= button_tag(raw(render 'shared/exit'), class: 'btn btn-danger btn-sm py-0', style: 'position:absolute; top: 0; right: 0; height: 20px; width: 20px; margin-top:2px; margin-right: 2px;', data: { reflex: 'click->ProjectDashboard#dismiss_weakness', vars: @reflex_variables, weakness: w }) %>
+                        <em class="alert alert-middle-grey shadow border border-eton-blue mb-1 py-1 pl-2" role="alert">
+                            <%= button_tag(raw(render 'shared/exit', use: 'weakness'), class: 'btn btn-danger btn-sm p-0', style: 'position:absolute; top: 0; right: 0; height: 15px; width: 15px; margin-top:2px; margin-right: 2px;', data: { reflex: 'click->ProjectDashboard#dismiss_weakness', vars: @reflex_variables, weakness: w }) %>
                             <%= render 'shared/warn' %>
                             &nbsp;
                             <span class="border-bottom border-warning"><%= w %></span>
-                            &nbsp;
                             &nbsp;
                         </em>
                     </div>

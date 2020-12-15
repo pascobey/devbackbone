@@ -47,7 +47,7 @@
                                     <%= text_area_tag('user-story-input', @new_user_story['story'], id: 'user-story-input', value: @new_user_story['story'], class: "row bg-sticky-#{ @new_user_story['color'] } px-1", data: { reflex: 'keyup->EditProject#set_user_story_text', vars: @reflex_variables }, rows: 4, style: 'width: 97%; border: none; margin-left: 6.5px;') %>
                                     <div class="row px-2 mb-1 <%=  %> justify-content-between" style="opacity: %90;">
                                         <div class="col-4" style="positon: relative; padding-left: 0px;">
-                                            <%= button_tag(raw(render 'shared/exit'), id: 'cancel-user-story', class: 'btn btn-danger btn-sm py-0', value: 'adding user story', data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }, style: 'height: 20px; width: 20px;') %>
+                                            <%= button_tag(raw(render 'shared/exit', use: 'sticky'), id: 'cancel-user-story', class: 'btn btn-danger btn-sm py-0', value: 'adding user story', data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }, style: 'height: 20px; width: 20px;') %>
                                             <%= button_tag(raw(render 'shared/add'), id: 'add-user-story', class: 'btn btn-success btn-sm py-0', value: 'adding user story', data: { reflex: 'click->EditProject#add_user_story', vars: @reflex_variables }, style: 'height: 20px; width: 20px;') %>
                                         </div>
                                         <div class="col-4 d-flex p-0 justify-content-center">
