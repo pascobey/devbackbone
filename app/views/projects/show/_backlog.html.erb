@@ -1,22 +1,37 @@
 
 <div id="backlog-container" class="row mb-2 slide-in pb-0">
     <div class="col-12 px-2">
-        <div class="bg-lavender px-4 py-4 rounded shadow">
-            <div class="d-flex flex-row justify-content-center">
-                <h3 id="user-stories-header" style="margin-top: -10px;">User Stories</h3>
+        <div class="px-1 py-1 rounded shadow bg-middle-grey shadow">
+            <div class="d-flex pb-1 flex-row text-lavender justify-content-between">
+                <% if !@reflex_pages['adding user story'] %>
+                    <%= button_tag('New Story', id: 'new-user-story', value: 'adding user story', class: 'btn btn-sticky-1 border-sticky-4 shadow', data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
+                <% end %>
+                <h3 id="user-stories-header" class="mb-0 text-lavender" style="text-shadow: 1px 1px #feff9c;">User Stories</h3>
+                <div class="column">
+                    <div class="d-flex flex-row input-group">
+                        <%= text_field_tag('post-message', @category_name, class: 'form-control', data: { reflex: 'keyup->ProjectDashboard#build_category', vars: @reflex_variables}) %>
+                        <%= content_tag(:span, 'Add', id: 'post-button', class: 'input-group-addon bg-ess-blue rounded-right text-smoky-black pt-2 px-2', data: { reflex: 'click->ProjectDashboard#add_category', vars: @reflex_variables, category_name: @category_name }) %>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex flex-row">
+            <div class="d-flex flex-row bg-lavender p-2">
                 <div class="col-12 p-0">
-                    <div class="container-fluid m-1 p-0">
-                        <div class="row justify-content-around">
-                            <% @backbone_document['backlog']['user_stories'].each do |story| %>
+                    <div class="container-fluid">
+                        <% if @project.categories.size == 0 %>
+                            <% stickies = @backbone_document['backlog']['user_stories'].sort_by do |story| %>
+                                <% Sticky.find(story['sticky_id'].to_i).position %>
+                            <% end %>
+                            <div class="row justify-content-around" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
+                            <% stickies.each do |story| %>
                                 <% color = "bg-sticky-#{story['color']}" %>
-                                <div class="col-3 h-100 <%= color %>" style="min-width: 275px; margin-left: 2px; margin-right: 2px; margin-bottom: 4px;">
-                                    <div class="row px-1 <%= color %>">
+                                <div data-id="<%= story['sticky_id'] %>" class="col-2 grab h-100 <%= color %> shadow" style="min-width: 275px; margin-left: 2px; margin-right: 2px; margin-bottom: 4px;">
+                                    <div class="d-flex flex-row row justify-content-center mb-1 bg-middle-grey pt-1">
+                                    </div>
+                                    <div class="row mb-1 mx-1 <%= color %>">
                                         <%= story['story'] %>
                                     </div>
                                     <div class="row px-2 pb-1 <%= color %> justify-content-between" style="opacity: 90%;">
-                                        <div class="col-1 d-flex justify-content-end" style="margin-left: 3px;">
+                                        <div class="col-1 d-flex justify-content-center" style="margin-left: 3px; position: relative; top: -7px;">
                                             <% story['approved'] ? (approval = 'approved') : (approval = 'unapproved') %>
                                             <% if !@scrum_editing_privileges %>
                                                 <%= content_tag(:div, raw(render "shared/#{approval}"), data: { toggle: "tooltip", placement: 'top' }, title: 'Tooltip on top') %>
@@ -24,23 +39,34 @@
                                                 <%= content_tag(:div, raw(render "shared/#{approval}"), class: "#{approval}", style: "cursor: pointer;", data: { reflex: 'click->EditProject#toggle_user_story_approval', vars: @reflex_variables, story: story, toggle: "tooltip", placement: 'top' }, title: approval) %>
                                             <% end %>
                                         </div>
-                                        <div class="column d-flex justify-content-center mt-1" style="positon: relative; padding-left: 3px; margin-left: -15px; width: 83%; bottom: -5px;">
-                                            <% user_info = Profile.find_by(user_id: story['editor'].to_i).user_information_safe %>
-                                            <%= "creator - #{user_info['first_name']} #{user_info['last_name']}" %>
+                                        <div class="col-9 d-flex justify-content-center" style="positon: absolute; padding-left: 3px; width: 83%;">
+                                            <% profile = Profile.find_by(user_id: story['editor'].to_i) %>
+                                            <% user_info = profile.user_information_safe %>
+                                            Creator -&nbsp;<%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
                                         </div>
-                                        <div class="col-1 d-flex justify-content-end" style="padding-right: 2px;">
+                                        <div class="col-1 d-flex justify-content-end" style="font-size: 1.3rem; padding-right: 2px;">
                                             <%= story['value'] %>
                                         </div>
                                     </div>
                                 </div>
                             <% end %>
-                        </div>
+                            </div>
+                        <% else %>
+                            <% @categories.each do |c| %>
+                                <%= stickies = @backbone_document['backlog']['user_stories'].sort_by do |story| %>
+                                    <% sticky = Sticky.find(story['sticky_id'].to_i) %>
+                                    <% if sticky.category == c.name %>
+                                        <% sticky.position %>
+                                    <% end %>
+                                <% end %>
+                                <div class="row justify-content-around">
+                                    <div class="column" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
+                                    </div>
+                                </div>
+                            <% end %>
+                        <% end %>
                     </div>
-                    <% if !@reflex_pages['adding user story'] %>
-                        <div class="row justify-content-center">
-                            <%= button_tag('New User Story', id: 'new-user-story', value: 'adding user story', class: 'btn btn-sticky-1 border-sticky-4 shadow', data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
-                        </div>
-                    <% else %>
+                    <% if @reflex_pages['adding user story'] %>
                         <div class="container-fluid m-1">
                             <div class="row justify-content-center">
                                 <div class="col-3 bg-sticky-<%= @new_user_story['color'] %>" style="min-width: 275px;">

@@ -20,7 +20,19 @@ body {
 .hand {
     cursor: pointer;
 }
-
+.grab {
+    cursor: grab;
+}
+.grab:active {
+    cursor: grabbing; 
+}
+.weakness {
+    width: 100%;
+    opacity: .7;
+}
+.weakness:hover {
+    opacity: 1;
+}
 .slide-in {
     position: relative;
     -webkit-animation: slideIn 1s forwards;

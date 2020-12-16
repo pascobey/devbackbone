@@ -14,20 +14,20 @@
 <!-- content-container - container-lg (responsive) -->
 <div id="content-container" class="container-fluid w-100">
 
-    <div class="row border-bottom border-mountbatten pb-1 mb-2">
-        <div class="col-12 col-md-6 d-flex order-last order-md-first justify-content-between">
+    <div class="row border-bottom border-eton-blue pb-1 mb-2">
+        <div class="col-12 col-md-5 d-flex justify-content-center justify-content-md-start" style="margin-top: -0.5%; margin-bottom: -1.5%;">
+            <div id="show-project-header" class="display-4 text-ess-blue">
+                <%= link_to @project.project_name, project_path(@project.id), class: 'text-eton-blue', style: 'text-shadow: 3px 3px #987284;' %>&nbsp;
+            </div>
+        </div>
+        <div class="col-12 col-md-7 d-flex order-last justify-content-between">
             <% @reflex_pages['buttons'].each do |button, bool| %>
                 <% if !@reflex_pages['buttons'][button] %>
-                    <%= content_tag(:a, button.capitalize, id: "#{button}-button", class: 'd-flex flex-column text-eton-blue h4 justify-content-center mt-3 hand', data: { reflex: 'click->EditProject#show_page', vars: @reflex_variables, button: button }) %>
+                    <%= content_tag(:a, button.capitalize, id: "#{button}-button", class: 'd-flex flex-column text-eton-blue h4 justify-content-center mt-3', data: { reflex: 'click->EditProject#show_page', vars: @reflex_variables, button: button }) %>
                 <% else %>
                     <%= content_tag(:p, button.capitalize, id: "#{button}-button", class: 'd-flex flex-column text-mountbatten h4 justify-content-center mt-2 mb-0', style: 'font-size: 1.8rem;') %>
                 <% end %>
             <% end %>
-        </div>
-        <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end" style="margin-top: -0.5%; margin-bottom: -1.5%;">
-            <div id="show-project-header" class="display-4 text-ess-blue">
-                <%= link_to @project.project_name, project_path(@project.id), class: 'text-eton-blue', style: 'text-shadow: 3px 3px #987284;' %>&nbsp;
-            </div>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
         <div id="backbone-weaknesses" class="fixed-bottom">
             <% @weaknesses.each do |w| %>
                 <% if !@dismissed.include?(w) %>
-                    <div class="d-flex justify-content-end slide-in-slow px-1" style="opacity: .7; width: 100%;">
+                    <div class="weakness d-flex justify-content-end slide-in-slow px-1">
                         <em class="alert alert-middle-grey shadow border border-eton-blue mb-1 py-1 pl-2" role="alert">
                             <%= button_tag(raw(render 'shared/exit', use: 'weakness'), class: 'btn btn-danger btn-sm p-0', style: 'position:absolute; top: 0; right: 0; height: 15px; width: 15px; margin-top:2px; margin-right: 2px;', data: { reflex: 'click->ProjectDashboard#dismiss_weakness', vars: @reflex_variables, weakness: w }) %>
                             <%= render 'shared/warn' %>

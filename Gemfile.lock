@@ -56,6 +56,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
+    acts_as_list (1.0.2)
+      activerecord (>= 4.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     bcrypt (3.1.16)
@@ -123,6 +125,10 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
     email_spec (2.2.0)
       htmlentities (~> 4.3.3)
       launchy (~> 2.1)
@@ -322,12 +328,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_list (~> 1.0)
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
   cucumber-rails
   database_cleaner
   devise
+  dotenv-rails
   email_spec
   factory_bot_rails
   image_processing (~> 1.2)

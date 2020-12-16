@@ -38,4 +38,16 @@ class ProjectDashboardReflex < ApplicationReflex
         project = Project.find(params[:id])
         Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: element.dataset[:message], type_meta: 'post')
     end
+
+    def build_category 
+        reinstantiate_vars(element.dataset[:vars])
+        @category_name = element.value
+    end
+
+    def add_category
+        reinstantiate_vars(element.dataset[:vars])
+        project = Project.find(params[:id])
+        Category.create(project_id: project.id, name: element.dataset[:category_name])
+    end
+
 end

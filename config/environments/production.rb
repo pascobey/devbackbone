@@ -59,19 +59,8 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "backbone_bdd_production"
-  config.action_mailer.default_url_options = { :host => 'pacific-citadel-61301.herokuapp.com' }
-  config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-    :user_name => ENV['app194280561@heroku.com'],
-    :password => ENV['lyynavlh3955'],
-    :domain => 'pacific-citadel-61301.herokuapp.com',
-    :address => 'smtp.sendgrid.net',
-    :port => 587,
-    :authentication => :plain,
-    :enable_starttls_auto => true
-  }
+  config.action_mailer.default_url_options = { host: "https://pacific-citadel-61301.herokuapp.com/" }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

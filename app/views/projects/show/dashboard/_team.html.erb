@@ -11,7 +11,7 @@
                         <% role_css_formatted = role.gsub('_', '-') %>
                         <% role_copy_formatted = role.gsub('_', ' ') %>
                         <% profile = Profile.find_by(user_id: user.first) %>
-                        <% user_information = profile.user_information %>
+                        <% user_information = profile.user_information_safe %>
                         <div class="d-flex flex-row justify-content-between border-bottom">
                             <%= label(role_copy_formatted, "#{role_copy_formatted}:", id: "#{role_css_formatted}-#{user_information['first_name'].gsub(' ', '')}-#{user_information['last_name'].gsub(' ', '')}") %>
                             <%= link_to("#{user_information['first_name']} #{user_information['last_name']}", profile_path(profile.id)) %>
@@ -23,7 +23,7 @@
                                     <%= text_field_tag("search-for-#{role_css_formatted}", nil, placeholder: 'search', id: "#{role_css_formatted}-search", data: { reflex: 'keyup->EditProject#edit_search_query', vars: @reflex_variables }) %>
                                     <% Profile.all_containing(@search_information).each do |p| %>
                                         <% if p != profile %>
-                                            <% user_info = p.user_information %>
+                                            <% user_info = p.user_information_safe %>
                                             <ul>
                                                 <li>
                                                     <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(p.id)) %>
@@ -52,7 +52,7 @@
                             <% if !@owner_editing_privileges %>
                                 <% members.each do |user_id| %>
                                     <% profile = Profile.find_by(user_id: user_id) %>
-                                    <% user_info = profile.user_information %>
+                                    <% user_info = profile.user_information_safe %>
                                     <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
                                 <% end %>
                             <% else %>
@@ -71,7 +71,7 @@
                                     <%= button_tag("done", id: "edit-#{subset_css_formatted}", value: subset_copy_formatted, data: { reflex: 'click->EditProject#toggle_page_item', vars: @reflex_variables }) %>
                                     <% members.each do |user_id| %>
                                         <% profile = Profile.find_by(user_id: user_id) %>
-                                        <% user_info = profile.user_information %>
+                                        <% user_info = profile.user_information_safe %>
                                         <ul>
                                             <li>
                                                 <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
@@ -83,7 +83,7 @@
                                     <%= text_field_tag("search-for-#{subset_css_formatted}", nil, placeholder: 'search', id: "#{subset_css_formatted}-search", data: { reflex: 'keyup->EditProject#edit_search_query', vars: @reflex_variables }) %>
                                     <% Profile.all_containing(@search_information).each do |p| %>
                                         <% if !members.include?(p.user_id) %>
-                                            <% user_info = p.user_information %>
+                                            <% user_info = p.user_information_safe %>
                                             <ul>
                                                 <li>
                                                     <%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(p.id)) %>

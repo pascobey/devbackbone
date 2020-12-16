@@ -36,8 +36,14 @@ class ProjectsController < ApplicationController
     @post ||= 'Share something with the team.'
     @hidden_types ||= []
     @dismissed ||= []
+    @category_name ||= 'New Category'
+    @categories = Category.where(project_id: @project.id)
   end
 
+  def move
+    @sortable.insert_at(params[:position].to_i)
+    head :ok
+  end
 
   def update
     @project = Project.find(params[:id])

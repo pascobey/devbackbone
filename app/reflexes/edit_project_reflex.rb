@@ -111,8 +111,11 @@ class EditProjectReflex < ApplicationReflex
 
     def add_user_story
         toggle_page_item
-        @backbone_document['backlog']['user_stories'] << @new_user_story
         project = Project.find(params[:id])
+        position = @backbone_document['backlog']['user_stories'].size + 1
+        sticky = Sticky.create(position: position, category: 'New Category')
+        @new_user_story['sticky_id'] = sticky.id
+        @backbone_document['backlog']['user_stories'] << @new_user_story
         project.update(backbone_document: @backbone_document)
         Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "New user story: #{@new_user_story['story'].capitalize}", type_meta: 'backlog')
     end

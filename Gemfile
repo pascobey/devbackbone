@@ -6,6 +6,7 @@ ruby '2.6.3'
 
 gem 'devise'
 gem 'sidekiq'
+gem 'dotenv-rails', groups: [:development, :test]
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -70,3 +71,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "stimulus_reflex", "~> 3.3"
+
+gem "acts_as_list", "~> 1.0"

@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
 
     has_one :change_log
+    has_many :categories
     
     def backbone_document_safe
         if self.backbone_document.class != Hash
