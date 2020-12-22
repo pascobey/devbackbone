@@ -1,24 +1,20 @@
-# README
+# Backbone
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[Backbone](http://devbackbone.com) is an web application designed to keep development teams agile!
+It is a Ruby on Rails application leveraging Cucumber's Behavior Driven Development.
 
-Things you may want to cover:
+## Project Status
+This is a WIP portfolio project. 
+* Sprint Board organization remains for v1.0 iteration.
+* On the production server, user registration confirmation emails through SendGrid are still buggy.
 
-* Ruby version
 
-* System dependencies
+* Ruby 2.6.3 - Rails 6.0.3
 
-* Configuration
+* Authenticates with Devise
 
-* Database creation
+* Utilizes Stimulus JS and Stimulus Reflex with Redis Caching
 
-* Database initialization
+* Postgresql with JSONB stores and Relational model
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Passing most tests as rails build:test:cucumber
