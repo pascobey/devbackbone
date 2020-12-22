@@ -6,6 +6,7 @@ ruby '2.6.3'
 
 gem 'devise'
 gem 'sidekiq'
+gem 'dotenv-rails', :require => 'dotenv/rails-now'
 # gem 'dotenv-rails', groups: [:development, :test]
 
 
