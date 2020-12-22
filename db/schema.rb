@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_15_195823) do
+ActiveRecord::Schema.define(version: 2020_12_18_184038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -72,8 +72,21 @@ ActiveRecord::Schema.define(version: 2020_12_15_195823) do
   end
 
   create_table "stickies", force: :cascade do |t|
+    t.integer "project_id"
     t.integer "position"
-    t.string "category"
+    t.integer "category_id"
+    t.integer "user_story_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_stories", force: :cascade do |t|
+    t.integer "project_id"
+    t.string "story", default: "As a <type of user>, I want <some goal> so that <some reason>."
+    t.integer "value", default: 0
+    t.integer "editor_user_id"
+    t.boolean "approved", default: false
+    t.integer "color", default: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

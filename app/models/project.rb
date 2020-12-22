@@ -26,7 +26,7 @@ class Project < ApplicationRecord
                 end
             end
         end
-        if doc['backlog']['user_stories'] == []
+        if UserStory.where(project_id: self.id) == []
             weaknesses << "The product backlog is empty."
         end 
         return weaknesses

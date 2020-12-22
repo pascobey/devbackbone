@@ -5,7 +5,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js" integrity="sha512-2xXe2z/uA+2SyT/sTSt9Uq4jDKsT0lV4evd3eoE/oxKih8DSAsOF6LUb+ncafMJPAimWAXdu9W+yMXGrCVOzQA==" crossorigin="anonymous"></script>
 
-<% @reflex_variables = { project_id: @project_id, user_id: @current_user.id, backbone_document: @backbone_document, search_information: @search_information, new_user_story: @new_user_story, reflex_pages: @reflex_pages, hidden_types: @hidden_types, dismissed: @dismissed } %>
+<% @reflex_variables = { project_id: @project_id, user_id: @current_user.id, backbone_document: @backbone_document, search_information: @search_information, new_user_story: @new_user_story, category_name: @category_name, reflex_pages: @reflex_pages, hidden_types: @hidden_types, dismissed: @dismissed } %>
 
 <% @dropdown_links = { '' => [] } %>
 <% @available_links = [{'Profile' => profile_path(current_user.id)}] %>

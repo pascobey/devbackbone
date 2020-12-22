@@ -25,23 +25,28 @@ class ProjectsController < ApplicationController
           'previous' => ''
         }
     }
-    @search_information ||= ''
+    # @new_user_story ||= UserStory.new
     @new_user_story ||= {
-      'story' => 'As a <type of user>, I want <some goal> so that <some reason>.',
-      'value' => 0,
-      'editor' => @current_user.id,
-      'approved' => false,
-      'color' => 1
+      story: 'As a <type of user>, I want <some goal> so that <some reason>.',
+      value: 0,
+      editor_user_id: '',
+      approved: false,
+      color: '1'
     }
+    @search_information ||= ''
     @post ||= 'Share something with the team.'
     @hidden_types ||= []
     @dismissed ||= []
     @category_name ||= 'New Category'
     @categories = Category.where(project_id: @project.id)
+    @user_stories = UserStory.where(project_id: @project.id)
   end
 
   def move
     @sortable.insert_at(params[:position].to_i)
+    if params[:category_id]
+      @sortable.update(category_id: params[:category_id].to_s)
+    end
     head :ok
   end
 

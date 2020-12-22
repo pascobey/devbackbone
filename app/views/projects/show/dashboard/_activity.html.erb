@@ -20,15 +20,9 @@
                     <% type_metas.each do |tm| %>
                         <% if @hidden_types.include?(tm) %>
                             <%= link_to(tm, '#', class: 'dropdown-item bg-middle-grey', data: { reflex: 'click->ProjectDashboard#show_meta', vars: @reflex_variables, meta: tm }) %>
-                            <%# <a class="dropdown-item bg-middle-grey"> %>
-                                <%# tm %>
-                            <%# </a> %>
                         <% else %>
                             <% showing << tm %>
                             <%= link_to(tm, '#', class: 'dropdown-item', data: { reflex: 'click->ProjectDashboard#hide_meta', vars: @reflex_variables, meta: tm }) %>
-                            <%# <a class="dropdown-item"> %>
-                                <%# tm %>
-                            <%# </a> %>
                         <% end %>
                     <% end %>
                 </div>

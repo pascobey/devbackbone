@@ -94,7 +94,7 @@ class EditProjectReflex < ApplicationReflex
         end
     end
 
-    def set_user_story_text
+    def set_user_story_story
         reinstantiate_vars(element.dataset[:vars])
         @new_user_story['story'] = element.value
     end
@@ -112,20 +112,17 @@ class EditProjectReflex < ApplicationReflex
     def add_user_story
         toggle_page_item
         project = Project.find(params[:id])
-        position = @backbone_document['backlog']['user_stories'].size + 1
-        sticky = Sticky.create(position: position, category: 'New Category')
-        @new_user_story['sticky_id'] = sticky.id
-        @backbone_document['backlog']['user_stories'] << @new_user_story
-        project.update(backbone_document: @backbone_document)
-        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "New user story: #{@new_user_story['story'].capitalize}", type_meta: 'backlog')
+        story = UserStory.create(project_id: project.id, story: @new_user_story['story'], value: @new_user_story['value'], editor_user_id: @user_id, color: @new_user_story['color'])
+        position = UserStory.where(project_id: project.id).size
+        sticky = Sticky.create(project_id: project.id, position: position, user_story_id: story.id, category_id: nil)
+        Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "New user story: #{story.story}", type_meta: 'backlog')
     end
 
     def toggle_user_story_approval
         reinstantiate_vars(element.dataset[:vars])
-        story = @backbone_document['backlog']['user_stories'].find {|story| story['story'].strip == eval(element.dataset[:story]).stringify_keys['story']}
-        story['approved'] = !story['approved']
-        project = Project.find(params[:id])
-        project.update(backbone_document: @backbone_document)
+        story = UserStory.find(element.dataset[:story_id])
+        appr = story.approved
+        story.update(approved: !appr)
     end
 
 end
