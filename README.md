@@ -6,7 +6,7 @@ It is a Ruby on Rails application leveraging Cucumber's Behavior Driven Developm
 ## Project Status
 This is a WIP portfolio project. 
 * Sprint Board organization remains for v1.0 iteration.
-* On the production server, user registration confirmation emails through SendGrid are still buggy.
+* On the production server, user registration confirmation emails through SendGrid are still giving SMTP error.
 
 
 * Ruby 2.6.3 - Rails 6.0.3

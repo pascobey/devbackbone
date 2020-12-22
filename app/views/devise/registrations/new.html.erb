@@ -1,5 +1,5 @@
 <% content_for :title, 'Sign up' %>
-
+<% @checked_email ||= false %>
 <% @current_link = {'Sign up' => new_user_registration_path} %>
 <% @dropdown_links = {'' => []} %>
 <% @available_links = [{'Sign in' => new_user_session_path}] %>
@@ -38,9 +38,22 @@
             <%= f.label :password_confirmation %>
             <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
           </div>
+
+          <div class="form-group">
+            <% if @checked_email %>
+              <%= check_box_tag('approve_email', @checked_email, true, data: { reflex: 'click->Registration#toggle_email_approval' }) %>
+            <% else %>
+              <%= check_box_tag('approve_email', @checked_email, false, data: { reflex: 'click->Registration#toggle_email_approval' }) %>
+            <% end %>
+            <%= label_tag('Can we confirm your account via email?') %>
+          </div>
         
           <div class="form-group">
-            <%= f.submit "Sign up", class: 'btn btn-eton-blue' %>
+            <% if @checked_email %>
+              <%= f.submit "Sign up", class: 'btn btn-eton-blue' %>
+            <% else %>
+              <%= f.submit "Sign up", disabled: true, class: 'btn btn-eton-blue' %>
+            <% end %>
           </div>
         <% end %>
         
