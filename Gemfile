@@ -6,7 +6,7 @@ ruby '2.6.3'
 
 gem 'devise'
 gem 'sidekiq'
-gem 'dotenv-rails', groups: [:development, :test]
+# gem 'dotenv-rails', groups: [:development, :test]
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
