@@ -1,6 +1,6 @@
 # Backbone
 
-[Backbone](http://devbackbone.com) is an web application designed to keep development teams agile!
+[devbackbone.com](http://devbackbone.com) is an web application designed to keep development teams agile!
 It is a Ruby on Rails application leveraging Cucumber's Behavior Driven Development.
 
 ## Project Status
