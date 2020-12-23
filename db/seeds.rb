@@ -5,12 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-# point = ''
-# if File.expand_path(__FILE__).include?('/app/development_data')
-    point = '/app'
-# else
-    # point = '/backbone-bdd'
-# end
 
 dhh = User.create(
     email: 'david@hey.com',
@@ -33,7 +27,7 @@ dhh_p = Profile.create(
         }
     }
 )
-dhh_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split(point)[0] + point + '/development_data/dhh.jpg'), filename: 'dhh.jpg')
+dhh_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('development_data')[0] + '/development_data/dhh.jpg'), filename: 'dhh.jpg')
 
 
 chris = User.create(
@@ -57,7 +51,7 @@ chris_p = Profile.create(
         }
     }
 )
-chris_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split(point)[0] + point + '/development_data/chris.jpeg'), filename: 'chris.jpeg')
+chris_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('development_data')[0] + '/development_data/chris.jpeg'), filename: 'chris.jpeg')
 
 
 ray = User.create(
@@ -81,7 +75,7 @@ ray_p = Profile.create(
         }
     }
 )
-ray_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split(point)[0] + point + '/development_data/ray.jpg'), filename: 'ray.jpg')
+ray_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('development_data')[0] + '/development_data/ray.jpg'), filename: 'ray.jpg')
 
 
 kevin = User.create(
@@ -105,7 +99,7 @@ kevin_p = Profile.create(
         }
     }
 )
-kevin_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split(point)[0] + point + '/development_data/kevin.jpg'), filename: 'kevin.jpg')
+kevin_p.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('development_data')[0] + '/development_data/kevin.jpg'), filename: 'kevin.jpg')
 
 bbd = {
     'project_name' => 'Project Two',
