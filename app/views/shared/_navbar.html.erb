@@ -1,4 +1,6 @@
-<% if !@current_link.nil? %>
+<% if @current_link['Home'] = '/' %>
+    <nav class="navbar navbar-expand-md navbar-dark bg-smoky-black px-2 py-1">
+<% elsif !@current_link.nil? %>
     <nav class="navbar navbar-expand-md navbar-dark bg-smoky-black shadow px-2 py-1">
 <% else %>
     <nav class="navbar navbar-expand-md navbar-dark bg-smoky-black px-2 py-1">
