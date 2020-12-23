@@ -15,12 +15,12 @@
 <div id="content-container" class="container-fluid w-100">
 
     <div class="row border-bottom border-eton-blue pb-1 mb-2">
-        <div class="col-12 col-md-5 d-flex justify-content-center justify-content-md-start" style="margin-top: -0.5%; margin-bottom: -1.5%;">
+        <div class="col-12 col-lg-5 d-flex justify-content-center justify-content-lg-start" style="margin-top: -0.5%; margin-bottom: -1.5%;">
             <div id="show-project-header" class="display-4 text-ess-blue">
                 <%= link_to @project.project_name, project_path(@project.id), class: 'text-eton-blue', style: 'text-shadow: 3px 3px #987284;' %>&nbsp;
             </div>
         </div>
-        <div class="col-12 col-md-7 d-flex order-last justify-content-between">
+        <div class="col-12 col-lg-7 d-flex order-last justify-content-between">
             <% @reflex_pages['buttons'].each do |button, bool| %>
                 <% if !@reflex_pages['buttons'][button] %>
                     <%= content_tag(:a, button.capitalize, id: "#{button}-button", class: 'd-flex flex-column text-eton-blue h4 justify-content-center mt-3', data: { reflex: 'click->EditProject#show_page', vars: @reflex_variables, button: button }) %>
