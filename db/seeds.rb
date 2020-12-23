@@ -5,12 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-point = ''
-if File.expand_path(__FILE__).include?('/app/development_data')
+# point = ''
+# if File.expand_path(__FILE__).include?('/app/development_data')
     point = '/app'
-else
-    point = '/backbone-bdd'
-end
+# else
+    # point = '/backbone-bdd'
+# end
 
 dhh = User.create(
     email: 'david@hey.com',
