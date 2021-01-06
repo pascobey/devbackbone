@@ -17,9 +17,10 @@ class NewProjectReflex < ApplicationReflex
             },
             'development_team' => @development_team_subsets,
             'sprint' => {
+                'daily_scrum' => '', 
+                'sprint_planning' => '',
                 'start' => '',
                 'end' => '',
-                'daily_scrum' => '', 
                 'sprint_review' => ''
             },
             'burndown' => {

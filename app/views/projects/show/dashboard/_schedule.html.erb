@@ -1,13 +1,91 @@
 
 <div id="scrum-container" class="row slide-in">
     <div class="col-12">
-        <div class="bg-lavender px-4 py-4 rounded shadow">
-            <div class="row mb-4">
-                <div class="col-3">
+        <div class="bg-lavender px-4 pb-4 pt-3 rounded shadow">
+            <div class="row">
+                <div class="col-12 border-bottom border-smoky-black mb-4">
                     <h4 id="sprint-header">Sprint Schedule:<h4>
                 </div>
-                <div class="col-9">
-                    <% @backbone_document['sprint'].each do |item, time| %>
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between border-bottom border-ess-blue pb-1 form-group">
+                        <% daily_scrum_time = @backbone_document['sprint']['daily_scrum'] == '' ? (@backbone_document['sprint']['daily_scrum'] = Time.now) : (Time.parse(@backbone_document['sprint']['daily_scrum'])) %>
+                        <%= label('daily_scrum', 'daily scrum:', id: 'daily-scrum-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <%= content_tag(:div, "Everyday at #{daily_scrum_time.strftime("%l:%M%P")}", id: 'daily-scrum-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <% if @scrum_editing_privileges %>
+                            <div class="input-group w-50 mr-2">
+                                <%= text_field_tag('daily-scrum-start-input', daily_scrum_time.strftime('%l:%M%P'), class: 'form-control text-center', data: { reflex: 'keyup->EditProject#change_date', vars: @reflex_variables, item: 'daily_scrum' }) %>
+                                <div class="input-group-append">
+                                    <%= content_tag(:span, 'Notify team', class: 'input-group-text btn btn-outline-eton-blue', style: 'height: 38px;', data: { reflex: 'click->EditProject#notify_schedule_change', vars: @reflex_variables, item: 'daily scrum', datetime: daily_scrum_time.strftime("%l:%M%P").upcase! }) %>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between border-bottom border-ess-blue pb-1 form-group">
+                        <% sprint_planning_time = @backbone_document['sprint']['sprint_planning'] == '' ? (@backbone_document['sprint']['sprint_planning'] = Time.now) : (Time.parse(@backbone_document['sprint']['sprint_planning'])) %>
+                        <%= label('sprint_planning', 'sprint planning:', id: 'sprint-planning-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <%= content_tag(:div, "#{sprint_planning_time.strftime("%A, %B %e, %Y, %l:%M%P")}", id: 'sprint-planning-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <% if @scrum_editing_privileges %>
+                            <div class="input-group w-50 mr-2">
+                                <%= text_field_tag('sprint-planning-start-input', sprint_planning_time.strftime("%B %e, %Y, %l:%M%P"), class: 'form-control text-center', data: { reflex: 'keyup->EditProject#change_date', vars: @reflex_variables, item: 'sprint_planning' }) %>
+                                <div class="input-group-append">
+                                    <%= content_tag(:span, 'Notify team', class: 'input-group-text btn btn-outline-eton-blue', style: 'height: 38px;', data: { reflex: 'click->EditProject#notify_schedule_change', vars: @reflex_variables, item: 'planning', datetime: sprint_planning_time.strftime("%A, %B %e, %Y, %l:%M%P").upcase! }) %>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between border-bottom border-ess-blue pb-1 form-group">
+                        <% start_time = @backbone_document['sprint']['start'] == '' ? (@backbone_document['sprint']['start'] = Time.now) : (Time.parse(@backbone_document['sprint']['start'])) %>
+                        <%= label('start', 'start:', id: 'start-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <%= content_tag(:div, start_time.strftime('%A, %B %e, %Y, %l:%M%P'), id: 'start-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <% if @scrum_editing_privileges %>
+                            <div class="input-group w-50 mr-2">
+                                <%= text_field_tag('sprint-start-input', start_time.strftime("%B %e, %Y, %l:%M%P"), class: 'form-control text-center', data: { reflex: 'keyup->EditProject#change_date', vars: @reflex_variables, item: 'start' }) %>
+                                <div class="input-group-append">
+                                    <%= content_tag(:span, 'Notify team', class: 'input-group-text btn btn-outline-eton-blue', style: 'height: 38px;', data: { reflex: 'click->EditProject#notify_schedule_change', vars: @reflex_variables, item: 'start', datetime: start_time.strftime("%A, %B %e, %Y, %l:%M%P").upcase! }) %>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between border-bottom border-ess-blue pb-1 form-group">
+                        <% end_time = @backbone_document['sprint']['end'] == '' ? (@backbone_document['sprint']['end'] = Time.now) : (Time.parse(@backbone_document['sprint']['end'])) %>
+                        <%= label('end', 'end:', id: 'end-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <%= content_tag(:div, end_time.strftime('%A, %B %e, %Y, %l:%M%P'), id: 'end-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <% if @scrum_editing_privileges %>
+                            <div class="input-group w-50 mr-2">
+                                <%= text_field_tag('end-start-input', end_time.strftime("%B %e, %Y, %l:%M%P"), class: 'form-control text-center', data: { reflex: 'keyup->EditProject#change_date', vars: @reflex_variables, item: 'end' }) %>
+                                <div class="input-group-append">
+                                    <%= content_tag(:span, 'Notify team', class: 'input-group-text btn btn-outline-eton-blue', style: 'height: 38px;', data: { reflex: 'click->EditProject#notify_schedule_change', vars: @reflex_variables, item: 'end', datetime: end_time.strftime("%A, %B %e, %Y, %l:%M%P").upcase! }) %>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between pb-1 form-group">
+                        <% sprint_review_time = @backbone_document['sprint']['sprint_review'] == '' ? (@backbone_document['sprint']['sprint_review'] = Time.now) : (Time.parse(@backbone_document['sprint']['sprint_review'])) %>
+                        <%= label('sprint_review', 'sprint review:', id: 'sprint-review-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <%= content_tag(:div, "#{sprint_review_time.strftime("%A, %B %e, %Y, %l:%M%P")}", id: 'sprint-review-input-label', class: 'font-weight-bold text-uppercase mt-2') %>
+                        <% if @scrum_editing_privileges %>
+                            <div class="input-group w-50 mr-2">
+                                <%= text_field_tag('sprint-review-start-input', sprint_review_time.strftime("%B %e, %Y, %l:%M%P"), class: 'form-control text-center', data: { reflex: 'keyup->EditProject#change_date', vars: @reflex_variables, item: 'sprint_review' }) %>
+                                <div class="input-group-append">
+                                    <%= content_tag(:span, 'Notify team', class: 'input-group-text btn btn-outline-eton-blue', style: 'height: 38px;', data: { reflex: 'click->EditProject#notify_schedule_change', vars: @reflex_variables, item: 'review', datetime: sprint_review_time.strftime("%A, %B %e, %Y, %l:%M%P").upcase! }) %>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+
+
+
+
+                    <!-- <% @backbone_document['sprint'].each do |item, time| %>
                         <% datetime = { 'date' => true, 'time' => false } %>
                         <% item_css_formatted = item.gsub('_', '-') %>
                         <% item_copy_formatted = item.gsub('_', ' ') %>
@@ -30,26 +108,27 @@
                             <% end %>
                         <% else %>
                             <% time = 'not set' %>
-                        <% end %>
-                        <div class="d-flex flex-row justify-content-between border-bottom">
+                        <% end %> -->
+                        <!-- <div class="d-flex flex-row justify-content-between border-bottom">
                             <%= label(item_copy_formatted, "#{item_copy_formatted}:", id: "sprint-#{item_css_formatted}") %>
                             <% if @scrum_editing_privileges %>
-                                <% if datetime['date'] %>
-                                    <div id="scrum-edit-date" class="input-group date h-100 w-75 ml-2" data-provide="datepicker">
+                                <% if datetime['date'] %> -->
+                                    <!-- <div id="scrum-edit-date" class="input-group date h-100 w-75 ml-2" data-provide="datepicker">
                                         <%= text_field_tag("#{item_css_formatted}-date-input", time, id: "#{item_css_formatted}-date-input", type: 'text', class: 'form-control', data: { reflex: 'click->EditProject#change_date', vars: @reflex_variables, item: item }, :readonly => true) %>
                                         <%= render 'shared/datepicker' %>
-                                    </div>
+                                    </div> -->
+                                    <!-- <%= text_field_tag("#{item_css_formatted}-date-input", time, data: { provide: 'datepicker' }) %>
                                 <% end %>
-                                <% if datetime['time'] %>
-                                    <div id="scrum-edit-time" class="scrum-edit input-group date h-100 w-75 ml-2" data-provide="timepicker">
+                                <% if datetime['time'] %> -->
+                                    <!-- <div id="scrum-edit-time" class="scrum-edit input-group date h-100 w-75 ml-2" data-provide="timepicker">
                                         <%= text_field_tag("#{item_css_formatted}-time-input", time, id: "#{item_css_formatted}-time-input", type: 'text', class: 'form-control', data: { reflex: 'click->EditProject#change_time', vars: @reflex_variables, item: item }, :readonly => true) %>
                                         <%= render 'shared/timepicker' %>
-                                    </div>
+                                    </div> -->
+                                    <!-- <%= text_field_tag("#{item_css_formatted}-time-input", time, data: { provide: 'timepicker' }) %>
                                 <% end %>
-                            <% end %>
-                        </div>
-                    <% end %>
-                </div>
+                            <% end %> -->
+                        <!-- </div> -->
+                    <!-- <% end %> -->
             </div>
         </div>
     </div>
