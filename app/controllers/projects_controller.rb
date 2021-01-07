@@ -95,7 +95,6 @@ class ProjectsController < ApplicationController
     if @project.save
       ChangeLog.create(project_id: @project.id)
       Category.create(project_id: @project.id, name: 'Sprint Backlog')
-      Category.create(project_id: @project.id, name: 'To Do')
       Category.create(project_id: @project.id, name: 'In Progress')
       Category.create(project_id: @project.id, name: 'To Verify')
       Category.create(project_id: @project.id, name: 'Done')

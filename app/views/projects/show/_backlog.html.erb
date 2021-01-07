@@ -98,7 +98,7 @@
                             <% end %>
                         </div>
                         <div class="d-flex flex-row justify-content-center mb-2">
-                            <% sprint_categories = ['Sprint Backlog', 'To Do', 'In Progress', 'To Verify', 'Done'] %>
+                            <% sprint_categories = ['Sprint Backlog', 'In Progress', 'To Verify', 'Done'] %>
                             <% @categories.each do |c| %>
                                 <% if !sprint_categories.include?(c.name) %>
                                     <div class="d-flex flex-column h-100 rounded shadow p-1 mx-1 bg-mountbatten">
@@ -157,7 +157,8 @@
                         <div class="container-fluid">
                             <% id = @categories.find_by(name: 'Sprint Backlog').id %>
                             <div name="<%= id %>" class="d-flex flex-row justify-content-around mb-2" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
-                                <% Sticky.in_category(c.id).order(position: :asc).each do |sticky| %>
+                                <% i = 0 %>
+                                <% Sticky.in_category(id).order(position: :asc).each do |sticky| %>
                                     <% story = UserStory.find(sticky.user_story_id) %>
                                     <div data-id="<%= sticky.id %>" class="col-2 grab h-100 bg-sticky-<%= story.color %> shadow" style="min-width: 275px; margin-left:2px; margin-right: 2px; margin-botton: 4px;">
                                         <div class="d-flex flex-row row justify-content-center mb-1 bg-middle-grey pt-1">
@@ -184,9 +185,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <% i = i.next %>
                                 <% end %>
-                                <span class="text-uppercase">sprint planning started!</span>
-                                <span class="text-uppercase">drag user stories into the sprint backlog!</span>
+                                <% if i == 0 %>
+                                    <span class="text-uppercase">sprint planning started!</span>
+                                    <span class="text-uppercase">drag user stories into the sprint backlog!</span>
+                                <% end %>
                             </div>
                         </div>
                     </div>

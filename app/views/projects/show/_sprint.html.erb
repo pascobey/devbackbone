@@ -1,41 +1,41 @@
 
-                        <div class="d-flex flex-row justify-content-between mb-2">
-                            <% sprint_categories = ['Sprint Backlog', 'To Do', 'In Progress', 'To Verify', 'Done'] %>
-                            <% @categories.each do |c| %>
-                                <% if sprint_categories.include?(c.name) %>
-                                    <div class="d-flex flex-column h-100 w-100 rounded shadow p-1 mx-1 bg-ess-blue">
-                                        <h5 class="text-center my-1"><%= c.name %></h5>
-                                        <div name="<%= c.id %>" class="bg-lavender p-1 d-flex flex-row justify-content-around" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
-                                            <% Sticky.in_category(c.id).order(position: :asc).each do |sticky| %>
-                                                <% story = UserStory.find(sticky.user_story_id) %>
-                                                <div data-id="<%= sticky.id %>" class="col-2 grab h-100 bg-sticky-<%= story.color %> shadow" style="min-width: 275px; margin-left:2px; margin-right: 2px; margin-botton: 4px;">
-                                                    <div class="d-flex flex-row row justify-content-center mb-1 bg-middle-grey pt-1">
-                                                    </div>
-                                                    <div class="row mb-1 mx-1 bg-sticky-<%= story.color %>">
-                                                        <%= story.story %>
-                                                    </div>
-                                                    <div class="row px-2 pb-1 bg-sticky-<%= story.color %> justify-content-between" style="opacity: 90%;">
-                                                        <div class="col-1 d-flex justify-content-center" style="margin-left: 3px; position: relative; top: -7px;">
-                                                            <% story.approved ? (approval = 'approved') : (approval = 'unapproved') %>
-                                                            <% if !@scrum_editing_privileges %>
-                                                                <%= content_tag(:div, raw(render "shared/#{approval}"), data: { toggle: "tooltip", placement: 'top' }, title: 'Tooltip on top') %>
-                                                            <% else %>
-                                                                <%= content_tag(:div, raw(render "shared/#{approval}"), class: "#{approval}", style: "cursor: pointer;", data: { reflex: 'click->EditProject#toggle_user_story_approval', vars: @reflex_variables, story_id: story.id, toggle: "tooltip", placement: 'top' }, title: approval) %>
-                                                            <% end %>
-                                                        </div>
-                                                        <div class="col-9 d-flex justify-content-center" style="positon: absolute; padding-left: 3px; width: 83%;">
-                                                            <% profile = Profile.find_by(user_id: story.editor_user_id) %>
-                                                            <% user_info = profile.user_information_safe %>
-                                                            Creator -&nbsp;<%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
-                                                        </div>
-                                                        <div class="col-1 d-flex justify-content-end" style="font-size: 1.3rem; padding-right: 2px;">
-                                                            <%= story.value %>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <% end %>
-                                        </div>
+    <div id="sprint-container" class="d-flex slide-in flex-row justify-content-between mb-2">
+        <% sprint_categories = ['Sprint Backlog', 'In Progress', 'To Verify', 'Done'] %>
+        <% @categories.each do |c| %>
+            <% if sprint_categories.include?(c.name) %>
+                <div class="d-flex flex-column h-100 w-100 rounded shadow p-1 mx-1 bg-ess-blue">
+                    <h5 class="text-center my-1"><%= c.name %></h5>
+                    <div name="<%= c.id %>" class="bg-lavender p-1 d-flex flex-column justify-content-around" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
+                        <% Sticky.in_category(c.id).order(position: :asc).each do |sticky| %>
+                            <% story = UserStory.find(sticky.user_story_id) %>
+                            <div data-id="<%= sticky.id %>" class="col-2 grab h-100 bg-sticky-<%= story.color %> shadow" style="min-width: 275px; margin-left:2px; margin-right: 2px; margin-botton: 4px;">
+                                <div class="d-flex flex-row row justify-content-center mb-1 bg-middle-grey pt-1">
+                                </div>
+                                <div class="row mb-1 mx-1 bg-sticky-<%= story.color %>">
+                                    <%= story.story %>
+                                </div>
+                                <div class="row px-2 pb-1 bg-sticky-<%= story.color %> justify-content-between" style="opacity: 90%;">
+                                    <div class="col-1 d-flex justify-content-center" style="margin-left: 3px; position: relative; top: -7px;">
+                                        <% story.approved ? (approval = 'approved') : (approval = 'unapproved') %>
+                                        <% if !@scrum_editing_privileges %>
+                                            <%= content_tag(:div, raw(render "shared/#{approval}"), data: { toggle: "tooltip", placement: 'top' }, title: 'Tooltip on top') %>
+                                        <% else %>
+                                            <%= content_tag(:div, raw(render "shared/#{approval}"), class: "#{approval}", style: "cursor: pointer;", data: { reflex: 'click->EditProject#toggle_user_story_approval', vars: @reflex_variables, story_id: story.id, toggle: "tooltip", placement: 'top' }, title: approval) %>
+                                        <% end %>
                                     </div>
-                                <% end %>
-                            <% end %>
-                        </div>
+                                    <div class="col-9 d-flex justify-content-center" style="positon: absolute; padding-left: 3px; width: 83%;">
+                                        <% profile = Profile.find_by(user_id: story.editor_user_id) %>
+                                        <% user_info = profile.user_information_safe %>
+                                        Creator -&nbsp;<%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
+                                    </div>
+                                    <div class="col-1 d-flex justify-content-end" style="font-size: 1.3rem; padding-right: 2px;">
+                                        <%= story.value %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
