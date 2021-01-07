@@ -1,6 +1,6 @@
 <div id="backlog-container" class="row mb-2 slide-in pb-0">
     <div class="col-12 px-2">
-        <div class="px-1 py-1 rounded shadow bg-middle-grey shadow">
+        <div class="px-1 py-1 rounded-top shadow bg-middle-grey shadow">
             <div class="d-flex mb-1 flex-row text-lavender">
                 <div class="col-4 px-0">
                     <% if !@reflex_pages['adding user story'] %>
@@ -101,9 +101,9 @@
                             <% sprint_categories = ['Sprint Backlog', 'In Progress', 'To Verify', 'Done'] %>
                             <% @categories.each do |c| %>
                                 <% if !sprint_categories.include?(c.name) %>
-                                    <div class="d-flex flex-column h-100 rounded shadow p-1 mx-1 bg-mountbatten">
+                                    <div class="d-flex flex-column h-100 rounded shadow p-1 mx-1 bg-mountbatten" style="width: 294px;">
                                         <h5 class="text-center my-1"><%= c.name %></h5>
-                                        <div name="<%= c.id %>" class="bg-lavender p-1 d-flex flex-row justify-content-around" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
+                                        <div name="<%= c.id %>" class="bg-lavender p-1 d-flex flex-column justify-content-around" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
                                             <% Sticky.in_category(c.id).order(position: :asc).each do |sticky| %>
                                                 <% story = UserStory.find(sticky.user_story_id) %>
                                                 <div data-id="<%= sticky.id %>" class="col-2 grab h-100 bg-sticky-<%= story.color %> shadow" style="min-width: 275px; margin-left:2px; margin-right: 2px; margin-botton: 4px;">
@@ -141,61 +141,69 @@
                 </div>
             </div>
         </div>
+        <div class="d-flex flex-row text-center">
+            <div class="bg-middle-grey w-100 text-lavender rounded-bottom">This is where we put User Stories which we prioritize and let lead us to write behavior driven code.</div>
+        </div>
     </div>
 </div>
-
-
-<% if Time.now.to_i >= Time.parse(@backbone_document['sprint']['sprint_planning']).to_i && Time.now.to_i <= Time.parse(@backbone_document['sprint']['start']).to_i %>
-    <div id="sprint-planning-container" class="row mb-2 slide-in pb-0">
-        <div class="col-12 px-2">
-            <div class="px-1 py-1 rounded shadow bg-ess-blue shadow">
-                <div class="d-flex mb-1 flex-row text-mountbatten justify-content-center">
-                    <h4 class="mb-1">Sprint Backlog</h4>
-                </div>
-                <div class="d-flex flex-row bg-lavender p-2">
-                    <div class="col-12 p-0">
-                        <div class="container-fluid">
-                            <% id = @categories.find_by(name: 'Sprint Backlog').id %>
-                            <div name="<%= id %>" class="d-flex flex-row justify-content-around mb-2" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
-                                <% i = 0 %>
-                                <% Sticky.in_category(id).order(position: :asc).each do |sticky| %>
-                                    <% story = UserStory.find(sticky.user_story_id) %>
-                                    <div data-id="<%= sticky.id %>" class="col-2 grab h-100 bg-sticky-<%= story.color %> shadow" style="min-width: 275px; margin-left:2px; margin-right: 2px; margin-botton: 4px;">
-                                        <div class="d-flex flex-row row justify-content-center mb-1 bg-middle-grey pt-1">
-                                        </div>
-                                        <div class="row mb-1 mx-1 bg-sticky-<%= story.color %>">
-                                            <%= story.story %>
-                                        </div>
-                                        <div class="row px-2 pb-1 bg-sticky-<%= story.color %> justify-content-between" style="opacity: 90%;">
-                                            <div class="col-1 d-flex justify-content-center" style="margin-left: 3px; position: relative; top: -7px;">
-                                                <% story.approved ? (approval = 'approved') : (approval = 'unapproved') %>
-                                                <% if !@scrum_editing_privileges %>
-                                                    <%= content_tag(:div, raw(render "shared/#{approval}"), data: { toggle: "tooltip", placement: 'top' }, title: 'Tooltip on top') %>
-                                                <% else %>
-                                                    <%= content_tag(:div, raw(render "shared/#{approval}"), class: "#{approval}", style: "cursor: pointer;", data: { reflex: 'click->EditProject#toggle_user_story_approval', vars: @reflex_variables, story_id: story.id, toggle: "tooltip", placement: 'top' }, title: approval) %>
-                                                <% end %>
+<% if @backbone_document['sprint']['sprint_planning'] != '' %>
+    <% if Time.now.to_i >= Time.parse(@backbone_document['sprint']['sprint_planning']).to_i && Time.now.to_i <= Time.parse(@backbone_document['sprint']['start']).to_i %>
+        <div id="sprint-planning-container" class="row slide-in pb-0">
+            <div class="col-12 px-2">
+                <div class="px-1 py-1 rounded-top shadow bg-ess-blue shadow">
+                    <div class="d-flex mb-1 flex-row text-mountbatten justify-content-center">
+                        <h4 class="mb-1">Sprint Backlog</h4>
+                    </div>
+                    <div class="d-flex flex-row bg-lavender p-2">
+                        <div class="col-12 p-0">
+                            <div class="container-fluid">
+                                <% id = @categories.find_by(name: 'Sprint Backlog').id %>
+                                <div name="<%= id %>" class="d-flex flex-row justify-content-around mb-2" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
+                                    <% Sticky.in_category(id).order(position: :asc).each do |sticky| %>
+                                        <% story = UserStory.find(sticky.user_story_id) %>
+                                        <div data-id="<%= sticky.id %>" class="col-2 grab h-100 bg-sticky-<%= story.color %> shadow" style="min-width: 275px; margin-left:2px; margin-right: 2px; margin-botton: 4px;">
+                                            <div class="d-flex flex-row row justify-content-center mb-1 bg-middle-grey pt-1">
                                             </div>
-                                            <div class="col-9 d-flex justify-content-center" style="positon: absolute; padding-left: 3px; width: 83%;">
-                                                <% profile = Profile.find_by(user_id: story.editor_user_id) %>
-                                                <% user_info = profile.user_information_safe %>
-                                                Creator -&nbsp;<%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
+                                            <div class="row mb-1 mx-1 bg-sticky-<%= story.color %>">
+                                                <%= story.story %>
                                             </div>
-                                            <div class="col-1 d-flex justify-content-end" style="font-size: 1.3rem; padding-right: 2px;">
-                                                <%= story.value %>
+                                            <div class="row px-2 pb-1 bg-sticky-<%= story.color %> justify-content-between" style="opacity: 90%;">
+                                                <div class="col-1 d-flex justify-content-center" style="margin-left: 3px; position: relative; top: -7px;">
+                                                    <% story.approved ? (approval = 'approved') : (approval = 'unapproved') %>
+                                                    <% if !@scrum_editing_privileges %>
+                                                        <%= content_tag(:div, raw(render "shared/#{approval}"), data: { toggle: "tooltip", placement: 'top' }, title: 'Tooltip on top') %>
+                                                    <% else %>
+                                                        <%= content_tag(:div, raw(render "shared/#{approval}"), class: "#{approval}", style: "cursor: pointer;", data: { reflex: 'click->EditProject#toggle_user_story_approval', vars: @reflex_variables, story_id: story.id, toggle: "tooltip", placement: 'top' }, title: approval) %>
+                                                    <% end %>
+                                                </div>
+                                                <div class="col-9 d-flex justify-content-center" style="positon: absolute; padding-left: 3px; width: 83%;">
+                                                    <% profile = Profile.find_by(user_id: story.editor_user_id) %>
+                                                    <% user_info = profile.user_information_safe %>
+                                                    Creator -&nbsp;<%= link_to("#{user_info['first_name']} #{user_info['last_name']}", profile_path(profile.id)) %>
+                                                </div>
+                                                <div class="col-1 d-flex justify-content-end" style="font-size: 1.3rem; padding-right: 2px;">
+                                                    <%= story.value %>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <% i = i.next %>
-                                <% end %>
-                                <% if i == 0 %>
-                                    <span class="text-uppercase">sprint planning started!</span>
-                                    <span class="text-uppercase">drag user stories into the sprint backlog!</span>
-                                <% end %>
+                                    <% end %>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="row slide-in px-2 text-center mb-2">
+            <div class="bg-ess-blue w-100 rounded-bottom blink-me d-flex justify-content-around">
+                <span class="text-middle-grey">Sprint planning started!</span>
+                <span class="text-middle-grey">Drag user stories into the sprint backlog!</span>
+            </div>
+        </div>
+    <% else %>
+        <div class="d-flex flex-row justify-content-around slide-in mb-2 text-middle-grey">
+            <span>Sprint planning scheduled for <u class="text-uppercase"><%= Time.parse(@backbone_document['sprint']['sprint_planning']).strftime("%A, %B %e, %Y, %l:%M%P") %></u></span>
+            <span>Move the user stories to the sprint backlog then.</span>
+        </div>
+    <% end %>
 <% end %>

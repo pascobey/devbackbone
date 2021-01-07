@@ -166,3 +166,14 @@ body {
     opacity: 0.7;
     color: black;
 }
+.blink-me {
+    animation: blinker 4s 2s linear infinite;
+}
+  
+@keyframes blinker {
+    50% {
+        opacity: 0;
+        background-color: #987284;
+        color: #ccd8d9;
+    }
+}

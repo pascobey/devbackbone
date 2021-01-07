@@ -42,13 +42,14 @@ class ProjectsController < ApplicationController
     @user_stories = UserStory.where(project_id: @project.id)
   end
 
-  def move
-    @sortable.insert_at(params[:position].to_i)
-    if params[:category_id]
-      @sortable.update(category_id: params[:category_id].to_s)
-    end
-    head :ok
-  end
+  # def move
+  #   @sortable.insert_at(params[:position].to_i)
+  #   if params[:category_id]
+  #     @sortable.update(category_id: params[:category_id].to_s)
+  #     Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: current_user.id, message: "#{Profile.find_by(user_id: current_user.id).user_information_safe['first_name']} moved a user story into #{Category.find(params[:category_id]).name}.", type_meta: 'backlog')
+  #   end
+  #   head :ok
+  # end
 
   def update
     @project = Project.find(params[:id])
