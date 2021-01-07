@@ -94,6 +94,11 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     if @project.save
       ChangeLog.create(project_id: @project.id)
+      Category.create(project_id: @project.id, name: 'Sprint Backlog')
+      Category.create(project_id: @project.id, name: 'To Do')
+      Category.create(project_id: @project.id, name: 'In Progress')
+      Category.create(project_id: @project.id, name: 'To Verify')
+      Category.create(project_id: @project.id, name: 'Done')
       creator_profile = Profile.find_by(user_id: current_user.id)
       creator_information = creator_profile.user_information_safe
       roles = []

@@ -89,7 +89,7 @@ class EditProjectReflex < ApplicationReflex
     def add_user_story
         toggle_page_item
         project = Project.find(params[:id])
-        story = UserStory.create(project_id: project.id, story: @new_user_story['story'], value: @new_user_story['value'], editor_user_id: @user_id, color: @new_user_story['color'], sprint_status: { 'sprinting' => false, 'data' => {} })
+        story = UserStory.create(project_id: project.id, story: @new_user_story['story'], value: @new_user_story['value'], editor_user_id: @user_id, color: @new_user_story['color'])
         position = UserStory.where(project_id: project.id).size
         sticky = Sticky.create(project_id: project.id, position: position, user_story_id: story.id, category_id: nil)
         Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "New user story: #{story.story}", type_meta: 'backlog')

@@ -7,7 +7,6 @@ class CreateUserStories < ActiveRecord::Migration[6.0]
       t.integer :editor_user_id
       t.boolean :approved, default: false
       t.integer :color, default: 1
-      t.jsonb :sprint_status
       t.timestamps
     end
   end
