@@ -28,7 +28,7 @@
                                             </div>
                                             <div class="column text-center">
                                                 <%= content_tag(:p, raw("<strong><u>Email:</u></strong>"), class: 'mb-0') %>
-                                                <%= link_to(current_user.email, "mailto:#{current_user.email}") %>
+                                                <%= link_to(@user.email, "mailto:#{@user.email}") %>
                                             </div>
                                             <div class="column text-center">
                                                 <%= content_tag(:p, raw("<strong><u>Phone:</u></strong>"), class: 'mb-0') %>

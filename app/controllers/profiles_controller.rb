@@ -8,6 +8,7 @@ class ProfilesController < ApplicationController
       redirect_to(edit_profile_path(params[:id]), alert: "No profile information found!")
     else
       @profile = Profile.find(params[:id])
+      @user = User.find(@profile.user_id)
     end
   end
 
