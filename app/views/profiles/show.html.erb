@@ -48,7 +48,7 @@
                                             <div class="col-10 offset-2">
                                                 <% info['externals'].each do |l, v| %>
                                                     <% if v != '' %>
-                                                        <%= link_to(v, v, class: 'mb-0') %>
+                                                        <%= link_to v, "//#{v}", class: 'mb-0' %>
                                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                                     <% end %>
                                                 <% end %>
