@@ -38,6 +38,7 @@ class EditProjectReflex < ApplicationReflex
         profile = Profile.find_by(user_id:element.dataset[:user_id].to_i)
         user_info = profile.user_information_safe
         user_info['projects'] << { params[:id] => [element.dataset[:role]] }
+        profile.update(user_information: user_info)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
         Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{element.dataset[:role].gsub('_', ' ')} changed to #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']}.", type_meta: 'team')
@@ -50,6 +51,7 @@ class EditProjectReflex < ApplicationReflex
         profile = Profile.find_by(user_id:element.dataset[:user_id].to_i)
         user_info = profile.user_information_safe
         user_info['projects'] << { params[:id] => [element.dataset[:subset]] }
+        profile.update(user_information: user_info)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
         Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']} added to #{element.dataset[:subset]}.", type_meta: 'team')
