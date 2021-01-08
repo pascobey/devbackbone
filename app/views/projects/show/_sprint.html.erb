@@ -40,6 +40,6 @@
     <% end %>
 </div>
 <div class="d-flex flex-row justify-content-around slide-in mb-2 text-middle-grey">
-    <span>Sprint starts <u class="text-uppercase"><%= Time.parse(@backbone_document['sprint']['start']).strftime("%A, %B %e, %Y, %l:%M%P") %></u></span>
-    <span>Sprint ends <u class="text-uppercase"><%= Time.parse(@backbone_document['sprint']['end']).strftime("%A, %B %e, %Y, %l:%M%P") %></u></span>
+    <span>Sprint starts <u class="text-uppercase"><%= @backbone_document['sprint']['start'] == '' ? ('*NOT SET*') : (Time.parse(@backbone_document['sprint']['start']).strftime("%A, %B %e, %Y, %l:%M%P")) %></u></span>
+    <span>Sprint ends <u class="text-uppercase"><%= @backbone_document['sprint']['end'] == '' ? ('*NOT SET*') : (Time.parse(@backbone_document['sprint']['end']).strftime("%A, %B %e, %Y, %l:%M%P")) %></u></span>
 </div>

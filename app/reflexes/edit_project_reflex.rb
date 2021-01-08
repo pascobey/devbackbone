@@ -34,11 +34,24 @@ class EditProjectReflex < ApplicationReflex
     def change_leader_role
         reinstantiate_vars(element.dataset[:vars])
         @search_information = ''
+        old_leader_id = @backbone_document['leaders'][element.dataset[:role]]
+        old_leader_profile = Profile.find_by(user_id: old_leader_id)
+        old_leader_user_info = old_leader_profile.user_information_safe
+        old_leader_user_info['projects'].each do |project|
+            if project.keys.first == params[:id]
+                project[params[:id]]['roles'].delete(element.dataset[:role])
+            end
+        end
+        old_leader_profile.update(user_information: old_leader_user_info)
         @backbone_document['leaders'][element.dataset[:role]] = [ element.dataset[:user_id].to_i ]
-        profile = Profile.find_by(user_id:element.dataset[:user_id].to_i)
-        user_info = profile.user_information_safe
-        user_info['projects'] << { params[:id] => {'roles' => [element.dataset[:role]] } }
-        profile.update(user_information: user_info)
+        new_leader_profile = Profile.find_by(user_id: element.dataset[:user_id].to_i)
+        new_leader_user_info = new_leader_profile.user_information_safe
+        new_leader_user_info['projects'].each do |project|
+            if project.keys.first == params[:id]
+                project[params[:id]]['roles'] << element.dataset[:role]
+            end
+        end
+        new_leader_profile.update(user_information: new_leader_user_info)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
         Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{element.dataset[:role].gsub('_', ' ')} changed to #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']}.", type_meta: 'team')
@@ -48,9 +61,19 @@ class EditProjectReflex < ApplicationReflex
         reinstantiate_vars(element.dataset[:vars])
         @search_information = ''
         @backbone_document['development_team'][element.dataset[:subset]] << element.dataset[:user_id].to_i
-        profile = Profile.find_by(user_id:element.dataset[:user_id].to_i)
+        profile = Profile.find_by(user_id: element.dataset[:user_id].to_i)
         user_info = profile.user_information_safe
-        user_info['projects'] << { params[:id] => {'roles' => [element.dataset[:role]] } }
+        added = false
+        user_info['projects'].each do |project|
+            if project.keys.first == params[:id]
+                project[params[:id]]['roles'] << element.dataset[:subset]
+                added = true
+            end
+        end
+        if !added
+            user_info['projects'] << { params[:id] => { 'roles' => [element.dataset[:subset]] } }
+            added = true
+        end
         profile.update(user_information: user_info)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
@@ -62,7 +85,11 @@ class EditProjectReflex < ApplicationReflex
         @backbone_document['development_team'][element.dataset[:subset]].delete(element.dataset[:user_id].to_i)
         profile = Profile.find_by(user_id:element.dataset[:user_id].to_i)
         user_info = profile.user_information_safe
-        user_info['projects'][params[:id].to_s]['roles'].delete(element.dataset[:role])
+        user_info['projects'].each do |project|
+            if project.keys.first == params[:id]
+                project[params[:id]]['roles'].delete(element.dataset[:subset])
+            end
+        end
         profile.update(user_information: user_info)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
