@@ -25,44 +25,44 @@
                         </div>
                         <div class="col-md-9 col-12">
                             <div class="d-flex flex-row border-bottom pb-2 border-middle-grey">
-                                <div class="col-6">
+                                <div class="col-6" data-reflex-permanent>
                                     <%= label('first-name', 'First name:', class: 'font-weight-bold mb-0') %>
                                     <%= text_field_tag('first_name', @user_information['first_name'], id: 'first-name', class: 'form-control', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6" data-reflex-permanent>
                                     <%= label('last-name', 'Last name:', class: 'font-weight-bold mb-0') %>
                                     <%= text_field_tag( 'last_name', @user_information['last_name'], id: 'last-name', class: 'form-control', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                 </div>
                             </div>
                             <div class="d-flex flex-row border-bottom py-2 border-middle-grey">
-                                <div class="col-12 d-flex flex-column justify-content-center">
+                                <div class="col-12 d-flex flex-column justify-content-center" data-reflex-permanent>
                                     <%= label('bio', 'Bio:', class: 'font-weight-bold mb-0') %>
                                     <%= text_field_tag('bio', @user_information['user_bio'], id: 'user-bio', class: 'form-control', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                 </div>
                             </div>
                             <div class="d-flex flex-row border-bottom py-2 border-middle-grey">
-                                <div class="col-5">
+                                <div class="col-5" data-reflex-permanent>
                                     <%= label('phone-number', 'Phone number:', class: 'font-weight-bold mb-0') %>
                                     <%= text_field_tag('phone_number', @user_information['phone_number'], id: 'phone-number', class: 'form-control', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                 </div>
                                 <div class="col-7">
-                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                    <div class="d-flex flex-row justify-content-between pb-1" data-reflex-permanent>
                                         <%= label('github-address', 'Github:', class: 'font-weight-bold mb-0') %>
                                         <%= text_field_tag('github', @user_information['externals']['github'], id: 'externals-github-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                     </div>
-                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                    <div class="d-flex flex-row justify-content-between pb-1" data-reflex-permanent>
                                         <%= label('twitter-address', 'Twitter:', class: 'font-weight-bold mb-0') %>
                                         <%= text_field_tag('twitter', @user_information['externals']['twitter'], id: 'externals-twitter-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                     </div>
-                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                    <div class="d-flex flex-row justify-content-between pb-1" data-reflex-permanent>
                                         <%= label('facebook-address', 'Facebook:', class: 'font-weight-bold mb-0') %>
                                         <%= text_field_tag('facebook', @user_information['externals']['facebook'], id: 'externals-facebook-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                     </div>
-                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                    <div class="d-flex flex-row justify-content-between pb-1" data-reflex-permanent>
                                         <%= label('instagram-address', 'Instagram:', class: 'font-weight-bold mb-0') %>
                                         <%= text_field_tag('instagram', @user_information['externals']['instagram'], id: 'externals-instagram-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                     </div>
-                                    <div class="d-flex flex-row justify-content-between pb-1">
+                                    <div class="d-flex flex-row justify-content-between pb-1" data-reflex-permanent>
                                         <%= label('site-address', 'Your Site:', class: 'font-weight-bold mb-0') %>
                                         <%= text_field_tag('site', @user_information['externals']['site'], id: 'externals-site-address', data: { reflex: 'keyup->EditProfile#set_information_field', user_information: @user_information }) %>
                                     </div>
