@@ -1,8 +1,13 @@
 <% content_for :title, 'Profile' %>
 
-<% @current_link = {'Profile' => profile_path(current_user.id)} %>
+<% @current_link = {} %>
 <% @dropdown_links = { '' => [] } %>
-<% @available_links = [{'New project' => new_project_path}, {'Sign out' => destroy_user_session_path}, {'Edit' => edit_profile_path(current_user.id)}] %>
+<% @available_links = [{'New project' => new_project_path}, {'Sign out' => destroy_user_session_path}] %>
+<% if current_user.id.to_i == params[:id].to_i %>
+    <% @available_links << {'Edit' => edit_profile_path(current_user.id)} %>
+<% else %>
+    <% @available_links << {'Profile' => profile_path(current_user.id)} %>
+<% end %>
 <%= render 'shared/navbar' %>
 
 <!-- content-container - container-lg (responsive) -->
