@@ -27,7 +27,7 @@ class ProfilesController < ApplicationController
         },
         'projects' => []
       })
-      @profile.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('/app')[0] + 'app/app/assets/images/default_profile.jpg'), filename: 'default_profile.jpg')
+      @profile.profile_image.attach(io: File.open(File.expand_path(__FILE__).split('/controllers')[0] + '/assets/images/default_profile.jpg'), filename: 'default_profile.jpg')
     else
       @profile = Profile.find_by(user_id: current_user.id)
     end
