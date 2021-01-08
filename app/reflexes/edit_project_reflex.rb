@@ -37,7 +37,7 @@ class EditProjectReflex < ApplicationReflex
         @backbone_document['leaders'][element.dataset[:role]] = [ element.dataset[:user_id].to_i ]
         profile = Profile.find_by(user_id:element.dataset[:user_id].to_i)
         user_info = profile.user_information_safe
-        user_info['projects'] << { params[:id] => [element.dataset[:role]] }
+        user_info['projects'] << { params[:id] => {'roles' => [element.dataset[:role]] } }
         profile.update(user_information: user_info)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
@@ -50,7 +50,7 @@ class EditProjectReflex < ApplicationReflex
         @backbone_document['development_team'][element.dataset[:subset]] << element.dataset[:user_id].to_i
         profile = Profile.find_by(user_id:element.dataset[:user_id].to_i)
         user_info = profile.user_information_safe
-        user_info['projects'] << { params[:id] => [element.dataset[:subset]] }
+        user_info['projects'] << { params[:id] => {'roles' => [element.dataset[:role]] } }
         profile.update(user_information: user_info)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
@@ -60,6 +60,10 @@ class EditProjectReflex < ApplicationReflex
     def remove_user_from_subset
         reinstantiate_vars(element.dataset[:vars])
         @backbone_document['development_team'][element.dataset[:subset]].delete(element.dataset[:user_id].to_i)
+        profile = Profile.find_by(user_id:element.dataset[:user_id].to_i)
+        user_info = profile.user_information_safe
+        user_info['projects'][params[:id].to_s]['roles'].delete(element.dataset[:role])
+        profile.update(user_information: user_info)
         project = Project.find(params[:id])
         project.update(backbone_document: @backbone_document)
         Entry.create(change_log_id: ChangeLog.find_by(project_id: project.id).id, committer_id: @user_id, message: "#{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['first_name']} #{Profile.find_by(user_id: element.dataset[:user_id].to_i).user_information_safe['last_name']} removed from #{element.dataset[:subset]}.", type_meta: 'team')

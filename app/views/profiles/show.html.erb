@@ -65,8 +65,11 @@
                                         <%= link_to raw("<strong><em>#{project.project_name}</em></strong>"), project_path(project.id)  %>
                                     </div>
                                     <div class="col-10 text-center">
-                                        <% p[p.keys.first]['roles'].each do |r| %>
-                                            <%= r[0..(r.length-2)] %>
+                                    <%= p %>
+                                        <% p.keys.each do |key| %>
+                                            <% p[key][p[key].keys.first].each do |role| %>
+                                                <%= role[0..(role.length-2)] %>
+                                            <% end %>
                                         <% end %>
                                     </div>
                                 </li>
