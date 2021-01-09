@@ -97,13 +97,13 @@
                                 </div>
                             <% end %>
                         </div>
-                        <div class="row d-flex flex-row justify-content-center mb-2">
+                        <div class="row d-flex flex-row justify-content-around mb-2">
                             <% sprint_categories = ['Sprint Backlog', 'In Progress', 'To Verify', 'Done'] %>
                             <% @categories.each do |c| %>
                                 <% if !sprint_categories.include?(c.name) %>
-                                    <div class="d-flex flex-column h-100 rounded shadow p-1 mx-1 mb-1 bg-mountbatten" style="width: 294px;">
+                                    <div class="rounded shadow p-1 bg-mountbatten mb-2" style="width: 294px;">
                                         <h5 class="text-center my-1"><%= c.name %></h5>
-                                        <div name="<%= c.id %>" class="bg-lavender p-1 d-flex flex-column justify-content-around" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
+                                        <div name="<%= c.id %>" class="bg-lavender p-1 d-flex flex-column justify-content-around" style="min-height: 144px;" data-controller="drag" data-drag-url="<%= "/stickies/:id/move" %>">
                                             <% Sticky.in_category(c.id).order(position: :asc).each do |sticky| %>
                                                 <% story = UserStory.find(sticky.user_story_id) %>
                                                 <div data-id="<%= sticky.id %>" class="col-2 grab h-100 bg-sticky-<%= story.color %> shadow" style="min-width: 275px; margin-left:2px; margin-right: 2px; margin-botton: 4px;">
