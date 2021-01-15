@@ -29,20 +29,20 @@
     </div><%# yield-container %>
     
 
-  <script>
-    window.onload = function() {
-      var bootstrap_enabled = (typeof $().modal == 'function');
-      var flash = $('#flash');
-      function fadeOut() {
-        flash.addClass('fade-out')
+    <script>
+      window.onload = function() {
+        var bootstrap_enabled = (typeof $().modal == 'function');
+        var flash = $('#flash');
+        function fadeOut() {
+          flash.addClass('fade-out')
+        }
+        function removeElement() {
+          flash.addClass('d-none');
+          flash.removeClass('d-flex');
+        }
+        setTimeout(fadeOut, 1500);
+        setTimeout(removeElement, 8000);
       }
-      function removeElement() {
-        flash.addClass('d-none');
-        flash.removeClass('d-flex');
-      }
-      setTimeout(fadeOut, 1500);
-      setTimeout(removeElement, 8000);
-    }
-  </script>
+    </script>
   </body>
 </html>

@@ -5,7 +5,11 @@
 <% else %>
     <nav class="navbar navbar-expand-md navbar-dark bg-smoky-black px-2 py-1">
 <% end %>
-    <a href="/" class="navbar-brand">devbackbone</a>
+    <a href="/" class="navbar-brand">
+        <%= image_tag 'devbackbone-flatt.png', class: 'd-none d-md-flex shadow', style: 'position: absolute; height: 100px; top: 5px;' %>
+        <%= image_tag 'devbackbone-flatt.png', class: 'd-none d-sm-flex d-md-none shadow', style: 'position: absolute; height: 74px; top: 2px; left: 3px;' %>
+        <%= image_tag 'devbackbone-flatt.png', class: 'd-sm-none shadow', style: 'position: absolute; height: 54px; top: 2px; left: 3px;' %>
+    </a>
     <button class="navbar-toggler" type=button data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
